@@ -1,4 +1,4 @@
-package com.example.beetalk
+package com.example.beeptalk
 
 import org.junit.Test
 

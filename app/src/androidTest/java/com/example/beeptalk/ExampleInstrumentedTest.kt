@@ -1,4 +1,4 @@
-package com.example.beetalk
+package com.example.beeptalk
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
