@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeTalk">
         <activity
-            android:name="com.example.beeptalk.MainActivity"
+            android:name=".ThreadPage"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
