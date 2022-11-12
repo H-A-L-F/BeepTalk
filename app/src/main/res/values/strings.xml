@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">BeepTalk</string>
+    <string name="username">Azerty klockenburg</string>
+    <string name="lorem">Etiam vitae lacus vel tellus eleifend egestas. Mauris sed justo facilisis, hendrerit felis at, accumsan lorem. Nulla eleifend euismod interdum. Maecenas eu scelerisque nisi. Vivamus nec dolor a purus viverra faucibus sed ac ante. Praesent et nisi aliquet, ultricies ex ut, commodo urna. Mauris et lacus malesuada, dictum felis ac, mattis lorem.</string>
+    <string name="created_at">11/12/2022</string>
 </resources>
