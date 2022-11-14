@@ -10,6 +10,6 @@
     android:paddingHorizontal="20dp"
     android:paddingVertical="20dp">
 
-    <include layout="@layout/component_thread" />
+    <include layout="@layout/card_thread"  />
 
 </LinearLayout>
