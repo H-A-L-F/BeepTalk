@@ -1,5 +1,8 @@
 package com.example.beeptalk.models
 
-data class Thread(val body : String, val stitch : String? = null) {
+import com.google.firebase.Timestamp
+import java.util.*
 
+data class Thread(val body : String, val stitch : String? = null, val upvote : Int = 0, val downvote : Int = 0, val createdAt : Date = Timestamp.now().toDate()) {
+    
 }
