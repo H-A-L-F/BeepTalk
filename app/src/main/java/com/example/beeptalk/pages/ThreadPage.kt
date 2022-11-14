@@ -1,7 +1,8 @@
-package com.example.beeptalk
+package com.example.beeptalk.pages
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.beeptalk.R
 
 class ThreadPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

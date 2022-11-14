@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeTalk">
         <activity
-            android:name=".CreateThreadPage"
+            android:name=".pages.CreateThreadPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ThreadPage"
+            android:name=".pages.ThreadPage"
             android:exported="false">
 
         </activity>

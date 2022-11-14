@@ -1,13 +1,10 @@
-package com.example.beeptalk
+package com.example.beeptalk.pages
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import com.example.beeptalk.models.Thread
 import com.example.beeptalk.databinding.ActivityCreateThreadPageBinding
-import com.example.beeptalk.databinding.ActivityMainBinding
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CreateThreadPage : AppCompatActivity() {
