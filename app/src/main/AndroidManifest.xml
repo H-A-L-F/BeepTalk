@@ -11,9 +11,6 @@
         android:theme="@style/Theme.BeeTalk">
         <activity
             android:name=".CreateThreadPage"
-            android:exported="false" />
-        <activity
-            android:name=".ThreadPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,8 +19,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ThreadPage"
+            android:exported="false">
+
+        </activity>
+        <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+
+        </activity>
     </application>
 
 </manifest>
