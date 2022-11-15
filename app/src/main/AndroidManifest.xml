@@ -10,14 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeTalk">
         <activity
+            android:name=".pages.ThreadDetailPage"
+            android:exported="false" />
+        <activity
             android:name=".pages.CreateThreadPage"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".pages.ThreadPage"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
