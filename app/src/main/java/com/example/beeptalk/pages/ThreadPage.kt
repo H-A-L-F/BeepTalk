@@ -3,6 +3,7 @@ package com.example.beeptalk.pages
 import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,7 +56,9 @@ class ThreadPage : AppCompatActivity() {
 
                 querySnapshot?.let {
                     for (document in querySnapshot.documents) {
-                        document.toObject(Thread::class.java)?.let { it1 -> threads.add(it1) }
+                        var curr = document.toObject(Thread::class.java)
+                        curr?.id = document.id.toString()
+                        curr?.let { it1 -> threads.add(it1) }
                     }
 
                     threadRVAdapter.notifyDataSetChanged()

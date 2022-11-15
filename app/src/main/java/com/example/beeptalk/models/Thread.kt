@@ -4,6 +4,7 @@ import com.google.firebase.Timestamp
 import java.util.*
 
 data class Thread(
+    var id: String = "",
     val body : String = "",
     val stitch : String? = null,
     val upvote : Int = 0,
