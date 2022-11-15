@@ -10,7 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeTalk">
         <activity
-            android:name="com.example.beeptalk.MainActivity"
+            android:name=".pages.RegisterPage"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".pages.LoginPage"-->
+<!--            android:exported="false" />-->
+        <activity
+            android:name=".pages.LoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

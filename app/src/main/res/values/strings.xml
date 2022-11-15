@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BeepTalk</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="username">Username</string>
+    <string name="log_in">Log in</string>
 </resources>
