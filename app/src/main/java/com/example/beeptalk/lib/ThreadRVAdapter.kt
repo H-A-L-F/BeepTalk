@@ -7,8 +7,9 @@ import com.example.beeptalk.databinding.ActivityThreadPageBinding
 import com.example.beeptalk.databinding.CardThreadBinding
 import java.util.*
 import com.example.beeptalk.models.Thread
+import kotlin.collections.ArrayList
 
-class ThreadRVAdapter(private val threads : Vector<Thread>): RecyclerView.Adapter<ThreadRVAdapter.ViewHolder>() {
+class ThreadRVAdapter(private val threads : ArrayList<Thread>): RecyclerView.Adapter<ThreadRVAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: CardThreadBinding): RecyclerView.ViewHolder(binding.root)
 
