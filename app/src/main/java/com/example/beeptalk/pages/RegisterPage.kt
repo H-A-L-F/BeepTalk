@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.beeptalk.databinding.ActivityLoginPageBinding
 import com.example.beeptalk.databinding.ActivityRegisterPageBinding
+import com.example.beeptalk.model.USER_COLLECTION
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.math.log
@@ -72,7 +73,7 @@ class RegisterPage : AppCompatActivity() {
         user["email"] = email
         user["password"] = password
 
-        firebaseFirestore.collection("users").document(documentId).set(user).addOnSuccessListener {
+        firebaseFirestore.collection(USER_COLLECTION).document(documentId).set(user).addOnSuccessListener {
             Toast.makeText(this, "Account registered successfully!", Toast.LENGTH_SHORT).show()
             goToLoginPage()
         }.addOnFailureListener{
@@ -84,7 +85,7 @@ class RegisterPage : AppCompatActivity() {
         var check = false
 //        firebaseFirestore.collection("users").whereEqualTo("username", username).count().get()
 
-        firebaseFirestore.collection("users").whereEqualTo("username", username).get()
+        firebaseFirestore.collection(USER_COLLECTION).whereEqualTo("username", username).get()
         return check
     }
 
