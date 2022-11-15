@@ -43,7 +43,8 @@ class ThreadPage : AppCompatActivity() {
 
         binding.rvThread.adapter = threadRVAdapter
 
-        subscribeThreads()
+//        subscribeThreads()
+        getThreads()
     }
 
     private fun subscribeThreads() {
@@ -63,6 +64,19 @@ class ThreadPage : AppCompatActivity() {
 
                     threadRVAdapter.notifyDataSetChanged()
                 }
+            }
+    }
+
+    private fun getThreads() {
+        db.collection("threads")
+            .get().addOnSuccessListener {
+                for (document in it.documents) {
+                    var curr = document.toObject(Thread::class.java)
+                    curr?.id = document.id.toString()
+                    curr?.let { it1 -> threads.add(it1) }
+                }
+
+                threadRVAdapter.notifyDataSetChanged()
             }
     }
 }
