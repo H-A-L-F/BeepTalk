@@ -1,5 +1,6 @@
 package com.example.beeptalk.lib
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -25,11 +26,19 @@ class ThreadRVAdapter(private val threads : ArrayList<Thread>): RecyclerView.Ada
         holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
 
         holder.binding.btnUpvote.setOnClickListener {
+            Log.d("votes", "onBindViewHolder: ${thread.upvote}")
+            thread.upvote++
+            Log.d("votes", "onBindViewHolder: ${thread.upvote}")
+            holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
             var db = FirebaseFirestore.getInstance()
             db.collection("threads").document(thread.id).update("upvote", FieldValue.increment(1))
         }
 
         holder.binding.btnDownvote.setOnClickListener {
+            Log.d("votes", "onBindViewHolder: ${thread.downvote}")
+            thread.downvote++
+            Log.d("votes", "onBindViewHolder: ${thread.downvote}")
+            holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
             var db = FirebaseFirestore.getInstance()
             db.collection("threads").document(thread.id).update("downvote", FieldValue.increment(1))
         }
