@@ -37,9 +37,6 @@ class ThreadPage : AppCompatActivity() {
         binding.rvThread.setHasFixedSize(true)
 
         threads = arrayListOf()
-//        threads.add(Thread("Etiam vitae lacus vel tellus eleifend egestas. Mauris sed justo facilisis, hendrerit felis at, accumsan lorem. Nulla eleifend euismod interdum. Maecenas eu scelerisque nisi. Vivamus nec dolor a purus viverra faucibus sed ac ante. Praesent et nisi aliquet, ultricies ex ut, commodo urna. Mauris et lacus malesuada, dictum felis ac, mattis lorem."))
-//        threads.add(Thread("Etiam vitae lacus vel tellus eleifend egestas. Mauris sed justo facilisis, hendrerit felis at, accumsan lorem. Nulla eleifend euismod interdum. Maecenas eu scelerisque nisi. Vivamus nec dolor a purus viverra faucibus sed ac ante. Praesent et nisi aliquet, ultricies ex ut, commodo urna. Mauris et lacus malesuada, dictum felis ac, mattis lorem."))
-//        threads.add(Thread("Etiam vitae lacus vel tellus eleifend egestas. Mauris sed justo facilisis, hendrerit felis at, accumsan lorem. Nulla eleifend euismod interdum. Maecenas eu scelerisque nisi. Vivamus nec dolor a purus viverra faucibus sed ac ante. Praesent et nisi aliquet, ultricies ex ut, commodo urna. Mauris et lacus malesuada, dictum felis ac, mattis lorem."))
 
         threadRVAdapter = ThreadRVAdapter(threads)
 
