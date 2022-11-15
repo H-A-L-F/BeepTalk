@@ -10,6 +10,11 @@
     android:paddingHorizontal="20dp"
     android:paddingVertical="20dp">
 
-    <include layout="@layout/card_thread"  />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvThread"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
