@@ -26,7 +26,6 @@ import com.google.firebase.Timestamp
 class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
 
     private lateinit var binding : ActivityThreadPageBinding
-    private lateinit var rv : RecyclerView
     private lateinit var threads : ArrayList<Thread>
     private lateinit var threadRVAdapter: ThreadRVAdapter
     private lateinit var db : FirebaseFirestore

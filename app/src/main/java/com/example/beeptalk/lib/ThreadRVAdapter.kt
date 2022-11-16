@@ -23,10 +23,8 @@ class ThreadRVAdapter(private val threads : ArrayList<Thread>, private val recyc
             })
 
             binding.root.setOnClickListener {
-                if (recyclerViewInterface != null) {
-                    if(bindingAdapterPosition != RecyclerView.NO_POSITION) {
-                        recyclerViewInterface.onItemClick(bindingAdapterPosition)
-                    }
+                if(bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                    recyclerViewInterface.onItemClick(bindingAdapterPosition)
                 }
             }
         }
