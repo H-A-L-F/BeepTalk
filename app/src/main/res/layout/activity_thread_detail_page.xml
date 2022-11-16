@@ -128,13 +128,21 @@
             <EditText
                 android:id="@+id/etCommentBody"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:maxHeight="80dp"
                 android:hint="What's happening?"
                 android:gravity="center_vertical"
                 android:background="@android:color/transparent"
-                android:paddingHorizontal="10dp"/>
+                android:paddingHorizontal="10dp"
+                android:layout_weight="@integer/material_motion_duration_long_1"/>
 
+            <Button
+                android:id="@+id/btnPostComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Comment"
+                android:textAllCaps="false" />
         </LinearLayout>
 
     </LinearLayout>
