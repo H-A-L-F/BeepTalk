@@ -42,7 +42,7 @@
                 android:text="@string/username" />
 
             <TextView
-                android:id="@+id/tvCreatedAt"
+                android:id="@+id/tvReply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reply_to"/>
@@ -59,6 +59,7 @@
         android:layout_marginLeft="50dp">
 
         <TextView
+            android:id="@+id/tvCommentBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/lorem"/>

@@ -153,17 +153,13 @@
         android:background="@android:color/darker_gray"
         android:layout_marginVertical="4dp"/>
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvThreadComment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="start"
         android:paddingHorizontal="20dp">
 
-        <include layout="@layout/card_comment_thread" />
-        <include layout="@layout/card_comment_thread" />
-
-    </LinearLayout>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </LinearLayout>

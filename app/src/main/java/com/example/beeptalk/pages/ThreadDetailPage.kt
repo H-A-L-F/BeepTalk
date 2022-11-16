@@ -29,8 +29,9 @@ class ThreadDetailPage : AppCompatActivity() {
 
         binding.btnPostComment.setOnClickListener {
             val body = binding.etCommentBody.text.toString()
+            val threadId = thread.id
 
-            val threadComment = ThreadComment(body)
+            val threadComment = ThreadComment(threadId = threadId, body = body)
 
             db.collection("threads").document(thread.id).collection("comments")
                 .add(threadComment).addOnSuccessListener {
