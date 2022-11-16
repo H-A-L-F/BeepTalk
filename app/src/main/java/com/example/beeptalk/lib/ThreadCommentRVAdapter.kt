@@ -35,16 +35,16 @@ class ThreadCommentRVAdapter(private val comments : ArrayList<ThreadComment>, pr
             comment.upvote++
             holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
             var db = FirebaseFirestore.getInstance()
-            db.collection("threads").document(comment.threadId)
-                .collection("comments").document(comment.id).update("upvote", FieldValue.increment(1))
+            db.collection("threads").document(comment.threadId!!)
+                .collection("comments").document(comment.id!!).update("upvote", FieldValue.increment(1))
         }
 
         holder.binding.btnDownvote.setOnClickListener {
             comment.downvote++
             holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
             var db = FirebaseFirestore.getInstance()
-            db.collection("threads").document(comment.threadId)
-                .collection("comments").document(comment.id).update("downvote", FieldValue.increment(1))
+            db.collection("threads").document(comment.threadId!!)
+                .collection("comments").document(comment.id!!).update("downvote", FieldValue.increment(1))
         }
     }
 

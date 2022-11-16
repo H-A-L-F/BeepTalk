@@ -92,7 +92,7 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
         val downvote = curr.downvote
         val createdAt = curr.createdAt
 
-        val threadItem: ThreadID = ThreadID(id, body, stitch, upvote, downvote, createdAt)
+        val threadItem: ThreadID = ThreadID(id!!, body!!, stitch, upvote, downvote, createdAt)
 
         intent = Intent(this, ThreadDetailPage::class.java)
         intent.putExtra("thread", threadItem)
