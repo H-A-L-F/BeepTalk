@@ -1,6 +1,12 @@
 package com.example.beeptalk.model
 
-data class User(var name: String, var username: String, var email: String, var password: String, var profilePicture: String) {
+data class User(
+    var name: String,
+    var username: String,
+    var email: String,
+    var password: String,
+    var profilePicture: String
+) {
     fun createHashMap(): MutableMap<String, String> {
         val user: MutableMap<String, String> = HashMap()
         user[USER_NAME_FIELD] = name

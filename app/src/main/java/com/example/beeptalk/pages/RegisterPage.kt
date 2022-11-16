@@ -35,24 +35,28 @@ class RegisterPage : AppCompatActivity() {
             val password = binding.passwordET.text.toString()
 
             if (name.isNotEmpty() && username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-
                 firebaseFirestore.collection(USER_COLLECTION)
                     .whereEqualTo(USER_USERNAME_FIELD, username)
                     .get().addOnSuccessListener { res ->
                         if (res.isEmpty) {
-                            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    saveUserToFireStore(
-                                        name,
-                                        username,
-                                        email,
-                                        password,
-                                        task.result.user?.uid.toString()
-                                    )
-                                } else {
-                                    Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
+                            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        saveUserToFireStore(
+                                            name,
+                                            username,
+                                            email,
+                                            password,
+                                            task.result.user?.uid.toString()
+                                        )
+                                    } else {
+                                        Toast.makeText(
+                                            this,
+                                            task.exception.toString(),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 }
-                            }
                         } else {
                             Toast.makeText(this, "Username taken!", Toast.LENGTH_SHORT).show()
                         }

@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class LoginPage : AppCompatActivity() {
 
-    private lateinit var binding:ActivityLoginPageBinding
+    private lateinit var binding: ActivityLoginPageBinding
     private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +29,9 @@ class LoginPage : AppCompatActivity() {
             val email = binding.emailET.text.toString()
             val password = binding.passwordET.text.toString()
 
-            if(email.isNotEmpty() && password.isNotEmpty()) {
-                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
-                    if(it.isSuccessful) {
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                    if (it.isSuccessful) {
                         goToHomePage()
                     } else {
                         Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
@@ -47,7 +47,7 @@ class LoginPage : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        if(firebaseAuth.currentUser != null) {
+        if (firebaseAuth.currentUser != null) {
             goToHomePage()
         }
     }
@@ -55,6 +55,8 @@ class LoginPage : AppCompatActivity() {
     private fun goToHomePage() {
 //        val intent = Intent(this, LoginPage::class.java)
 //        startActivity(intent)
+        finish()
+        finish()
     }
 
     private fun goToRegisterPage() {
