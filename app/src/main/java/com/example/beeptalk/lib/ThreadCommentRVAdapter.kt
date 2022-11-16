@@ -10,7 +10,7 @@ import com.example.beeptalk.models.ThreadComment
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
-class ThreadCommentRVAdapter(private val comments : ArrayList<ThreadComment>, private val recyclerViewInterface : RecyclerViewInterface): RecyclerView.Adapter<ThreadCommentRVAdapter.ViewHolder>() {
+class ThreadCommentRVAdapter(private var comments : ArrayList<ThreadComment>, private val recyclerViewInterface : RecyclerViewInterface): RecyclerView.Adapter<ThreadCommentRVAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: CardCommentThreadBinding, val recyclerViewInterface: RecyclerViewInterface): RecyclerView.ViewHolder(binding.root) {
         init {
@@ -52,4 +52,7 @@ class ThreadCommentRVAdapter(private val comments : ArrayList<ThreadComment>, pr
         return comments.size
     }
 
+    public fun setComments(comments : ArrayList<ThreadComment>) {
+        this.comments = comments
+    }
 }

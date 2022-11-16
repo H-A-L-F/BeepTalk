@@ -70,11 +70,13 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
                 }
 
                 querySnapshot?.let {
+                    comments = arrayListOf()
                     for (document in querySnapshot.documents) {
                         var curr = document.toObject(ThreadComment::class.java)
                         curr?.id = document.id.toString()
                         curr?.let { it1 -> comments.add(it1) }
                     }
+                    threadCommentRVAdapter.setComments(comments)
 
                     threadCommentRVAdapter.notifyDataSetChanged()
                 }
