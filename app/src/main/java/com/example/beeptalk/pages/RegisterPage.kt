@@ -3,14 +3,11 @@ package com.example.beeptalk.pages
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import com.example.beeptalk.databinding.ActivityLoginPageBinding
 import com.example.beeptalk.databinding.ActivityRegisterPageBinding
-import com.example.beeptalk.model.USER_COLLECTION
+import com.example.beeptalk.model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlin.math.log
 
 class RegisterPage : AppCompatActivity() {
 
@@ -37,17 +34,30 @@ class RegisterPage : AppCompatActivity() {
             val email = binding.emailET.text.toString()
             val password = binding.passwordET.text.toString()
 
-            if (name.isNotEmpty() && username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && !checkUsername(
-                    username
-                )
-            ) {
-                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        saveUserToFireStore(name, username, email, password, it.result.user?.uid.toString())
-                    } else {
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+            if (name.isNotEmpty() && username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+
+                firebaseFirestore.collection(USER_COLLECTION)
+                    .whereEqualTo(USER_USERNAME_FIELD, username)
+                    .get().addOnSuccessListener { res ->
+                        if (res.isEmpty) {
+                            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    saveUserToFireStore(
+                                        name,
+                                        username,
+                                        email,
+                                        password,
+                                        task.result.user?.uid.toString()
+                                    )
+                                } else {
+                                    Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        } else {
+                            Toast.makeText(this, "Username taken!", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                }
+
             } else {
                 Toast.makeText(this, "Empty field are not allowed!", Toast.LENGTH_SHORT).show()
             }
@@ -67,26 +77,15 @@ class RegisterPage : AppCompatActivity() {
         password: String,
         documentId: String
     ) {
-        val user: MutableMap<String, String> = HashMap()
-        user["name"] = name
-        user["username"] = username
-        user["email"] = email
-        user["password"] = password
+        val user = User(name, username, email, password, "")
 
-        firebaseFirestore.collection(USER_COLLECTION).document(documentId).set(user).addOnSuccessListener {
-            Toast.makeText(this, "Account registered successfully!", Toast.LENGTH_SHORT).show()
-            goToLoginPage()
-        }.addOnFailureListener{
-            Toast.makeText(this, it.localizedMessage, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun checkUsername(username: String): Boolean {
-        var check = false
-//        firebaseFirestore.collection("users").whereEqualTo("username", username).count().get()
-
-        firebaseFirestore.collection(USER_COLLECTION).whereEqualTo("username", username).get()
-        return check
+        firebaseFirestore.collection(USER_COLLECTION).document(documentId).set(user.createHashMap())
+            .addOnSuccessListener {
+                Toast.makeText(this, "Account registered successfully!", Toast.LENGTH_SHORT).show()
+                goToLoginPage()
+            }.addOnFailureListener {
+                Toast.makeText(this, it.localizedMessage, Toast.LENGTH_SHORT).show()
+            }
     }
 
 }
