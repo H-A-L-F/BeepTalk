@@ -1,8 +1,7 @@
-package com.example.beeptalk.model
+package com.example.beeptalk.models
 
 import android.content.Context
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 data class User(

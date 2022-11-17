@@ -8,7 +8,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityRegisterPageBinding
-import com.example.beeptalk.model.*
+import com.example.beeptalk.models.USER_COLLECTION
+import com.example.beeptalk.models.USER_USERNAME_FIELD
+import com.example.beeptalk.models.saveUserToFireStore
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient

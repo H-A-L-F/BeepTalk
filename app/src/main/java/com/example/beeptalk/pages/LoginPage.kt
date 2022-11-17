@@ -10,10 +10,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityLoginPageBinding
-import com.example.beeptalk.model.USER_COLLECTION
-import com.example.beeptalk.model.USER_EMAIL_FIELD
-import com.example.beeptalk.model.User
-import com.example.beeptalk.model.saveUserToFireStore
+import com.example.beeptalk.models.USER_COLLECTION
+import com.example.beeptalk.models.saveUserToFireStore
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -85,7 +83,7 @@ class LoginPage : AppCompatActivity() {
     }
 
     private fun goToHomePage() {
-        val intent = Intent(this, HomePage::class.java)
+        val intent = Intent(this, ThreadPage::class.java)
         startActivity(intent)
         finish()
     }
