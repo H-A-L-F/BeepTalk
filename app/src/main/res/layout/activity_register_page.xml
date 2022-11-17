@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="@string/username"
+                android:hint="Username"
                 android:inputType="none"
                 android:minHeight="50dp"
                 android:textSize="15sp" />

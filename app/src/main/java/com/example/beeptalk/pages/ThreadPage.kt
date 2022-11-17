@@ -16,7 +16,6 @@ import com.example.beeptalk.lib.ThreadRVAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.collections.ArrayList
 import com.example.beeptalk.models.Thread
@@ -97,5 +96,6 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
         intent = Intent(this, ThreadDetailPage::class.java)
         intent.putExtra("thread", threadItem)
         startActivity(intent)
+
     }
 }
