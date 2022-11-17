@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "932354969681-gd0afesg1a95qp1k612vf73t7hapaspo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.beeptalk",
+            "certificate_hash": "49428c70b010ed239cd805179da9b80f188d8c3c"
+          }
+        },
+        {
           "client_id": "932354969681-gigubvfd5huitrcctmrekv2fe1ic2eff.apps.googleusercontent.com",
           "client_type": 3
         }
