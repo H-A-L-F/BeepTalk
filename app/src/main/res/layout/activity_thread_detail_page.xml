@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".pages.ThreadDetailPage"
+    android:orientation="vertical"
+    android:gravity="start" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="start"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <io.getstream.avatarview.AvatarView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/cat_user"
+                app:avatarViewBorderColor="@color/primaryContent"
+                app:avatarViewBorderWidth="3dp"
+                app:avatarViewIndicatorBorderColor="@color/primaryTextColor"
+                app:avatarViewIndicatorBorderSizeCriteria="10"
+                app:avatarViewIndicatorColor="@color/secondaryColor"
+                app:avatarViewIndicatorEnabled="true"
+                app:avatarViewIndicatorPosition="bottomRight"
+                app:avatarViewIndicatorSizeCriteria="9"
+                app:avatarViewInitialsTextStyle="bold"
+                app:avatarViewShape="circle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username" />
+
+                <TextView
+                    android:id="@+id/tvCreatedAt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/created_at"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvThreadBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lorem"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/btnUpvote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_upvote"/>
+
+            <TextView
+                android:id="@+id/tvTotalVotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/upvotes" />
+
+            <ImageButton
+                android:id="@+id/btnDownvote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_downvote"/>
+
+            <ImageButton
+                android:id="@+id/btnComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_comment" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginVertical="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <io.getstream.avatarview.AvatarView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/cat_user"
+                app:avatarViewBorderColor="@color/primaryContent"
+                app:avatarViewBorderWidth="3dp"
+                app:avatarViewIndicatorBorderColor="@color/primaryTextColor"
+                app:avatarViewIndicatorBorderSizeCriteria="10"
+                app:avatarViewIndicatorColor="@color/secondaryColor"
+                app:avatarViewIndicatorEnabled="true"
+                app:avatarViewIndicatorPosition="bottomRight"
+                app:avatarViewIndicatorSizeCriteria="9"
+                app:avatarViewInitialsTextStyle="bold"
+                app:avatarViewShape="circle" />
+
+            <EditText
+                android:id="@+id/etCommentBody"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:maxHeight="80dp"
+                android:hint="What's happening?"
+                android:gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:paddingHorizontal="10dp"
+                android:layout_weight="@integer/material_motion_duration_long_1"/>
+
+            <Button
+                android:id="@+id/btnPostComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Comment"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginVertical="4dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvThreadComment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="20dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</LinearLayout>
