@@ -53,13 +53,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:24.4.0'
 
     // firebase auth
-    implementation 'com.google.firebase:firebase-auth:24.1.0'
+    implementation 'com.google.firebase:firebase-auth:21.1.0'
 
     // google sign in
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
     implementation 'androidx.annotation:annotation:1.1.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
      testImplementation 'junit:junit:4.13.2'
