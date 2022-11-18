@@ -61,17 +61,25 @@ class LoginPage : AppCompatActivity() {
             val password = binding.passwordET.text.toString()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        goToMainPage()
-                    } else {
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            goToMainPage()
+                        } else {
+                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                        }
                     }
+                } else {
+                    Toast.makeText(this, "Please input valid email!", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(this, "Empty field are not allowed!", Toast.LENGTH_SHORT).show()
             }
 
+        }
+
+        binding.forgotPassTV.setOnClickListener {
+            goToForgotPasswordPage()
         }
     }
 
@@ -91,6 +99,12 @@ class LoginPage : AppCompatActivity() {
     private fun goToRegisterPage() {
         val intent = Intent(this, RegisterPage::class.java)
         startActivity(intent)
+    }
+
+    private fun goToForgotPasswordPage() {
+        val intent = Intent(this, ForgotPasswordPage::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun googleSignIn() {
