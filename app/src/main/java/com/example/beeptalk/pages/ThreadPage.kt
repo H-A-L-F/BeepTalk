@@ -20,7 +20,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 import com.example.beeptalk.models.Thread
 import com.example.beeptalk.parcel.ThreadID
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 
 class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
 

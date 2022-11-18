@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeTalk">
         <activity
+            android:name=".pages.MainPage"
+            android:exported="false" />
+        <activity
             android:name=".pages.CommentDetailPage"
             android:exported="false" />
         <activity
@@ -18,11 +21,9 @@
         <activity
             android:name=".pages.CreateThreadPage"
             android:exported="false" />
-
-  <activity
+        <activity
             android:name=".pages.RegisterUsernamePage"
             android:exported="false" />
-        
         <activity
             android:name=".pages.ThreadPage"
             android:exported="false" />
@@ -31,7 +32,7 @@
             android:exported="false" />
         <activity
             android:name=".pages.RegisterPage"
-            android:exported="false" /> 
+            android:exported="false" />
         <activity
             android:name=".pages.LoginPage"
             android:exported="true">

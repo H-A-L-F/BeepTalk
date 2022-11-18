@@ -90,8 +90,8 @@ class RegisterPage : AppCompatActivity() {
         }
     }
 
-    private fun goToHomePage() {
-        val intent = Intent(this, HomePage::class.java)
+    private fun goToMainPage() {
+        val intent = Intent(this, MainPage::class.java)
         startActivity(intent)
         finish()
     }
@@ -151,7 +151,7 @@ class RegisterPage : AppCompatActivity() {
                                 }
                         }
                     }
-                goToHomePage()
+                goToMainPage()
             } else {
                 Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show();
             }

@@ -63,7 +63,7 @@ class LoginPage : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        goToHomePage()
+                        goToMainPage()
                     } else {
                         Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
                     }
@@ -78,12 +78,12 @@ class LoginPage : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (firebaseAuth.currentUser != null) {
-            goToHomePage()
+            goToMainPage()
         }
     }
 
-    private fun goToHomePage() {
-        val intent = Intent(this, ThreadPage::class.java)
+    private fun goToMainPage() {
+        val intent = Intent(this, MainPage::class.java)
         startActivity(intent)
         finish()
     }
@@ -143,7 +143,7 @@ class LoginPage : AppCompatActivity() {
                                 }
                         }
                     }
-                goToHomePage()
+                goToMainPage()
             } else {
                 Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show();
             }
