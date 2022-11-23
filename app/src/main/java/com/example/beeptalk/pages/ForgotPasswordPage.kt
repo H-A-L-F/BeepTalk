@@ -1,11 +1,10 @@
 package com.example.beeptalk.pages
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.beeptalk.databinding.ActivityForgotPasswordPageBinding
-import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPasswordPage : AppCompatActivity() {
 
@@ -23,18 +22,9 @@ class ForgotPasswordPage : AppCompatActivity() {
 
             if (email.isNotEmpty()) {
                 if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Toast.makeText(
-                                this,
-                                "Email sent, please check your email!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            goToLoginPage()
-                        } else {
-                            Toast.makeText(this, "Email not found!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                    sendEmail(email)
+//                    buttonSendEmail(email)
+                    binding.emailET.text.clear()
                 } else {
                     Toast.makeText(this, "Please input valid email!", Toast.LENGTH_SHORT).show()
                 }
@@ -44,10 +34,21 @@ class ForgotPasswordPage : AppCompatActivity() {
         }
     }
 
+    private fun sendEmail(stringReceiverEmail: String){
+
+    }
+
     private fun goToLoginPage() {
         val intent = Intent(this, LoginPage::class.java)
         startActivity(intent)
         finish()
     }
+
+    fun buttonSendEmail(stringReceiverEmail: String) {
+
+    }
+
+
+
 
 }
