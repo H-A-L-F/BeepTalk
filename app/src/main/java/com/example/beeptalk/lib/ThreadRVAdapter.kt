@@ -41,17 +41,27 @@ class ThreadRVAdapter(private val threads : ArrayList<Thread>, private val recyc
         holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
 
         holder.binding.btnUpvote.setOnClickListener {
-            thread.upvote++
-            holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
-            var db = FirebaseFirestore.getInstance()
-            db.collection("threads").document(thread.id!!).update("upvote", FieldValue.increment(1))
+            when {
+                thread.upDownFlag < 1 -> {
+                    thread.upvote++
+                    thread.upDownFlag++;
+                    holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
+                    var db = FirebaseFirestore.getInstance()
+                    db.collection("threads").document(thread.id!!).update("upvote", FieldValue.increment(1))
+                }
+            }
         }
 
         holder.binding.btnDownvote.setOnClickListener {
-            thread.downvote++
-            holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
-            var db = FirebaseFirestore.getInstance()
-            db.collection("threads").document(thread.id!!).update("downvote", FieldValue.increment(1))
+            when {
+                thread.upDownFlag > -1 -> {
+                    thread.downvote++
+                    thread.upDownFlag--;
+                    holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
+                    var db = FirebaseFirestore.getInstance()
+                    db.collection("threads").document(thread.id!!).update("downvote", FieldValue.increment(1))
+                }
+            }
         }
     }
 
