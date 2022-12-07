@@ -6,14 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.beeptalk.R
+import com.example.beeptalk.databinding.FragmentNotificationBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 class NotificationFragment : Fragment() {
+
+    private lateinit var binding: FragmentNotificationBinding
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_notification, container, false)
+        binding = FragmentNotificationBinding.inflate(layoutInflater, container, false)
+
+        return binding.root
     }
 
 }
