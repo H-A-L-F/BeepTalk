@@ -11,7 +11,7 @@
     <include layout="@layout/section_activity" />
     
     <Space
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp" />
 
     <include layout="@layout/section_new_followers" />
