@@ -1,16 +1,16 @@
 package com.example.beeptalk.pages
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityRegisterPageBinding
-import com.example.beeptalk.models.USER_COLLECTION
-import com.example.beeptalk.models.USER_USERNAME_FIELD
-import com.example.beeptalk.models.saveUserToFireStore
+import com.example.beeptalk.models.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -28,6 +28,9 @@ class RegisterPage : AppCompatActivity() {
     private lateinit var firebaseFirestore: FirebaseFirestore
 
     private lateinit var googleSignInClient: GoogleSignInClient
+
+    private lateinit var sp : SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,6 +39,8 @@ class RegisterPage : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseFirestore = FirebaseFirestore.getInstance()
+
+        sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -136,6 +141,24 @@ class RegisterPage : AppCompatActivity() {
                     .document(firebaseAuth.currentUser!!.uid)
                     .addSnapshotListener { snapshot, e ->
                         if (e != null) {
+                            val uid = firebaseAuth.currentUser?.uid
+
+                            if (uid != null) {
+                                firebaseFirestore.collection(USER_COLLECTION).document(uid).get().addOnSuccessListener { it2 ->
+                                    val editor = sp.edit()
+                                    editor.putString("uid", uid)
+                                    editor.putString("name", it2.getString(USER_NAME_FIELD))
+                                    editor.putString("name", it2.getString(USER_EMAIL_FIELD))
+                                    editor.putString("name", it2.getString(USER_USERNAME_FIELD))
+                                    editor.putString("name", it2.getString(
+                                        USER_PROFILE_PICTURE_FIELD
+                                    ))
+
+                                    editor.apply()
+                                }
+                            } else {
+                                Toast.makeText(this, "Error occurred!", Toast.LENGTH_SHORT).show()
+                            }
                             return@addSnapshotListener
                         }
                         if (snapshot != null && !snapshot.exists()) {

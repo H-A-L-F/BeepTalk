@@ -58,7 +58,6 @@ class MainPage : AppCompatActivity() {
         }
 
 
-
     }
 
     private fun replaceFragment(fragment: Fragment) {
