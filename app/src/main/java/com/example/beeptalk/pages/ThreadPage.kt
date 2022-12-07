@@ -52,8 +52,8 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
 
         binding.rvThread.adapter = threadRVAdapter
 
-//        subscribeThreads()
-        getThreads()
+        subscribeThreads()
+//        getThreads()
     }
 
     private fun subscribeThreads() {
