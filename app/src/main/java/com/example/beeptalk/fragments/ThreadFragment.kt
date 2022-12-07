@@ -1,5 +1,6 @@
 package com.example.beeptalk.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -25,6 +26,8 @@ class ThreadFragment : Fragment(), RecyclerViewInterface {
     private lateinit var threadRVAdapter: ThreadRVAdapter
     private lateinit var db : FirebaseFirestore
 
+    private val sp = activity?.getSharedPreferences("current_user", Context.MODE_PRIVATE)
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +41,8 @@ class ThreadFragment : Fragment(), RecyclerViewInterface {
 
         threads = arrayListOf()
 
-        threadRVAdapter = ThreadRVAdapter(threads, this)
+        val uid = sp?.getString("uid", "default")
+        threadRVAdapter = uid?.let { ThreadRVAdapter(threads, this, it) }!!
 
         binding.rvThread.adapter = threadRVAdapter
 
