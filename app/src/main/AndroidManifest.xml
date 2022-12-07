@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.beeptalk">
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -9,6 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeTalk">
+        <activity
+            android:name=".pages.ForgotPasswordPage"
+            android:exported="false" />
+        <activity
+            android:name=".pages.MainPage"
+            android:exported="false" />
         <activity
             android:name=".pages.CommentDetailPage"
             android:exported="false" />
@@ -19,7 +27,19 @@
             android:name=".pages.CreateThreadPage"
             android:exported="false" />
         <activity
+            android:name=".pages.RegisterUsernamePage"
+            android:exported="false" />
+        <activity
             android:name=".pages.ThreadPage"
+            android:exported="false" />
+        <activity
+            android:name=".pages.HomePage"
+            android:exported="false" />
+        <activity
+            android:name=".pages.RegisterPage"
+            android:exported="false" />
+        <activity
+            android:name=".pages.LoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

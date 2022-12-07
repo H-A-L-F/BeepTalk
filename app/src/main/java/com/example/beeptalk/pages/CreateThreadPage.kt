@@ -1,10 +1,14 @@
 package com.example.beeptalk.pages
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.beeptalk.models.Thread
 import com.example.beeptalk.databinding.ActivityCreateThreadPageBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CreateThreadPage : AppCompatActivity() {

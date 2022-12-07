@@ -9,7 +9,8 @@ data class Thread(
     val stitch : String? = null,
     var upvote : Int = 0,
     var downvote : Int = 0,
-    val createdAt : Date = Timestamp.now().toDate()
+    val createdAt : Date = Timestamp.now().toDate(),
+    var upDownFlag : Int = 0
 ) {
 
     public fun getTotalVotes(): Int {

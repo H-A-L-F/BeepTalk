@@ -1,8 +1,21 @@
 <resources>
     <string name="app_name">BeepTalk</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="log_in">Log in</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="already_have_an_account">Already have an account?</string>
     <string name="username">Azerty klockenburg</string>
     <string name="lorem">Etiam vitae lacus vel tellus eleifend egestas. Mauris sed justo facilisis, hendrerit felis at, accumsan lorem. Nulla eleifend euismod interdum. Maecenas eu scelerisque nisi. Vivamus nec dolor a purus viverra faucibus sed ac ante. Praesent et nisi aliquet, ultricies ex ut, commodo urna. Mauris et lacus malesuada, dictum felis ac, mattis lorem.</string>
     <string name="created_at">11/12/2022</string>
     <string name="upvotes">17.5K</string>
     <string name="reply_to">Replying to @Azerty klockenburg</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string name="post_btn">Post</string>
+    <string name="title_of_video">Title Video</string>
+    <string name="desc_of_video">Description... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt, diam sit amet convallis finibus, augue </string>
 </resources>

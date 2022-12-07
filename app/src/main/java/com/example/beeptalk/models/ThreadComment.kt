@@ -5,7 +5,8 @@ data class ThreadComment(
     val threadId: String? = null,
     val body : String? = null,
     var upvote : Int = 0,
-    var downvote: Int = 0
+    var downvote: Int = 0,
+    var upDownFlag : Int = 0
 ) {
 
     public fun getTotalVotes(): Int {

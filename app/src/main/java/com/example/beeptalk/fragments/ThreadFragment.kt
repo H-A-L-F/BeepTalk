@@ -1,45 +1,39 @@
-package com.example.beeptalk.pages
+package com.example.beeptalk.fragments
 
 import android.content.Intent
-import android.os.Binder
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.beeptalk.R
-import com.example.beeptalk.databinding.ActivityCreateThreadPageBinding
 import com.example.beeptalk.databinding.ActivityThreadPageBinding
+import com.example.beeptalk.databinding.FragmentThreadBinding
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.ThreadRVAdapter
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
-import java.util.*
-import kotlin.collections.ArrayList
 import com.example.beeptalk.models.Thread
+import com.example.beeptalk.pages.ThreadDetailPage
 import com.example.beeptalk.parcel.ThreadID
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
-class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
+class ThreadFragment : Fragment(), RecyclerViewInterface {
 
-    private lateinit var binding : ActivityThreadPageBinding
+    private lateinit var binding : FragmentThreadBinding
     private lateinit var threads : ArrayList<Thread>
     private lateinit var threadRVAdapter: ThreadRVAdapter
     private lateinit var db : FirebaseFirestore
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityThreadPageBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentThreadBinding.inflate(layoutInflater, container, false)
 
         db = FirebaseFirestore.getInstance()
 
-        binding.rvThread.layoutManager = LinearLayoutManager(this)
+        binding.rvThread.layoutManager = LinearLayoutManager(context)
         binding.rvThread.setHasFixedSize(true)
 
         threads = arrayListOf()
@@ -50,13 +44,15 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
 
 //        subscribeThreads()
         getThreads()
+
+        return binding.root
     }
 
     private fun subscribeThreads() {
         db.collection("threads")
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
                     return@addSnapshotListener
                 }
 
@@ -96,8 +92,9 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
 
         val threadItem: ThreadID = ThreadID(id!!, body!!, stitch, upvote, downvote, createdAt)
 
-        intent = Intent(this, ThreadDetailPage::class.java)
+        val intent = Intent(context, ThreadDetailPage::class.java)
         intent.putExtra("thread", threadItem)
         startActivity(intent)
+
     }
 }
