@@ -77,10 +77,9 @@ class LoginPage : AppCompatActivity() {
                                     val editor = sp.edit()
                                     editor.putString("uid", uid)
                                     editor.putString("name", it2.getString(USER_NAME_FIELD))
-                                    editor.putString("name", it2.getString(USER_EMAIL_FIELD))
-                                    editor.putString("name", it2.getString(USER_USERNAME_FIELD))
-                                    editor.putString("name", it2.getString(
-                                        USER_PROFILE_PICTURE_FIELD))
+                                    editor.putString("email", it2.getString(USER_EMAIL_FIELD))
+                                    editor.putString("username", it2.getString(USER_USERNAME_FIELD))
+                                    editor.putString("profile_picture", it2.getString(USER_PROFILE_PICTURE_FIELD))
 
                                     editor.apply()
                                 }

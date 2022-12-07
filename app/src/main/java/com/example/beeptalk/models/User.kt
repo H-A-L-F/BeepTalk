@@ -9,14 +9,14 @@ data class User(
     var name: String,
     var username: String,
     var email: String,
-    var profilePicture: String = ""
+    var profile_picture: String = ""
 ) {
     fun createHashMap(): MutableMap<String, String> {
         val user: MutableMap<String, String> = HashMap()
         user[USER_NAME_FIELD] = name
         user[USER_USERNAME_FIELD] = username
         user[USER_EMAIL_FIELD] = email
-        user[USER_PROFILE_PICTURE_FIELD] = profilePicture
+        user[USER_PROFILE_PICTURE_FIELD] = profile_picture
 
         return user
     }
