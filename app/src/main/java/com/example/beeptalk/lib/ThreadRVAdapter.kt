@@ -44,7 +44,7 @@ class ThreadRVAdapter(private val threads : ArrayList<Thread>, private val recyc
             when {
                 thread.upDownFlag < 1 -> {
                     thread.upvote++
-                    thread.upDownFlag++;
+                    thread.upDownFlag++
                     holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
                     var db = FirebaseFirestore.getInstance()
                     db.collection("threads").document(thread.id!!).update("upvote", FieldValue.increment(1))
@@ -56,7 +56,7 @@ class ThreadRVAdapter(private val threads : ArrayList<Thread>, private val recyc
             when {
                 thread.upDownFlag > -1 -> {
                     thread.downvote++
-                    thread.upDownFlag--;
+                    thread.upDownFlag--
                     holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
                     var db = FirebaseFirestore.getInstance()
                     db.collection("threads").document(thread.id!!).update("downvote", FieldValue.increment(1))
