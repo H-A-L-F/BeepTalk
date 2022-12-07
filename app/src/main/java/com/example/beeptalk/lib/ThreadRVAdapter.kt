@@ -60,7 +60,7 @@ class ThreadRVAdapter(
 //            }
             thread.upvote.add(uid)
             holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
-            var db = FirebaseFirestore.getInstance()
+            val db = FirebaseFirestore.getInstance()
             db.collection("threads").document(thread.id!!).update("upvote", FieldValue.arrayUnion(uid))
         }
 
@@ -76,7 +76,7 @@ class ThreadRVAdapter(
 //            }
             thread.downvote.add(uid)
             holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
-            var db = FirebaseFirestore.getInstance()
+            val db = FirebaseFirestore.getInstance()
             db.collection("threads").document(thread.id!!).update("downvote", FieldValue.arrayUnion(uid))
         }
     }
