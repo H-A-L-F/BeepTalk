@@ -18,4 +18,7 @@
     <string name="post_btn">Post</string>
     <string name="title_of_video">Title Video</string>
     <string name="desc_of_video">Description... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt, diam sit amet convallis finibus, augue </string>
+
+    <string name="activities_title">Activities</string>
+    <string name="activities_activity_like">Liked your video</string>
 </resources>
