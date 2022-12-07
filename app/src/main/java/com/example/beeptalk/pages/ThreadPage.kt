@@ -99,6 +99,5 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
         intent = Intent(this, ThreadDetailPage::class.java)
         intent.putExtra("thread", threadItem)
         startActivity(intent)
-
     }
 }

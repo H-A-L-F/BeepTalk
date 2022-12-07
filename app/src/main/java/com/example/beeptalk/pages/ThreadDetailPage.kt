@@ -58,7 +58,8 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
         binding.rvThreadComment.adapter = threadCommentRVAdapter
 
-        subscribeThreadComments(thread.id)
+//        subscribeThreadComments(thread.id)
+        getThreadComments(thread.id)
     }
 
     private fun subscribeThreadComments(threadId : String) {
@@ -80,6 +81,20 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
                     threadCommentRVAdapter.notifyDataSetChanged()
                 }
+            }
+    }
+
+    private fun getThreadComments(threadId : String) {
+        db.collection("threads").document(threadId).collection("comments")
+            .get().addOnSuccessListener {
+                for (document in it.documents) {
+                    var curr = document.toObject(ThreadComment::class.java)
+                    curr?.id = document.id.toString()
+                    curr?.let { it1 -> comments.add(it1) }
+                }
+                threadCommentRVAdapter.setComments(comments)
+
+                threadCommentRVAdapter.notifyDataSetChanged()
             }
     }
 

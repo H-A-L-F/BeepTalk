@@ -32,19 +32,29 @@ class ThreadCommentRVAdapter(private var comments : ArrayList<ThreadComment>, pr
         holder.binding.tvCommentBody.text = comment.body
 
         holder.binding.btnUpvote.setOnClickListener {
-            comment.upvote++
-            holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
-            var db = FirebaseFirestore.getInstance()
-            db.collection("threads").document(comment.threadId!!)
-                .collection("comments").document(comment.id!!).update("upvote", FieldValue.increment(1))
+            when {
+                comment.upDownFlag < 1 -> {
+                    comment.upvote++
+                    comment.upDownFlag++
+                    holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
+                    var db = FirebaseFirestore.getInstance()
+                    db.collection("threads").document(comment.threadId!!)
+                        .collection("comments").document(comment.id!!).update("upvote", FieldValue.increment(1))
+                }
+            }
         }
 
         holder.binding.btnDownvote.setOnClickListener {
-            comment.downvote++
-            holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
-            var db = FirebaseFirestore.getInstance()
-            db.collection("threads").document(comment.threadId!!)
-                .collection("comments").document(comment.id!!).update("downvote", FieldValue.increment(1))
+            when {
+                comment.upDownFlag > -1 -> {
+                    comment.downvote++
+                    comment.upDownFlag--
+                    holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
+                    var db = FirebaseFirestore.getInstance()
+                    db.collection("threads").document(comment.threadId!!)
+                        .collection("comments").document(comment.id!!).update("downvote", FieldValue.increment(1))
+                }
+            }
         }
     }
 
