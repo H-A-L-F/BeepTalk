@@ -58,7 +58,9 @@ class ThreadRVAdapter(
 //                    db.collection("threads").document(thread.id!!).update("upvote", FieldValue.increment(1))
 //                }
 //            }
+            if(thread.upvote.contains(uid)) return@setOnClickListener
             thread.upvote.add(uid)
+            thread.downvote.remove(uid)
             holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
             val db = FirebaseFirestore.getInstance()
             db.collection("threads").document(thread.id!!).update("upvote", FieldValue.arrayUnion(uid))
@@ -74,6 +76,8 @@ class ThreadRVAdapter(
 //                    db.collection("threads").document(thread.id!!).update("downvote", FieldValue.increment(1))
 //                }
 //            }
+            if(thread.downvote.contains(uid)) return@setOnClickListener
+            thread.upvote.remove(uid)
             thread.downvote.add(uid)
             holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
             val db = FirebaseFirestore.getInstance()
