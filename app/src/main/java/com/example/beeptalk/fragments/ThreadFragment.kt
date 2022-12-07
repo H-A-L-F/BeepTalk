@@ -46,8 +46,8 @@ class ThreadFragment : Fragment(), RecyclerViewInterface {
 
         binding.rvThread.adapter = threadRVAdapter
 
-//        subscribeThreads()
-        getThreads()
+        subscribeThreads()
+//        getThreads()
 
         return binding.root
     }
