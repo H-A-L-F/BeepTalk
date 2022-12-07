@@ -1,6 +1,8 @@
 package com.example.beeptalk.lib
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +16,13 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.collections.ArrayList
 
-class ThreadRVAdapter(private val threads : ArrayList<Thread>, private val recyclerViewInterface : RecyclerViewInterface): RecyclerView.Adapter<ThreadRVAdapter.ViewHolder>() {
+class ThreadRVAdapter(
+    private val threads : ArrayList<Thread>,
+    private val recyclerViewInterface : RecyclerViewInterface,
+    private val uid: String
+    ): RecyclerView.Adapter<ThreadRVAdapter.ViewHolder>() {
+
+    private lateinit var sharedPreferences : SharedPreferences
 
     class ViewHolder(val binding: CardThreadBinding, val recyclerViewInterface: RecyclerViewInterface): RecyclerView.ViewHolder(binding.root) {
         init {
@@ -41,27 +49,35 @@ class ThreadRVAdapter(private val threads : ArrayList<Thread>, private val recyc
         holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
 
         holder.binding.btnUpvote.setOnClickListener {
-            when {
-                thread.upDownFlag < 1 -> {
-                    thread.upvote++
-                    thread.upDownFlag++
-                    holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
-                    var db = FirebaseFirestore.getInstance()
-                    db.collection("threads").document(thread.id!!).update("upvote", FieldValue.increment(1))
-                }
-            }
+//            when {
+//                thread.upDownFlag < 1 -> {
+//                    thread.upvote++
+//                    thread.upDownFlag++
+//                    holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
+//                    var db = FirebaseFirestore.getInstance()
+//                    db.collection("threads").document(thread.id!!).update("upvote", FieldValue.increment(1))
+//                }
+//            }
+            thread.upvote++
+            holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
+            var db = FirebaseFirestore.getInstance()
+            db.collection("threads").document(thread.id!!).update("upvote", FieldValue.arrayUnion(uid))
         }
 
         holder.binding.btnDownvote.setOnClickListener {
-            when {
-                thread.upDownFlag > -1 -> {
-                    thread.downvote++
-                    thread.upDownFlag--
-                    holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
-                    var db = FirebaseFirestore.getInstance()
-                    db.collection("threads").document(thread.id!!).update("downvote", FieldValue.increment(1))
-                }
-            }
+//            when {
+//                thread.upDownFlag > -1 -> {
+//                    thread.downvote++
+//                    thread.upDownFlag--
+//                    holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
+//                    var db = FirebaseFirestore.getInstance()
+//                    db.collection("threads").document(thread.id!!).update("downvote", FieldValue.increment(1))
+//                }
+//            }
+            thread.downvote++
+            holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
+            var db = FirebaseFirestore.getInstance()
+            db.collection("threads").document(thread.id!!).update("downvote", FieldValue.arrayUnion(uid))
         }
     }
 
