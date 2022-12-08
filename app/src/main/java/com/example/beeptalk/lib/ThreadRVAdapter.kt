@@ -49,15 +49,6 @@ class ThreadRVAdapter(
         holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
 
         holder.binding.btnUpvote.setOnClickListener {
-//            when {
-//                thread.upDownFlag < 1 -> {
-//                    thread.upvote++
-//                    thread.upDownFlag++
-//                    holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
-//                    var db = FirebaseFirestore.getInstance()
-//                    db.collection("threads").document(thread.id!!).update("upvote", FieldValue.increment(1))
-//                }
-//            }
             if(thread.upvote.contains(uid)) return@setOnClickListener
             thread.upvote.add(uid)
             thread.downvote.remove(uid)
@@ -67,15 +58,6 @@ class ThreadRVAdapter(
         }
 
         holder.binding.btnDownvote.setOnClickListener {
-//            when {
-//                thread.upDownFlag > -1 -> {
-//                    thread.downvote++
-//                    thread.upDownFlag--
-//                    holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
-//                    var db = FirebaseFirestore.getInstance()
-//                    db.collection("threads").document(thread.id!!).update("downvote", FieldValue.increment(1))
-//                }
-//            }
             if(thread.downvote.contains(uid)) return@setOnClickListener
             thread.upvote.remove(uid)
             thread.downvote.add(uid)
