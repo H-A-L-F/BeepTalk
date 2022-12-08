@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.beeptalk.databinding.CardThreadBinding
+import com.example.beeptalk.models.Notification
 import java.util.*
 import com.example.beeptalk.models.Thread
 import com.example.beeptalk.pages.ThreadDetailPage
@@ -19,6 +20,7 @@ import kotlin.collections.ArrayList
 class ThreadRVAdapter(
     private val threads : ArrayList<Thread>,
     private val recyclerViewInterface : RecyclerViewInterface,
+    private val uname: String,
     private val uid: String
     ): RecyclerView.Adapter<ThreadRVAdapter.ViewHolder>() {
 
@@ -55,6 +57,11 @@ class ThreadRVAdapter(
             holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
             val db = FirebaseFirestore.getInstance()
             db.collection("threads").document(thread.id!!).update("upvote", FieldValue.arrayUnion(uid))
+
+            val notification = Notification(uid, uname, "Upvoted your thread")
+
+            db.collection("notifications").document(uid)
+                .collection("activities").add(notification)
         }
 
         holder.binding.btnDownvote.setOnClickListener {

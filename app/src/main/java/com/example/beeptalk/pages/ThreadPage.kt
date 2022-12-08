@@ -48,7 +48,8 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
         threads = arrayListOf()
 
         val uid = sp.getString("uid", "default")
-        threadRVAdapter = uid?.let { ThreadRVAdapter(threads, this, it) }!!
+        val uname = sp.getString("username", "default")
+        threadRVAdapter = uname?.let { uid?.let { it1 -> ThreadRVAdapter(threads, this, it, it1) } }!!
 
         binding.rvThread.adapter = threadRVAdapter
 
