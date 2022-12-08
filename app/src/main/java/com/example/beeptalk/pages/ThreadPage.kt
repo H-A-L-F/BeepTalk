@@ -1,5 +1,6 @@
 package com.example.beeptalk.pages
 
+import android.content.Context
 import android.content.Intent
 import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,8 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
     private lateinit var threadRVAdapter: ThreadRVAdapter
     private lateinit var db : FirebaseFirestore
 
+    private val sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityThreadPageBinding.inflate(layoutInflater)
@@ -44,12 +47,13 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
 
         threads = arrayListOf()
 
-        threadRVAdapter = ThreadRVAdapter(threads, this)
+        val uid = sp.getString("uid", "default")
+        threadRVAdapter = uid?.let { ThreadRVAdapter(threads, this, it) }!!
 
         binding.rvThread.adapter = threadRVAdapter
 
-//        subscribeThreads()
-        getThreads()
+        subscribeThreads()
+//        getThreads()
     }
 
     private fun subscribeThreads() {
