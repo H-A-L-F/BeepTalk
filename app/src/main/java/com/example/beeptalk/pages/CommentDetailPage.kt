@@ -12,6 +12,7 @@ import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.ThreadCommentRVAdapter
 import com.example.beeptalk.models.Notification
 import com.example.beeptalk.models.ThreadComment
+import com.example.beeptalk.parcel.ThreadCommentID
 import com.example.beeptalk.parcel.ThreadID
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -30,12 +31,12 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
         setContentView(binding.root)
 
         val thread : ThreadID = intent.getParcelableExtra("thread")!!
-        val comment: ThreadID = intent.getParcelableExtra("comment")!!
+        val comment: ThreadCommentID = intent.getParcelableExtra("comment")!!
 
         binding.apply {
-            tvCreatedAt.text = thread.createdAt.toString()
-            tvCommentBody.text = thread.body
-            tvTotalVotes.text = (thread.upvote.size - thread.downvote.size).toString()
+            tvCreatedAt.text = comment.replyTo
+            tvCommentBody.text = comment.body
+            tvTotalVotes.text = (comment.upvote.size - comment.downvote.size).toString()
         }
 
         db = FirebaseFirestore.getInstance()

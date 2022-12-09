@@ -7,7 +7,6 @@ data class ThreadComment(
     val replyTo: String = "Default",
     var upvote : ArrayList<String> = arrayListOf<String>(),
     var downvote: ArrayList<String> = arrayListOf<String>(),
-    var upDownFlag : Int = 0
 ) {
 
     public fun getTotalVotes(): Int {

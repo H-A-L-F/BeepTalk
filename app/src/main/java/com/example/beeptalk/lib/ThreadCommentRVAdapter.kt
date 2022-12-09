@@ -34,8 +34,6 @@ class ThreadCommentRVAdapter(private var comments : ArrayList<ThreadComment>, pr
         holder.binding.btnUpvote.setOnClickListener {
             when {
                 comment.upDownFlag < 1 -> {
-                    comment.upvote++
-                    comment.upDownFlag++
                     holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
                     var db = FirebaseFirestore.getInstance()
                     db.collection("threads").document(comment.threadId!!)
@@ -47,8 +45,6 @@ class ThreadCommentRVAdapter(private var comments : ArrayList<ThreadComment>, pr
         holder.binding.btnDownvote.setOnClickListener {
             when {
                 comment.upDownFlag > -1 -> {
-                    comment.downvote++
-                    comment.upDownFlag--
                     holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
                     var db = FirebaseFirestore.getInstance()
                     db.collection("threads").document(comment.threadId!!)

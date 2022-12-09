@@ -11,7 +11,6 @@ data class Thread(
     var upvote : ArrayList<String> = arrayListOf<String>(),
     var downvote : ArrayList<String> = arrayListOf<String>(),
     val createdAt : Date = Timestamp.now().toDate(),
-    var upDownFlag : Int = 0
 ) {
 
     public fun getTotalVotes(): Int {
