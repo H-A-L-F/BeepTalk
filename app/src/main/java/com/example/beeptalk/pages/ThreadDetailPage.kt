@@ -1,5 +1,7 @@
 package com.example.beeptalk.pages
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -8,6 +10,7 @@ import com.example.beeptalk.databinding.ActivityThreadDetailPageBinding
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.ThreadCommentRVAdapter
 import com.example.beeptalk.lib.ThreadRVAdapter
+import com.example.beeptalk.models.Notification
 import com.example.beeptalk.models.Thread
 import com.example.beeptalk.models.ThreadComment
 import com.example.beeptalk.parcel.ThreadID
@@ -19,6 +22,7 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
     private lateinit var comments : ArrayList<ThreadComment>
     private lateinit var threadCommentRVAdapter: ThreadCommentRVAdapter
     private lateinit var db : FirebaseFirestore
+    private lateinit var sp: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +36,10 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
         binding.tvTotalVotes.text = (thread.upvote - thread.downvote).toString()
 
         db = FirebaseFirestore.getInstance()
+
+        sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
+        val uid = sp.getString("uid", "default")
+        val uname = sp.getString("username", "default")
 
         binding.btnPostComment.setOnClickListener {
             val body = binding.etCommentBody.text.toString()
@@ -47,6 +55,11 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
                 }.addOnFailureListener {
                     Toast.makeText(this, "Comment failed", Toast.LENGTH_SHORT).show()
                 }
+
+            val notification = Notification(uid, uname, "Commented on your thread")
+
+            db.collection("notifications").document(uid!!)
+                .collection("activities").add(notification)
         }
 
         binding.rvThreadComment.layoutManager = LinearLayoutManager(this)
