@@ -13,8 +13,16 @@
         android:text="@string/activities_title"
         android:textSize="20sp"/>
 
-    <include layout="@layout/card_like_notification" />
-    <include layout="@layout/card_like_notification" />
-    <include layout="@layout/card_like_notification" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNotificationActivities"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="0dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+<!--    <include layout="@layout/card_like_notification" />-->
+<!--    <include layout="@layout/card_like_notification" />-->
+<!--    <include layout="@layout/card_like_notification" />-->
 
 </LinearLayout>
