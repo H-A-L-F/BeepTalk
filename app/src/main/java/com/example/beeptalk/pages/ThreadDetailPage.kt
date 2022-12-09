@@ -1,6 +1,7 @@
 package com.example.beeptalk.pages
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.example.beeptalk.lib.ThreadRVAdapter
 import com.example.beeptalk.models.Notification
 import com.example.beeptalk.models.Thread
 import com.example.beeptalk.models.ThreadComment
+import com.example.beeptalk.parcel.ThreadCommentID
 import com.example.beeptalk.parcel.ThreadID
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -24,12 +26,14 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
     private lateinit var db : FirebaseFirestore
     private lateinit var sp: SharedPreferences
 
+    private lateinit var thread: ThreadID
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityThreadDetailPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val thread : ThreadID = intent.getParcelableExtra("thread")!!
+        thread = intent.getParcelableExtra("thread")!!
 
         binding.tvCreatedAt.text = thread.createdAt.toString()
         binding.tvThreadBody.text = thread.body
@@ -112,6 +116,18 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        val curr = comments[position]
+        val id = curr.id
+        val body =  curr.body
+        val upvote = curr.upvote
+        val downvote = curr.downvote
+        val replyTo = curr.replyTo
+
+        val commentItem: ThreadCommentID = ThreadCommentID(thread.id, id!!, body!!, replyTo, upvote, downvote)
+
+        intent = Intent(this, CommentDetailPage::class.java)
+        intent.putExtra("thread", thread)
+        intent.putExtra("comment", commentItem)
+        startActivity(intent)
     }
 }
