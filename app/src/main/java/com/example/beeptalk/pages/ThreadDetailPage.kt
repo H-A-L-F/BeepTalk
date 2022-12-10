@@ -78,8 +78,8 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
         binding.rvThreadComment.adapter = threadCommentRVAdapter
 
-//        subscribeThreadComments(thread.id)
-        getThreadComments(thread.id)
+        subscribeThreadComments(thread.id)
+//        getThreadComments(thread.id)
     }
 
     private fun subscribeThreadComments(threadId : String) {
