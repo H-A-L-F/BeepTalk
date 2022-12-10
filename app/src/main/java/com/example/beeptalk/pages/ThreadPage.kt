@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityCreateThreadPageBinding
 import com.example.beeptalk.databinding.ActivityThreadPageBinding
+import com.example.beeptalk.lib.RecyclerViewEditInterface
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.ThreadRVAdapter
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,7 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 
-class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
+class ThreadPage : AppCompatActivity(), RecyclerViewInterface, RecyclerViewEditInterface {
 
     private lateinit var binding : ActivityThreadPageBinding
     private lateinit var threads : ArrayList<Thread>
@@ -49,7 +50,7 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
 
         val uid = sp.getString("uid", "default")
         val uname = sp.getString("username", "default")
-        threadRVAdapter = uname?.let { uid?.let { it1 -> ThreadRVAdapter(threads, this, it, it1) } }!!
+        threadRVAdapter = uname?.let { uid?.let { it1 -> ThreadRVAdapter(threads, this, this, it, it1) } }!!
 
         binding.rvThread.adapter = threadRVAdapter
 
@@ -105,5 +106,9 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
         intent = Intent(this, ThreadDetailPage::class.java)
         intent.putExtra("thread", threadItem)
         startActivity(intent)
+    }
+
+    override fun onItemEdit(position: Int) {
+        TODO("Not yet implemented")
     }
 }

@@ -20,18 +20,15 @@ import kotlin.collections.ArrayList
 class ThreadRVAdapter(
     private val threads : ArrayList<Thread>,
     private val recyclerViewInterface : RecyclerViewInterface,
+    private val recyclerViewEditInterface: RecyclerViewEditInterface,
     private val uname: String,
     private val uid: String
     ): RecyclerView.Adapter<ThreadRVAdapter.ViewHolder>() {
 
     private lateinit var sharedPreferences : SharedPreferences
 
-    class ViewHolder(val binding: CardThreadBinding, val recyclerViewInterface: RecyclerViewInterface): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: CardThreadBinding, val recyclerViewInterface: RecyclerViewInterface, val recyclerViewEditInterface: RecyclerViewEditInterface): RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.root.setOnClickListener(View.OnClickListener {
-
-            })
-
             binding.root.setOnClickListener {
                 if(bindingAdapterPosition != RecyclerView.NO_POSITION) {
                     recyclerViewInterface.onItemClick(bindingAdapterPosition)
@@ -41,7 +38,7 @@ class ThreadRVAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(CardThreadBinding.inflate(LayoutInflater.from(parent.context), parent, false), recyclerViewInterface)
+        return ViewHolder(CardThreadBinding.inflate(LayoutInflater.from(parent.context), parent, false), recyclerViewInterface, recyclerViewEditInterface)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -53,7 +50,9 @@ class ThreadRVAdapter(
         if(thread.uid == uid) {
             holder.binding.btnEdit.visibility = View.VISIBLE
             holder.binding.btnEdit.setOnClickListener {
-
+                if(holder.bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                    recyclerViewEditInterface.onItemEdit(holder.bindingAdapterPosition)
+                }
             }
         }
         else holder.binding.btnEdit.visibility = View.GONE

@@ -47,7 +47,7 @@ class ThreadFragment : Fragment(), RecyclerViewInterface, RecyclerViewEditInterf
         sp = requireActivity().getSharedPreferences("current_user", Context.MODE_PRIVATE)
         val uid = sp.getString("uid", "default")
         val uname = sp.getString("username", "default")
-        threadRVAdapter = uname?.let { uid?.let { it1 -> ThreadRVAdapter(threads, this, it, it1) } }!!
+        threadRVAdapter = uname?.let { uid?.let { it1 -> ThreadRVAdapter(threads, this, this, it, it1) } }!!
 
         binding.rvThread.adapter = threadRVAdapter
 
