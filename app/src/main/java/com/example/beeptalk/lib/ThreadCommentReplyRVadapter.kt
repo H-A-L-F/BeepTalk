@@ -46,22 +46,30 @@ class ThreadCommentReplyRVadapter(
 
         holder.binding.btnUpvote.setOnClickListener {
             if(comment.upvote.contains(uid)) return@setOnClickListener
+            holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
             var db = FirebaseFirestore.getInstance()
             db.collection("threads").document(comment.threadId!!)
-                .collection("comments").document(comment.id!!)
                 .collection("comments").document(comment.commentId!!)
-                .update("upvote", FieldValue.increment(1))
-            holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
+                .collection("comments").document(comment.id!!)
+                .update("upvote", FieldValue.arrayUnion(uid))
+            db.collection("threads").document(comment.threadId!!)
+                .collection("comments").document(comment.commentId!!)
+                .collection("comments").document(comment.id!!)
+                .update("downvote", FieldValue.arrayRemove(uid))
         }
 
         holder.binding.btnDownvote.setOnClickListener {
             if(comment.downvote.contains(uid)) return@setOnClickListener
+            holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
             var db = FirebaseFirestore.getInstance()
             db.collection("threads").document(comment.threadId!!)
-                .collection("comments").document(comment.id!!)
                 .collection("comments").document(comment.commentId!!)
-                .update("upvote", FieldValue.increment(1))
-            holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
+                .collection("comments").document(comment.id!!)
+                .update("upvote", FieldValue.arrayRemove(uid))
+            db.collection("threads").document(comment.threadId!!)
+                .collection("comments").document(comment.commentId!!)
+                .collection("comments").document(comment.id!!)
+                .update("downvote", FieldValue.arrayUnion(uid))
         }
     }
 
