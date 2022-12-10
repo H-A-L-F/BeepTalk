@@ -50,6 +50,9 @@ class ThreadRVAdapter(
         holder.binding.tvThreadBody.text = thread.body
         holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
 
+        if(thread.uid == uid) holder.binding.btnEdit.visibility = View.VISIBLE
+        else holder.binding.btnEdit.visibility = View.GONE
+
         holder.binding.btnUpvote.setOnClickListener {
             if(thread.upvote.contains(uid)) return@setOnClickListener
             thread.upvote.add(uid)
