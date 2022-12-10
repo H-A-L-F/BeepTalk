@@ -51,9 +51,10 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
             val body = binding.etCommentBody.text.toString()
             val threadId = thread.id
 
-            val threadComment = ThreadComment(threadId = threadId, body = body)
+            val threadComment = ThreadComment(threadId = threadId, body = body, uid = uid)
 
-            db.collection("threads").document(thread.id).collection("comments")
+            db.collection("threads").document(thread.id)
+                .collection("comments")
                 .add(threadComment).addOnSuccessListener {
                     binding.etCommentBody.text.clear()
 
@@ -120,12 +121,14 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
     override fun onItemClick(position: Int) {
         val curr = comments[position]
         val id = curr.id
+        val threadId = thread.id
+        val commUid = curr.uid
         val body =  curr.body
         val upvote = curr.upvote
         val downvote = curr.downvote
         val replyTo = curr.replyTo
 
-        val commentItem: ThreadCommentID = ThreadCommentID(thread.id, id!!, body!!, replyTo, upvote, downvote)
+        val commentItem: ThreadCommentID = ThreadCommentID(id!!, threadId, commUid!!, body!!, replyTo, upvote, downvote)
 
         intent = Intent(this, CommentDetailPage::class.java)
         intent.putExtra("thread", thread)
