@@ -72,7 +72,7 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
                     Toast.makeText(this, "Comment failed", Toast.LENGTH_SHORT).show()
                 }
 
-            val notification = Notification(uid, uname, "Replied on your comment")
+            val notification = Notification(uid, uname, "Replied to your comment: $body")
 
             db.collection("notifications").document(uid!!)
                 .collection("activities").add(notification)
