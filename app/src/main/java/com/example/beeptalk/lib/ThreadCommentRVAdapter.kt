@@ -41,22 +41,26 @@ class ThreadCommentRVAdapter(
 
         holder.binding.btnUpvote.setOnClickListener {
             if(comment.upvote.contains(uid)) return@setOnClickListener
-
             holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
             var db = FirebaseFirestore.getInstance()
             db.collection("threads").document(comment.threadId!!)
                 .collection("comments").document(comment.id!!)
-                .update("upvote", FieldValue.increment(1))
+                .update("upvote", FieldValue.arrayUnion(uid))
+            db.collection("threads").document(comment.threadId!!)
+                .collection("comments").document(comment.id!!)
+                .update("downvote", FieldValue.arrayRemove(uid))
         }
 
         holder.binding.btnDownvote.setOnClickListener {
             if(comment.downvote.contains(uid)) return@setOnClickListener
-            comment.downvote.add(uid)
             holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
             var db = FirebaseFirestore.getInstance()
             db.collection("threads").document(comment.threadId!!)
                 .collection("comments").document(comment.id!!)
-                .update("downvote", FieldValue.increment(1))
+                .update("downvote", FieldValue.arrayUnion(uid))
+            db.collection("threads").document(comment.threadId!!)
+                .collection("comments").document(comment.id!!)
+                .update("upvote", FieldValue.arrayRemove(uid))
         }
     }
 
