@@ -27,6 +27,8 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
     private lateinit var sp: SharedPreferences
 
     private lateinit var thread: ThreadID
+    private var uid: String = "default"
+    private var uname: String = "default"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +44,8 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
         db = FirebaseFirestore.getInstance()
 
         sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
-        val uid = sp.getString("uid", "default")
-        val uname = sp.getString("username", "default")
+        uid = sp.getString("uid", "default")!!
+        uname = sp.getString("username", "default")!!
 
         binding.btnPostComment.setOnClickListener {
             val body = binding.etCommentBody.text.toString()
@@ -71,7 +73,7 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
         comments = arrayListOf()
 
-        threadCommentRVAdapter = ThreadCommentRVAdapter(comments, this)
+        threadCommentRVAdapter = ThreadCommentRVAdapter(comments, this, uname, uid)
 
         binding.rvThreadComment.adapter = threadCommentRVAdapter
 
