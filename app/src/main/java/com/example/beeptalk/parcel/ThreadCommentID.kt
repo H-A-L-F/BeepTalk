@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 class ThreadCommentID(
     var id: String,
     val threadId: String,
+    val uid: String,
     val body : String,
     val replyTo: String,
     var upvote : ArrayList<String>,
