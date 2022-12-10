@@ -16,6 +16,7 @@ import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.models.Notification
 import com.example.beeptalk.models.Thread
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class NotificationFragment : Fragment(), RecyclerViewInterface {
 
@@ -63,7 +64,7 @@ class NotificationFragment : Fragment(), RecyclerViewInterface {
 
     private fun getNotificationActivities(uid: String) {
         db.collection("notifications").document(uid).collection("activities")
-            .get().addOnSuccessListener {
+            .orderBy("date", Query.Direction.DESCENDING).get().addOnSuccessListener {
                 for (document in it.documents) {
                     val curr = document.toObject(Notification::class.java)
                     curr?.id = document.id.toString()
