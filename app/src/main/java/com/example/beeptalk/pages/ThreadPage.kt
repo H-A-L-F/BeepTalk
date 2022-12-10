@@ -93,13 +93,14 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface {
     override fun onItemClick(position: Int) {
         val curr = threads[position]
         val id = curr.id
+        val uid = curr.uid
         val body =  curr.body
         val stitch = curr.stitch
         val upvote = curr.upvote
         val downvote = curr.downvote
         val createdAt = curr.createdAt
 
-        val threadItem: ThreadID = ThreadID(id!!, body!!, stitch, upvote, downvote, createdAt)
+        val threadItem: ThreadID = ThreadID(id!!, uid!!, body!!, stitch, upvote, downvote, createdAt)
 
         intent = Intent(this, ThreadDetailPage::class.java)
         intent.putExtra("thread", threadItem)
