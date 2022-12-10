@@ -13,14 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityThreadPageBinding
 import com.example.beeptalk.databinding.FragmentThreadBinding
+import com.example.beeptalk.lib.RecyclerViewEditInterface
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.ThreadRVAdapter
 import com.example.beeptalk.models.Thread
+import com.example.beeptalk.pages.EditThreadPage
 import com.example.beeptalk.pages.ThreadDetailPage
 import com.example.beeptalk.parcel.ThreadID
 import com.google.firebase.firestore.FirebaseFirestore
 
-class ThreadFragment : Fragment(), RecyclerViewInterface {
+class ThreadFragment : Fragment(), RecyclerViewInterface, RecyclerViewEditInterface {
 
     private lateinit var binding : FragmentThreadBinding
     private lateinit var threads : ArrayList<Thread>
@@ -103,6 +105,22 @@ class ThreadFragment : Fragment(), RecyclerViewInterface {
         val intent = Intent(context, ThreadDetailPage::class.java)
         intent.putExtra("thread", threadItem)
         startActivity(intent)
+    }
 
+    override fun onItemEdit(position: Int) {
+        val curr = threads[position]
+        val id = curr.id
+        val uid = curr.uid
+        val body =  curr.body
+        val stitch = curr.stitch
+        val upvote = curr.upvote
+        val downvote = curr.downvote
+        val createdAt = curr.createdAt
+
+        val threadItem: ThreadID = ThreadID(id!!, uid!!, body!!, stitch, upvote, downvote, createdAt)
+
+        val intent = Intent(context, EditThreadPage::class.java)
+        intent.putExtra("thread", threadItem)
+        startActivity(intent)
     }
 }
