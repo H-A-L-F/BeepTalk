@@ -9,6 +9,7 @@ import kotlin.collections.ArrayList
 @Parcelize
 class ThreadID(
     var id: String,
+    val uid: String,
     val body : String,
     val stitch : String?,
     var upvote : ArrayList<String>,

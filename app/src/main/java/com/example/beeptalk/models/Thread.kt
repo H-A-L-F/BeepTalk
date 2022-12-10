@@ -6,6 +6,7 @@ import kotlin.collections.ArrayList
 
 data class Thread(
     var id: String? = null,
+    val uid: String? = null,
     val body : String? = null,
     val stitch : String? = null,
     var upvote : ArrayList<String> = arrayListOf<String>(),
