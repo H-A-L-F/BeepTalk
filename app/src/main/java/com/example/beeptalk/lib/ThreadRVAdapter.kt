@@ -57,6 +57,7 @@ class ThreadRVAdapter(
             holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
             val db = FirebaseFirestore.getInstance()
             db.collection("threads").document(thread.id!!).update("upvote", FieldValue.arrayUnion(uid))
+            db.collection("threads").document(thread.id!!).update("downvote", FieldValue.arrayRemove(uid))
 
             val notification = Notification(uid, uname, "Upvoted your thread")
 
@@ -71,6 +72,7 @@ class ThreadRVAdapter(
             holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
             val db = FirebaseFirestore.getInstance()
             db.collection("threads").document(thread.id!!).update("downvote", FieldValue.arrayUnion(uid))
+            db.collection("threads").document(thread.id!!).update("upvote", FieldValue.arrayRemove(uid))
         }
     }
 
