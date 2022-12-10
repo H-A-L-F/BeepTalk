@@ -39,7 +39,7 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
         binding.tvCreatedAt.text = thread.createdAt.toString()
         binding.tvThreadBody.text = thread.body
-        binding.tvTotalVotes.text = (thread.upvote - thread.downvote).toString()
+        binding.tvTotalVotes.text = (thread.upvote.size - thread.downvote.size).toString()
 
         db = FirebaseFirestore.getInstance()
 
