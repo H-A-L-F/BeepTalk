@@ -10,7 +10,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ThreadCommentReplyRVadapter(
-    private val comments: ArrayList<ThreadCommentReply>,
+    private var comments: ArrayList<ThreadCommentReply>,
     private val recyclerViewInterface : RecyclerViewInterface,
     private val uname: String,
     private val uid: String
@@ -67,5 +67,9 @@ class ThreadCommentReplyRVadapter(
 
     override fun getItemCount(): Int {
         return comments.size
+    }
+
+    public fun setComments(comments : ArrayList<ThreadCommentReply>) {
+        this.comments = comments
     }
 }

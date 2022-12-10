@@ -10,12 +10,14 @@ import com.example.beeptalk.databinding.ActivityCommentDetailPageBinding
 import com.example.beeptalk.databinding.ActivityThreadDetailPageBinding
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.ThreadCommentRVAdapter
+import com.example.beeptalk.lib.ThreadCommentReplyRVadapter
 import com.example.beeptalk.models.Notification
 import com.example.beeptalk.models.ThreadComment
 import com.example.beeptalk.models.ThreadCommentReply
 import com.example.beeptalk.parcel.ThreadCommentID
 import com.example.beeptalk.parcel.ThreadID
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.concurrent.thread
 
 class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
@@ -23,8 +25,8 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
     private lateinit var db : FirebaseFirestore
     private lateinit var sp: SharedPreferences
 
-    private lateinit var comments : ArrayList<ThreadComment>
-    private lateinit var threadCommentRVAdapter: ThreadCommentRVAdapter
+    private lateinit var comments : ArrayList<ThreadCommentReply>
+    private lateinit var threadCommentReplyRVAdapter: ThreadCommentReplyRVadapter
 
     private lateinit var currThread: ThreadID
     private lateinit var currComm: ThreadCommentID
@@ -75,23 +77,57 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
             db.collection("notifications").document(uid!!)
                 .collection("activities").add(notification)
         }
+
+        binding.rvThreadCommentReply.layoutManager = LinearLayoutManager(this)
+        binding.rvThreadCommentReply.setHasFixedSize(true)
+
+        comments = arrayListOf()
+
+        threadCommentReplyRVAdapter = ThreadCommentReplyRVadapter(comments, this, uname, uid)
+
+        binding.rvThreadCommentReply.adapter = threadCommentReplyRVAdapter
+
+        subscribeThreadCommentReplies(currThread.id, currComm.id)
+    }
+
+    private fun subscribeThreadCommentReplies(threadId : String, commentId: String) {
+        db.collection("threads").document(threadId)
+            .collection("comments").document(commentId)
+            .collection("comments")
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                firebaseFirestoreException?.let {
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+
+                querySnapshot?.let {
+                    comments = arrayListOf()
+                    for (document in querySnapshot.documents) {
+                        var curr = document.toObject(ThreadCommentReply::class.java)
+                        curr?.id = document.id.toString()
+                        curr?.let { it1 -> comments.add(it1) }
+                    }
+                    threadCommentReplyRVAdapter.setComments(comments)
+
+                    threadCommentReplyRVAdapter.notifyDataSetChanged()
+                }
+            }
     }
 
     private fun getThreadComments(threadId : String, commentId: String) {
         db.collection("threads").document(threadId).collection("comments").document(commentId).collection("comments")
             .get().addOnSuccessListener {
                 for (document in it.documents) {
-                    var curr = document.toObject(ThreadComment::class.java)
+                    var curr = document.toObject(ThreadCommentReply::class.java)
                     curr?.id = document.id.toString()
                     curr?.let { it1 -> comments.add(it1) }
                 }
-                threadCommentRVAdapter.setComments(comments)
+                threadCommentReplyRVAdapter.setComments(comments)
 
-                threadCommentRVAdapter.notifyDataSetChanged()
+                threadCommentReplyRVAdapter.notifyDataSetChanged()
             }
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
     }
 }
