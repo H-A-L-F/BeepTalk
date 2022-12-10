@@ -30,52 +30,7 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
         binding = ActivityCommentDetailPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val thread : ThreadID = intent.getParcelableExtra("thread")!!
-        val comment: ThreadCommentID = intent.getParcelableExtra("comment")!!
-
-        binding.apply {
-            tvCreatedAt.text = comment.replyTo
-            tvCommentBody.text = comment.body
-            tvTotalVotes.text = (comment.upvote.size - comment.downvote.size).toString()
-        }
-
-        db = FirebaseFirestore.getInstance()
-
-        sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
-        val uid = sp.getString("uid", "default")
-        val uname = sp.getString("username", "default")
-
-        binding.btnPostComment.setOnClickListener {
-            val body = binding.etCommentBody.text.toString()
-            val threadId = thread.id + "/comments/" + comment.id
-
-            val threadComment = ThreadComment(threadId = threadId, body = body)
-
-            db.collection("threads").document(thread.id).collection("comments").document(comment.id).collection("comments")
-                .add(threadComment).addOnSuccessListener {
-                    binding.etCommentBody.text.clear()
-
-                    Toast.makeText(this, "Posted comment", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Comment failed", Toast.LENGTH_SHORT).show()
-                }
-
-            val notification = Notification(uid, uname, "Commented on your Comment")
-
-            db.collection("notifications").document(uid!!)
-                .collection("activities").add(notification)
-        }
-
-        binding.rvThreadComment.layoutManager = LinearLayoutManager(this)
-        binding.rvThreadComment.setHasFixedSize(true)
-
-        comments = arrayListOf()
-
-        threadCommentRVAdapter = ThreadCommentRVAdapter(comments, this)
-
-        binding.rvThreadComment.adapter = threadCommentRVAdapter
-
-        getThreadComments(thread.id, comment.id)
+       
     }
 
     private fun getThreadComments(threadId : String, commentId: String) {
