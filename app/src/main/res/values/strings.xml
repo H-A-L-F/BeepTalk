@@ -21,6 +21,7 @@
 
     <string name="activities_title">Activities</string>
     <string name="activities_activity_like">Liked your video</string>
+    <string name="activities_reply">Replied on your comment: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt, diam sit amet convallis finibus, augue</string>
 
     <string name="followers_title">New Followers</string>
     <string name="followers_activity_follow">Started following you</string>
