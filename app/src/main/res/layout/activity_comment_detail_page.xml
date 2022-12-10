@@ -45,13 +45,13 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/tvUsername"
+                    android:id="@+id/unameTv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/username" />
 
                 <TextView
-                    android:id="@+id/tvCreatedAt"
+                    android:id="@+id/replyToTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/created_at"/>
@@ -61,7 +61,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvCommentBody"
+            android:id="@+id/commentBodyTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/lorem"/>
@@ -79,7 +79,7 @@
                 android:src="@drawable/ic_upvote"/>
 
             <TextView
-                android:id="@+id/tvTotalVotes"
+                android:id="@+id/totalVotesTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/upvotes" />
@@ -126,7 +126,7 @@
                 app:avatarViewShape="circle" />
 
             <EditText
-                android:id="@+id/etCommentBody"
+                android:id="@+id/commentBodyEt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:maxHeight="80dp"
@@ -154,7 +154,7 @@
         android:layout_marginVertical="4dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvThreadComment"
+        android:id="@+id/rvThreadCommentReply"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="20dp">
