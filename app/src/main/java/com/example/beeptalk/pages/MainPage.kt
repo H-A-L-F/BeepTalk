@@ -31,7 +31,7 @@ class MainPage : AppCompatActivity() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
 
-        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+//        val googleSignInClient = GoogleSignIn.getClient(this, gso)
 //        googleSignInClient.signOut().addOnCompleteListener { task ->
 //            if (task.isSuccessful) {
 //                FirebaseAuth.getInstance().signOut() // very important if you are using firebase.

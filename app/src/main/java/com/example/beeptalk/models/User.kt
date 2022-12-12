@@ -9,26 +9,21 @@ data class User(
     var name: String,
     var username: String,
     var email: String,
-    var profile_picture: String = ""
+    var profilePicture: String = "",
+    var bio: String = "",
+    var following: ArrayList<String> = arrayListOf(),
+    var followers: ArrayList<String> = arrayListOf(),
 ) {
-    fun createHashMap(): MutableMap<String, String> {
-        val user: MutableMap<String, String> = HashMap()
-        user[USER_NAME_FIELD] = name
-        user[USER_USERNAME_FIELD] = username
-        user[USER_EMAIL_FIELD] = email
-        user[USER_PROFILE_PICTURE_FIELD] = profile_picture
-
-        return user
-    }
-
-
 }
 
 const val USER_COLLECTION = "users"
 const val USER_NAME_FIELD = "name"
 const val USER_USERNAME_FIELD = "username"
 const val USER_EMAIL_FIELD = "email"
-const val USER_PROFILE_PICTURE_FIELD = "profile_picture"
+const val USER_PROFILE_PICTURE_FIELD = "profilePicture"
+const val USER_FOLLOWING_FIELD = "following"
+const val USER_FOLLOWERS_FIELD = "followers"
+const val USER_BIO_FIELD = "bio"
 
 fun saveUserToFireStore(
     name: String,
@@ -46,7 +41,7 @@ fun saveUserToFireStore(
     )
 
     FirebaseFirestore.getInstance().collection(USER_COLLECTION).document(documentId)
-        .set(user.createHashMap())
+        .set(user)
         .addOnSuccessListener {
             Toast.makeText(context, "Account registered successfully!", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {

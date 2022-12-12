@@ -15,6 +15,9 @@
             android:name=".pages.EditThreadPage"
             android:exported="false" />
         <activity
+            android:name=".pages.ProfilePage"
+            android:exported="false" />
+        <activity
             android:name=".pages.ForgotPasswordPage"
             android:exported="false" />
         <activity
