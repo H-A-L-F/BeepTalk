@@ -53,6 +53,10 @@ class RegisterPage : AppCompatActivity() {
             goToLoginPage()
         }
 
+        binding.googleBtn.setOnClickListener {
+            googleSignIn()
+        }
+
         binding.signUpTV.setOnClickListener {
             val name = binding.nameET.text.toString()
             val username = binding.usernameET.text.toString()
@@ -148,11 +152,10 @@ class RegisterPage : AppCompatActivity() {
                                     val editor = sp.edit()
                                     editor.putString("uid", uid)
                                     editor.putString("name", it2.getString(USER_NAME_FIELD))
-                                    editor.putString("name", it2.getString(USER_EMAIL_FIELD))
-                                    editor.putString("name", it2.getString(USER_USERNAME_FIELD))
-                                    editor.putString("name", it2.getString(
-                                        USER_PROFILE_PICTURE_FIELD
-                                    ))
+                                    editor.putString("email", it2.getString(USER_EMAIL_FIELD))
+                                    editor.putString("username", it2.getString(USER_USERNAME_FIELD))
+                                    editor.putString("profilePicture", it2.getString(
+                                        USER_PROFILE_PICTURE_FIELD))
 
                                     editor.apply()
                                 }

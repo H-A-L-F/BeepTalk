@@ -1,23 +1,18 @@
 package com.example.beeptalk.models
 
-import java.io.Serializable
+import com.google.firebase.Timestamp
+import java.util.*
+import kotlin.collections.ArrayList
 
 data class Post(
-    var id: String,
-    var videoUrl: String,
-    var title: String,
-    var desc: String,
-    var likes: ArrayList<String>,
-    var comments: ArrayList<String>,
+    var id: String? = null,
+    val videoUrl: String? = null,
+    val userId: String? = null,
+    val caption: String? = null,
+    val likes: ArrayList<String> = arrayListOf(),
+    val comments: ArrayList<String> = arrayListOf(),
+    val favorites: ArrayList<String> = arrayListOf(),
+    val createdAt : Date = Timestamp.now().toDate(),
 ) {
-    fun createHashMap(): HashMap<String, Serializable> {
-        return hashMapOf(
-            "videoUrl" to videoUrl,
-            "title" to title,
-            "desc" to desc,
-            "likes" to likes,
-            "comments" to comments,
-        )
-    }
 
 }
