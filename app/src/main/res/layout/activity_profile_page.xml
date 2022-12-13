@@ -8,21 +8,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
-
-        <TextView
-            android:id="@+id/nameTV"
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Renaldi Addison"
-            android:textSize="20sp" />
+            >
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="10dp" />
+            <TextView
+                android:id="@+id/nameTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Renaldi Addison"
+                android:textSize="20sp"
+                android:textColor="@color/primaryColor"
+                />
+
+            <ImageView
+                android:id="@+id/recentFollowerBtn"
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_people_alt_24"
+                />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <ImageView
             android:id="@+id/profilePicture"
@@ -41,6 +53,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="renajaaaa"
+            android:textColor="@color/primaryColor"
             android:textSize="20sp" />
 
         <Space
@@ -64,14 +77,18 @@
                     android:gravity="center"
                     android:text="173"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primaryColor"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/following"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColor="@color/primaryColor"
+                    />
             </LinearLayout>
 
             <Space
@@ -90,21 +107,35 @@
                     android:gravity="center"
                     android:text="173"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primaryColor"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/followers"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColor="@color/primaryColor"
+                    />
             </LinearLayout>
 
         </LinearLayout>
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="10dp" />
+            android:layout_height="5dp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="150dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/primaryColor"
+            android:text="@string/edit_profile"
+            android:textAllCaps="false"
+            />
 
         <TextView
             android:id="@+id/bio"
@@ -112,7 +143,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="your private serotonin booster"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textColor="@color/primaryColor"
+            />
 
         <Space
             android:layout_width="wrap_content"
