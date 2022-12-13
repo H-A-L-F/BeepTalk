@@ -31,17 +31,17 @@ class MainPage : AppCompatActivity() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
 
-//        val googleSignInClient = GoogleSignIn.getClient(this, gso)
-//        googleSignInClient.signOut().addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                FirebaseAuth.getInstance().signOut() // very important if you are using firebase.
-//                val loginIntent = Intent(applicationContext, LoginPage::class.java)
-//                loginIntent.flags =
-//                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // clear previous task (optional)
-//                startActivity(loginIntent)
-//                finish()
-//            }
-//        }
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+        googleSignInClient.signOut().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                FirebaseAuth.getInstance().signOut() // very important if you are using firebase.
+                val loginIntent = Intent(applicationContext, LoginPage::class.java)
+                loginIntent.flags =
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // clear previous task (optional)
+                startActivity(loginIntent)
+                finish()
+            }
+        }
 
         replaceFragment(homeFragment)
 

@@ -3,6 +3,8 @@ package com.example.beeptalk.lib
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Handler
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,10 +72,8 @@ class PostVPAdapter(
         }
         holder.binding.captionTV.text = post.caption
 
-
         // set video view
         val uri: Uri = Uri.parse(post.videoUrl)
-
         holder.binding.homeVideoView.setVideoURI(uri);
         holder.binding.pauseBar.visibility = View.GONE
         holder.binding.homeVideoView.setOnPreparedListener {

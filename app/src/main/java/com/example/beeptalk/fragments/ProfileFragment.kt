@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.beeptalk.R
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 class ProfileFragment : Fragment() {
 
@@ -14,5 +15,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
+
+
     }
 }

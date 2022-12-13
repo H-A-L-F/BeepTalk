@@ -10,6 +10,7 @@
     <color name="primaryTextColor">#eeeeee</color>
     <color name="secondaryTextColor">#eeeeee</color>
     <color name="icon_unselected">#828282</color>
+    <color name="white">#ffffff</color>
 </resources>
 
     <!--    https://m2.material.io/resources/color/#!/?view.left=0&view.right=1&primary.color=334257&primary.text.color=EEEEEE&secondary.color=476072&secondary.text.color=ffffff-->

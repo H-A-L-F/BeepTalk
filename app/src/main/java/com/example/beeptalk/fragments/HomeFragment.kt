@@ -23,7 +23,7 @@ class HomeFragment : Fragment(), RecyclerViewInterface {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         db = FirebaseFirestore.getInstance()
         posts = arrayListOf()
@@ -75,19 +75,6 @@ class HomeFragment : Fragment(), RecyclerViewInterface {
 //                    postRVAdapter.notifyDataSetChanged()
 //                }
 //            }
-    }
-
-    private fun addPosts() {
-
-//        val post =
-//            Post("https://www.tiktok.com/@meumilkeu/video/7153240589318884635?is_from_webapp=1&sender_device=pc&web_id=7091612587439998465")
-//
-//        db = FirebaseFirestore.getInstance()
-//        db.collection("posts").add(post).addOnSuccessListener {
-//
-//        }.addOnFailureListener {
-//
-//        }
     }
 
     override fun onItemClick(position: Int) {
