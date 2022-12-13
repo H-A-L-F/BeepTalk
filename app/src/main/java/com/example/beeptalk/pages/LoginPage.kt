@@ -55,7 +55,6 @@ class LoginPage : AppCompatActivity() {
 
         binding.googleBtn.setOnClickListener {
             googleSignIn()
-            Toast.makeText(this, "Error occurred!", Toast.LENGTH_SHORT).show()
         }
 
         binding.signUpTV.setOnClickListener {

@@ -1,16 +1,23 @@
 package com.example.beeptalk.pages
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityProfilePageBinding
 import com.example.beeptalk.lib.PostRVAdapter
 import com.example.beeptalk.lib.RecyclerViewInterface
+import com.example.beeptalk.lib.TabVPAdapter
 import com.example.beeptalk.models.Post
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,8 +50,9 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
         firebaseFirestore = FirebaseFirestore.getInstance()
         sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
         posts = arrayListOf()
-        postRVAdapter = PostRVAdapter(this, posts, this)
 
+
+        postRVAdapter = PostRVAdapter(this, posts, this)
         binding.postRV.adapter = postRVAdapter
         binding.postRV.layoutManager =
             GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false)
@@ -71,19 +79,23 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                     if (userId != firebaseAuth.currentUser?.uid) {
                         isThisUser = false
                         binding.recentFollowerBtn.visibility = View.GONE
+                        binding.tabViewPager.visibility = View.GONE
+                        binding.tabLayout.visibility = View.GONE
                         if (firebaseAuth.currentUser?.uid?.let { it1 ->
                                 (data["followers"] as ArrayList<String>).contains(
                                     it1
                                 )
                             } == true) {
                             binding.button.text = "Following"
-                        } else if(firebaseAuth.currentUser?.uid?.let { it1 ->
+                        } else if (firebaseAuth.currentUser?.uid?.let { it1 ->
                                 (data["followers"] as ArrayList<String>).contains(
                                     it1
                                 )
                             } == false) {
                             binding.button.text = "Follow"
                         }
+                    } else {
+                        binding.postRV.visibility = View.GONE
                     }
 
                 }
@@ -122,7 +134,64 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
             }
         }
 
+        binding.tabViewPager.adapter = userId?.let { TabVPAdapter(this, it) }
 
+        TabLayoutMediator(binding.tabLayout, binding.tabViewPager) { tab, index ->
+
+            tab.setIcon(
+                when (index) {
+                    0 -> {
+                        R.drawable.ic_baseline_tab_posted_video_24
+                    }
+                    1 -> {
+                        R.drawable.ic_baseline_tab_like_24
+                    }
+                    2 -> {
+                        R.drawable.ic_baseline_tab_bookmarks_24
+                    }
+                    else -> {
+                        R.drawable.ic_baseline_tab_posted_video_24
+                    }
+                }
+            )
+        }.attach()
+
+
+
+        binding.recentFollowerBtn.setOnClickListener {
+            val popup = PopupMenu(this, it)
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.prof_recFol -> {
+
+                        true
+                    }
+                    R.id.prof_logOut -> {
+                        val gso =
+                            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+                        FirebaseAuth.getInstance()
+                            .signOut()
+                        val loginIntent = Intent(applicationContext, LoginPage::class.java)
+                        loginIntent.flags =
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // clear previous task (optional)
+                        startActivity(loginIntent)
+                        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+                        googleSignInClient.signOut().addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                finish()
+                            }
+                        }
+                        true
+                    }
+                    else -> {
+                        false
+                    }
+                }
+            }
+            popup.inflate(R.menu.prof_menu)
+            popup.show()
+
+        }
     }
 
     private fun getPosts(userId: String) {
@@ -141,6 +210,5 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
         // go to video page
 
     }
-
 
 }

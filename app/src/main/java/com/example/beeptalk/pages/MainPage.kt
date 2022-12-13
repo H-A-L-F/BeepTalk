@@ -29,19 +29,6 @@ class MainPage : AppCompatActivity() {
         binding = ActivityMainPageBinding.inflate(layoutInflater)
         super.setContentView(binding.root)
 
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-//        FirebaseAuth.getInstance().signOut() // very important if you are using firebase.
-//        val loginIntent = Intent(applicationContext, LoginPage::class.java)
-//        loginIntent.flags =
-//            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // clear previous task (optional)
-//        startActivity(loginIntent)
-//        val googleSignInClient = GoogleSignIn.getClient(this, gso)
-//        googleSignInClient.signOut().addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                finish()
-//            }
-//        }
-
         replaceFragment(homeFragment)
 
         binding.btmNavigation.setOnItemSelectedListener {

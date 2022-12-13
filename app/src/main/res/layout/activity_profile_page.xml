@@ -151,6 +151,21 @@
             android:layout_width="wrap_content"
             android:layout_height="10dp" />
 
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/tabViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+        </androidx.viewpager2.widget.ViewPager2>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/postRV"
             android:layout_width="match_parent"
