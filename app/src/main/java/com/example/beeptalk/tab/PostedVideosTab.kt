@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +26,7 @@ class PostedVideosTab(private var userId: String) : Fragment(), RecyclerViewInte
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPostedVideosTabBinding.inflate(layoutInflater, container, false)
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseFirestore = FirebaseFirestore.getInstance()
@@ -43,13 +44,22 @@ class PostedVideosTab(private var userId: String) : Fragment(), RecyclerViewInte
 
     private fun getPosts() {
         firebaseFirestore.collection("posts").whereEqualTo("userId", userId)
-            .get().addOnSuccessListener {
-                for (document in it.documents) {
-                    val curr = document.toObject(Post::class.java)
-                    curr?.id = document.id.toString()
-                    curr?.let { it1 -> posts.add(it1) }
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                firebaseFirestoreException?.let {
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
                 }
-                postRVAdapter.notifyDataSetChanged()
+
+                querySnapshot?.let {
+                    posts.clear()
+                    for (document in querySnapshot.documents) {
+                        var curr = document.toObject(Post::class.java)
+                        curr?.id = document.id.toString()
+                        curr?.let { it1 -> posts.add(it1) }
+                    }
+
+                    postRVAdapter.notifyDataSetChanged()
+                }
             }
     }
 

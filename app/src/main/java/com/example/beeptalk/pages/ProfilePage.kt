@@ -1,11 +1,15 @@
 package com.example.beeptalk.pages
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +25,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 
 class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
@@ -28,16 +33,12 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
     private lateinit var binding: ActivityProfilePageBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var firebaseStorage: FirebaseStorage
     private lateinit var posts: ArrayList<Post>
     private lateinit var postRVAdapter: PostRVAdapter
     private lateinit var sp: SharedPreferences
     private var isThisUser: Boolean = true
 
-    //    private var name: String = ""
-//    private var username: String = ""
-//    private var profilePicture: String = ""
-//    private var bio: String = ""
-//    private var following: ArrayList<String> = arrayListOf()
     private var followers: ArrayList<String> = arrayListOf()
     private var btnDisabled: Boolean = true
 
@@ -48,6 +49,7 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
 
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseFirestore = FirebaseFirestore.getInstance()
+        firebaseStorage = FirebaseStorage.getInstance()
         sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
         posts = arrayListOf()
 
@@ -61,48 +63,48 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
         val userId = intent.getStringExtra("userId")
 
         if (userId != null) {
-            firebaseFirestore.collection("users").document(userId).get().addOnSuccessListener {
-                val data = it.data
-                if (data != null) {
-                    followers = data["followers"] as ArrayList<String>
+            firebaseFirestore.collection("users").document(userId)
+                .addSnapshotListener { value, error ->
+                    val data = value?.data
+                    if (data != null) {
+                        followers = data["followers"] as ArrayList<String>
 
-                    binding.nameTV.text = data["name"] as String
-                    binding.usernameTV.text = "@" + data["username"] as String
-                    Picasso.get().load(data["profilePicture"] as String)
-                        .into(binding.profilePicture)
-                    binding.bio.text = data["bio"] as String
-                    binding.followersCount.text =
-                        (data["followers"] as ArrayList<String>).size.toString()
-                    binding.followingCount.text =
-                        (data["following"] as ArrayList<String>).size.toString()
+                        binding.nameTV.text = data["name"] as String
+                        binding.usernameTV.text = "@" + data["username"] as String
+                        Picasso.get().load(data["profilePicture"] as String)
+                            .into(binding.profilePicture)
+                        binding.bio.text = data["bio"] as String
+                        binding.followersCount.text =
+                            (data["followers"] as ArrayList<String>).size.toString()
+                        binding.followingCount.text =
+                            (data["following"] as ArrayList<String>).size.toString()
 
-                    if (userId != firebaseAuth.currentUser?.uid) {
-                        isThisUser = false
-                        binding.recentFollowerBtn.visibility = View.GONE
-                        binding.tabViewPager.visibility = View.GONE
-                        binding.tabLayout.visibility = View.GONE
-                        if (firebaseAuth.currentUser?.uid?.let { it1 ->
-                                (data["followers"] as ArrayList<String>).contains(
-                                    it1
-                                )
-                            } == true) {
-                            binding.button.text = "Following"
-                        } else if (firebaseAuth.currentUser?.uid?.let { it1 ->
-                                (data["followers"] as ArrayList<String>).contains(
-                                    it1
-                                )
-                            } == false) {
-                            binding.button.text = "Follow"
+                        if (userId != firebaseAuth.currentUser?.uid) {
+                            isThisUser = false
+                            binding.profileMenu.visibility = View.GONE
+                            binding.tabViewPager.visibility = View.GONE
+                            binding.tabLayout.visibility = View.GONE
+                            if (firebaseAuth.currentUser?.uid?.let { it1 ->
+                                    (data["followers"] as ArrayList<String>).contains(
+                                        it1
+                                    )
+                                } == true) {
+                                binding.button.text = "Following"
+                            } else if (firebaseAuth.currentUser?.uid?.let { it1 ->
+                                    (data["followers"] as ArrayList<String>).contains(
+                                        it1
+                                    )
+                                } == false) {
+                                binding.button.text = "Follow"
+                            }
+                        } else {
+                            binding.postRV.visibility = View.GONE
                         }
-                    } else {
-                        binding.postRV.visibility = View.GONE
+
                     }
 
+                    btnDisabled = false
                 }
-
-                btnDisabled = false
-            }
-                .addOnFailureListener {}
             getPosts(userId)
 
             binding.button.setOnClickListener {
@@ -133,6 +135,10 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                 }
             }
         }
+        binding.profilePicture.setOnClickListener {
+            pickImg()
+        }
+
 
         binding.tabViewPager.adapter = userId?.let { TabVPAdapter(this, it) }
 
@@ -156,9 +162,7 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
             )
         }.attach()
 
-
-
-        binding.recentFollowerBtn.setOnClickListener {
+        binding.profileMenu.setOnClickListener {
             val popup = PopupMenu(this, it)
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
@@ -178,7 +182,8 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                         val googleSignInClient = GoogleSignIn.getClient(this, gso)
                         googleSignInClient.signOut().addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                finish()
+                                Toast.makeText(this, "Successfully Log Out", Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         }
                         true
@@ -196,15 +201,64 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
 
     private fun getPosts(userId: String) {
         firebaseFirestore.collection("posts").whereEqualTo("userId", userId)
-            .get().addOnSuccessListener {
-                for (document in it.documents) {
-                    val curr = document.toObject(Post::class.java)
-                    curr?.id = document.id.toString()
-                    curr?.let { it1 -> posts.add(it1) }
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                firebaseFirestoreException?.let {
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
                 }
-                postRVAdapter.notifyDataSetChanged()
+
+                querySnapshot?.let {
+                    posts.clear()
+                    for (document in querySnapshot.documents) {
+                        var curr = document.toObject(Post::class.java)
+                        curr?.id = document.id.toString()
+                        curr?.let { it1 -> posts.add(it1) }
+                    }
+
+                    postRVAdapter.notifyDataSetChanged()
+                }
             }
     }
+
+    private fun pickImg() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        pickImgFromGallery.launch(intent)
+    }
+
+    private var pickImgFromGallery =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                firebaseAuth.currentUser?.let {
+                    uploadImage(it.uid, result.data!!.data!!) { imageUrl ->
+                        firebaseFirestore.collection("users").document(it.uid)
+                            .update("profilePicture", imageUrl).addOnSuccessListener {
+                            Toast.makeText(this, "Profile Picture Updated", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }
+
+            }
+        }
+
+    private fun uploadImage(
+        userId: String,
+        filePath: Uri,
+        callback: (imageUrl: String) -> Unit
+    ) {
+        val storageRef = firebaseStorage.getReference("$userId/profilePicture/")
+        storageRef.putFile(filePath).addOnSuccessListener { task ->
+            task.storage.downloadUrl.addOnSuccessListener { imageUrl ->
+                callback.invoke(imageUrl.toString())
+            }
+        }.addOnFailureListener {
+            return@addOnFailureListener
+        }
+    }
+
 
     override fun onItemClick(position: Int) {
         // go to video page

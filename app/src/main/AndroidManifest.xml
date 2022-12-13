@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeTalk">
         <activity
+            android:name=".pages.EditProfilePage"
+            android:exported="false" />
+        <activity
             android:name=".pages.EditThreadPage"
             android:exported="false" />
         <activity

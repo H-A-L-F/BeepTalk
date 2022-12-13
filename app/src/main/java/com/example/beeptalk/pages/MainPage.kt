@@ -1,17 +1,11 @@
 package com.example.beeptalk.pages
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityMainPageBinding
 import com.example.beeptalk.fragments.*
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
 
 class MainPage : AppCompatActivity() {
 
@@ -32,12 +26,57 @@ class MainPage : AppCompatActivity() {
         replaceFragment(homeFragment)
 
         binding.btmNavigation.setOnItemSelectedListener {
-            when(it.itemId) {
-                R.id.nav_home -> replaceFragment(homeFragment)
-                R.id.nav_thread -> replaceFragment(threadFragment)
-                R.id.nav_add -> replaceFragment(addFragment)
-                R.id.nav_notification -> replaceFragment(notificationFragment)
-                R.id.nav_profile -> replaceFragment(profileFragment)
+            when (it.itemId) {
+                R.id.nav_home -> {
+//                    val fragmentManager = supportFragmentManager
+//                    val fragmentTransaction = fragmentManager.beginTransaction()
+//                    fragmentTransaction.remove(addFragment)
+//                    fragmentTransaction.remove(threadFragment)
+//                    fragmentTransaction.remove(notificationFragment)
+//                    fragmentTransaction.remove(profileFragment)
+//                    fragmentTransaction.commit()
+                    replaceFragment(homeFragment)
+                }
+                R.id.nav_thread -> {
+//                    val fragmentManager = supportFragmentManager
+//                    val fragmentTransaction = fragmentManager.beginTransaction()
+//                    fragmentTransaction.remove(addFragment)
+//                    fragmentTransaction.remove(threadFragment)
+//                    fragmentTransaction.remove(notificationFragment)
+//                    fragmentTransaction.remove(profileFragment)
+//                    fragmentTransaction.commit()
+                    replaceFragment(threadFragment)
+                }
+                R.id.nav_add -> {
+//                    val fragmentManager = supportFragmentManager
+//                    val fragmentTransaction = fragmentManager.beginTransaction()
+//                    fragmentTransaction.remove(addFragment)
+//                    fragmentTransaction.remove(threadFragment)
+//                    fragmentTransaction.remove(notificationFragment)
+//                    fragmentTransaction.remove(profileFragment)
+//                    fragmentTransaction.commit()
+                    replaceFragment(addFragment)
+                }
+                R.id.nav_notification -> {
+//                    val fragmentManager = supportFragmentManager
+//                    val fragmentTransaction = fragmentManager.beginTransaction()
+//                    fragmentTransaction.remove(addFragment)
+//                    fragmentTransaction.remove(threadFragment)
+//                    fragmentTransaction.remove(notificationFragment)
+//                    fragmentTransaction.remove(profileFragment)
+//                    fragmentTransaction.commit()
+                    replaceFragment(notificationFragment)
+                }
+                R.id.nav_profile -> {
+//                    val fragmentManager = supportFragmentManager
+//                    val fragmentTransaction = fragmentManager.beginTransaction()
+//                    fragmentTransaction.remove(addFragment)
+//                    fragmentTransaction.remove(threadFragment)
+//                    fragmentTransaction.remove(notificationFragment)
+//                    fragmentTransaction.remove(profileFragment)
+//                    fragmentTransaction.commit()
+                    replaceFragment(profileFragment)
+                }
             }
 
             true

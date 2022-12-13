@@ -4,13 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityRegisterPageBinding
-import com.example.beeptalk.models.*
+import com.example.beeptalk.models.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -29,7 +29,7 @@ class RegisterPage : AppCompatActivity() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    private lateinit var sp : SharedPreferences
+    private lateinit var sp: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,20 +65,49 @@ class RegisterPage : AppCompatActivity() {
 
             if (name.isNotEmpty() && username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
                 if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    firebaseFirestore.collection(USER_COLLECTION)
-                        .whereEqualTo(USER_USERNAME_FIELD, username)
+                    firebaseFirestore.collection("users")
+                        .whereEqualTo("username", username)
                         .get().addOnSuccessListener { res ->
                             if (res.isEmpty) {
                                 firebaseAuth.createUserWithEmailAndPassword(email, password)
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
-                                            saveUserToFireStore(
+                                            val user = User(
+                                                task.result.user?.uid.toString(),
                                                 name,
                                                 username,
                                                 email,
-                                                task.result.user?.uid.toString(),
-                                                this
+                                                "https://firebasestorage.googleapis.com/v0/b/beeptalk-35de8.appspot.com/o/User%2FDefault%20Profile%20Picture%2Fcat_user.jpg?alt=media&token=c3aa7ba4-cd6c-44e5-8a8b-71b3dee98a8b"
                                             )
+                                            FirebaseFirestore.getInstance().collection("users")
+                                                .document(task.result.user?.uid.toString())
+                                                .set(user)
+                                                .addOnSuccessListener {
+                                                    Toast.makeText(
+                                                        this,
+                                                        "Account registered successfully!",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }.addOnFailureListener {
+                                                    Toast.makeText(
+                                                        this,
+                                                        it.localizedMessage,
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+
+                                            val editor = sp.edit()
+                                            editor.putString("uid", task.result.user?.uid.toString())
+                                            editor.putString("name", name)
+                                            editor.putString("email", email)
+                                            editor.putString("username", username)
+                                            editor.putString(
+                                                "profilePicture",
+                                                "https://firebasestorage.googleapis.com/v0/b/beeptalk-35de8.appspot.com/o/User%2FDefault%20Profile%20Picture%2Fcat_user.jpg?alt=media&token=c3aa7ba4-cd6c-44e5-8a8b-71b3dee98a8b"
+                                            )
+                                            editor.putString("bio", "-")
+
+                                            editor.apply()
                                             goToLoginPage()
                                         } else {
                                             Toast.makeText(
@@ -141,41 +170,64 @@ class RegisterPage : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null);
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
-                firebaseFirestore.collection(USER_COLLECTION)
+                firebaseFirestore.collection("users")
                     .document(firebaseAuth.currentUser!!.uid)
                     .addSnapshotListener { snapshot, e ->
                         if (e != null) {
                             val uid = firebaseAuth.currentUser?.uid
 
                             if (uid != null) {
-                                firebaseFirestore.collection(USER_COLLECTION).document(uid).get().addOnSuccessListener { it2 ->
-                                    val editor = sp.edit()
-                                    editor.putString("uid", uid)
-                                    editor.putString("name", it2.getString(USER_NAME_FIELD))
-                                    editor.putString("email", it2.getString(USER_EMAIL_FIELD))
-                                    editor.putString("username", it2.getString(USER_USERNAME_FIELD))
-                                    editor.putString("profilePicture", it2.getString(
-                                        USER_PROFILE_PICTURE_FIELD))
+                                firebaseFirestore.collection("users").document(uid)
+                                    .addSnapshotListener { it2, error ->
+                                        val data = it2?.data
+                                        if (data != null) {
+                                            val editor = sp.edit()
+                                            editor.putString("uid", uid)
+                                            editor.putString("name", data["name"] as String)
+                                            editor.putString("email", data["email"] as String)
+                                            editor.putString("username", data["username"] as String)
+                                            editor.putString(
+                                                "profilePicture",
+                                                data["profilePicture"] as String
+                                            )
+                                            editor.putString("bio", data["bio"] as String)
 
-                                    editor.apply()
-                                }
+                                            editor.apply()
+                                        }
+                                    }
                             } else {
                                 Toast.makeText(this, "Error occurred!", Toast.LENGTH_SHORT).show()
                             }
                             return@addSnapshotListener
                         }
                         if (snapshot != null && !snapshot.exists()) {
-                            firebaseFirestore.collection(USER_COLLECTION).count()
+                            firebaseFirestore.collection("users").count()
                                 .get(AggregateSource.SERVER).addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         val count = task.result.count + 1
-                                        saveUserToFireStore(
+                                        val user = User(
+                                            firebaseAuth.currentUser!!.uid,
                                             firebaseAuth.currentUser!!.displayName.toString(),
                                             "user$count",
                                             firebaseAuth.currentUser!!.email.toString(),
-                                            firebaseAuth.currentUser!!.uid,
-                                            this
+                                            "https://firebasestorage.googleapis.com/v0/b/beeptalk-35de8.appspot.com/o/User%2FDefault%20Profile%20Picture%2Fcat_user.jpg?alt=media&token=c3aa7ba4-cd6c-44e5-8a8b-71b3dee98a8b"
                                         )
+                                        FirebaseFirestore.getInstance().collection("users")
+                                            .document(firebaseAuth.currentUser!!.uid)
+                                            .set(user)
+                                            .addOnSuccessListener {
+                                                Toast.makeText(
+                                                    this,
+                                                    "Account registered successfully!",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }.addOnFailureListener {
+                                                Toast.makeText(
+                                                    this,
+                                                    it.localizedMessage,
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
                                     }
                                 }
                         }

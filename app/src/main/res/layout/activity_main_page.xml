@@ -8,16 +8,15 @@
     android:id="@+id/mainPageView">
 
     <FrameLayout
+        android:id="@+id/fl_wrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fl_wrapper"
-        android:layout_above="@+id/btmNavigation"
-        />
+        android:layout_above="@+id/btmNavigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/btmNavigation"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bottom_shape"
         app:itemBackground="@color/primaryColor"

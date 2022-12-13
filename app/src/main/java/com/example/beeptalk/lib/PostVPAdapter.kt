@@ -57,15 +57,14 @@ class PostVPAdapter(
             holder.binding.favorite.setImageResource(R.drawable.ic_baseline_bookmark_added_24)
         }
 
-        // set profile picture
-        Picasso.get()
-            .load(mPrefs.getString("profilePicture", null))
-            .into(holder.binding.profilePicture);
-
         // set username and caption
         userRef?.get()?.addOnSuccessListener { document ->
             val data = document.getString("username")
             holder.binding.usernameTV.text = data
+
+            Picasso.get()
+                .load(document.getString("profilePicture"))
+                .into(holder.binding.profilePicture);
         }?.addOnFailureListener {
         }
         holder.binding.captionTV.text = post.caption

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,13 +45,22 @@ class FavoriteVideosTab(private var userId: String) : Fragment(), RecyclerViewIn
 
     private fun getPosts() {
         firebaseFirestore.collection("posts").whereArrayContains("favorites", userId)
-            .get().addOnSuccessListener {
-                for (document in it.documents) {
-                    val curr = document.toObject(Post::class.java)
-                    curr?.id = document.id.toString()
-                    curr?.let { it1 -> posts.add(it1) }
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                firebaseFirestoreException?.let {
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
                 }
-                postRVAdapter.notifyDataSetChanged()
+
+                querySnapshot?.let {
+                    posts.clear()
+                    for (document in querySnapshot.documents) {
+                        var curr = document.toObject(Post::class.java)
+                        curr?.id = document.id.toString()
+                        curr?.let { it1 -> posts.add(it1) }
+                    }
+
+                    postRVAdapter.notifyDataSetChanged()
+                }
             }
     }
 
