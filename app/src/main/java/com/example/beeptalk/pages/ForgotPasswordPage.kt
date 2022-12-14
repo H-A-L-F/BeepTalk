@@ -97,7 +97,6 @@ class ForgotPasswordPage : AppCompatActivity() {
 
         val session = Session.getInstance(props, object : Authenticator() {
             override fun getPasswordAuthentication(): PasswordAuthentication {
-//                return PasswordAuthentication("addisonrenaldi@gmail.com", "rkyeytiabbirspwo")
                 return PasswordAuthentication("renacierr@gmail.com", "sorxkuozzpwaqoon")
             }
         })

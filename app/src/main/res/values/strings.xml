@@ -38,4 +38,7 @@
     <string name="update_your_old_password">Update your old password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="update_password">Update Password</string>
+    <string name="recent_follower">Recent Follower</string>
+    <string name="log_out">Log Out</string>
+    <string name="change_password">Change Password</string>
 </resources>

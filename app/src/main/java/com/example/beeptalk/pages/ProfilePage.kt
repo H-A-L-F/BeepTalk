@@ -108,10 +108,9 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
             getPosts(userId)
 
             binding.button.setOnClickListener {
-
                 if (!btnDisabled) {
                     if (isThisUser) {
-                        // go to edit profile
+                        goToEditProfilePage()
                     } else {
                         if (firebaseAuth.currentUser?.let { it1 -> followers.contains(it1.uid) } == true) {
                             binding.button.text = "Follow"
@@ -166,8 +165,12 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
             val popup = PopupMenu(this, it)
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
+                    R.id.prof_changePassword -> {
+                        goToChangePassword()
+                        true
+                    }
                     R.id.prof_recFol -> {
-
+                        goToRecentFollowersPage()
                         true
                     }
                     R.id.prof_logOut -> {
@@ -210,7 +213,7 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                 querySnapshot?.let {
                     posts.clear()
                     for (document in querySnapshot.documents) {
-                        var curr = document.toObject(Post::class.java)
+                        val curr = document.toObject(Post::class.java)
                         curr?.id = document.id.toString()
                         curr?.let { it1 -> posts.add(it1) }
                     }
@@ -259,6 +262,20 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
         }
     }
 
+    private fun goToEditProfilePage() {
+        val intent = Intent(this, EditProfilePage::class.java)
+        startActivity(intent)
+    }
+
+    private fun goToRecentFollowersPage() {
+        val intent = Intent(this, RecentFollowersPage::class.java)
+        startActivity(intent)
+    }
+
+    private fun goToChangePassword() {
+        val intent = Intent(this, ChangePasswordActivity::class.java)
+        startActivity(intent)
+    }
 
     override fun onItemClick(position: Int) {
         // go to video page

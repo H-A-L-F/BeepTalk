@@ -1,10 +1,13 @@
 package com.example.beeptalk.pages
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.beeptalk.databinding.ActivityEditProfilePageBinding
-import com.google.firebase.auth.ActionCodeSettings
-import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -28,57 +31,97 @@ class EditProfilePage : AppCompatActivity() {
 
         val user = firebaseAuth.currentUser
 
-        firebaseAuth.currentUser?.uid?.let { it ->
+        user?.uid?.let { it ->
             firebaseFirestore.collection("users").document(it).addSnapshotListener { value, error ->
                 val data = value?.data
                 if (data != null) {
                     binding.nameET.setText(data["name"] as String)
-                    binding.usernameET.setText("@" + data["username"] as String)
+                    binding.usernameET.setText(data["username"] as String)
                     Picasso.get().load(data["profilePicture"] as String)
                         .into(binding.profilePicture)
                     binding.bioET.setText(data["bio"] as String)
                 }
             }
+        }
 
+        binding.profilePicture.setOnClickListener {
+            pickImg()
         }
 
         binding.saveBtn.setOnClickListener {
             val name = binding.nameET.text.toString()
             val username = binding.usernameET.text.toString()
-            val password = binding.passwordET.text.toString()
             val bio = binding.bioET.text.toString()
 
-            if(name.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty() && bio.isNotEmpty()) {
+            val updates = HashMap<String, Any>()
+            updates["name"] = name
+            updates["username"] = username
+            updates["bio"] = bio
+
+            if (name.isNotEmpty() && username.isNotEmpty() && bio.isNotEmpty()) {
+                firebaseFirestore.collection("users")
+                    .whereEqualTo("username", username).get().addOnSuccessListener { res ->
+                        if (res.isEmpty) {
+                            user?.uid?.let { it1 ->
+                                firebaseFirestore.collection("users").document(
+                                    it1
+                                ).update(updates).addOnSuccessListener {
+                                    Toast.makeText(
+                                        this,
+                                        "Profile updated!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        } else {
+                            Toast.makeText(this, "Username taken!", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+            } else {
+                Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+    }
+
+    private fun pickImg() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        pickImgFromGallery.launch(intent)
+    }
+
+    private var pickImgFromGallery =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                firebaseAuth.currentUser?.let {
+                    uploadImage(it.uid, result.data!!.data!!) { imageUrl ->
+                        firebaseFirestore.collection("users").document(it.uid)
+                            .update("profilePicture", imageUrl).addOnSuccessListener {
+                                Toast.makeText(this, "Profile Picture Updated", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                    }
+                }
 
             }
         }
 
-        user?.getIdToken(true)
-            ?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val idToken = task.result?.token
-//                    val decodedToken = firebaseAuth.verifyPasswordResetCode()
-//                    firebaseAuth.sendPasswordResetEmail("asd", ActionCodeSettings.zzb())
-//                    val currentPasswordHash = decodedToken?.passwordHash
-
-
-                    // Compare the current password hash with the new password
-//                    if (currentPasswordHash == newPasswordHash) {
-//                        // The new password is the same as the old password
-//                    } else {
-//                        // The new password is different than the old password, update it
-//                        user.updatePassword(newPassword)
-//                            .addOnCompleteListener { task ->
-//                                if (task.isSuccessful) {
-//                                    // Password updated successfully
-//                                } else {
-//                                    // Error occurred, check task.getException() for details
-//                                }
-//                            }
-//                    }
-                } else {
-                    // Error occurred, check task.getException() for details
-                }
+    private fun uploadImage(
+        userId: String,
+        filePath: Uri,
+        callback: (imageUrl: String) -> Unit
+    ) {
+        val storageRef = firebaseStorage.getReference("$userId/profilePicture/")
+        storageRef.putFile(filePath).addOnSuccessListener { task ->
+            task.storage.downloadUrl.addOnSuccessListener { imageUrl ->
+                callback.invoke(imageUrl.toString())
             }
+        }.addOnFailureListener {
+            return@addOnFailureListener
+        }
     }
 }

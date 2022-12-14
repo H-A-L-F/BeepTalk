@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeTalk">
         <activity
+            android:name=".pages.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pages.RecentFollowersPage"
+            android:exported="false" />
+        <activity
             android:name=".pages.UpdatePasswordPage"
             android:exported="false" />
         <activity

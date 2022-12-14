@@ -19,7 +19,7 @@ import com.example.beeptalk.databinding.FragmentProfileBinding
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.TabVPAdapter
 import com.example.beeptalk.models.Post
-import com.example.beeptalk.pages.LoginPage
+import com.example.beeptalk.pages.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.tabs.TabLayoutMediator
@@ -93,7 +93,7 @@ class ProfileFragment : Fragment() {
             }.attach()
 
             binding.button.setOnClickListener {
-
+                goToEditProfilePage()
             }
 
 
@@ -101,8 +101,12 @@ class ProfileFragment : Fragment() {
                 val popup = PopupMenu(context, it)
                 popup.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
+                        R.id.prof_changePassword -> {
+                            goToChangePassword()
+                            true
+                        }
                         R.id.prof_recFol -> {
-
+                            goToRecentFollowersPage()
                             true
                         }
                         R.id.prof_logOut -> {
@@ -177,6 +181,21 @@ class ProfileFragment : Fragment() {
         }.addOnFailureListener {
             return@addOnFailureListener
         }
+    }
+
+    private fun goToEditProfilePage() {
+        val intent = Intent(requireContext(), EditProfilePage::class.java)
+        startActivity(intent)
+    }
+
+    private fun goToRecentFollowersPage() {
+        val intent = Intent(requireContext(), RecentFollowersPage::class.java)
+        startActivity(intent)
+    }
+
+    private fun goToChangePassword() {
+        val intent = Intent(requireContext(), ChangePasswordActivity::class.java)
+        startActivity(intent)
     }
 
 }

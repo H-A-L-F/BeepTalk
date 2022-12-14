@@ -120,29 +120,6 @@
                 android:textSize="15sp"
                 />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="3dp"
-                android:paddingEnd="3dp"
-                android:text="@string/password"
-                android:textColor="@color/primaryLightColor"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/passwordET"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primaryColor"
-                android:hint="@string/password"
-                android:minHeight="50dp"
-                android:textSize="15sp"
-                android:inputType="textPassword"
-                />
 
         </LinearLayout>
 

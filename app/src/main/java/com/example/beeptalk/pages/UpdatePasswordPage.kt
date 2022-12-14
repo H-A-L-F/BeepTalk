@@ -25,6 +25,10 @@ class UpdatePasswordPage : AppCompatActivity() {
 
         var email = intent.getStringExtra("email")
 
+        if(email == null) {
+            email = firebaseAuth.currentUser?.uid
+        }
+
         binding.updatePasswordBtn.setOnClickListener {
             val password = binding.passwordET.text.toString()
             val confPassword = binding.confirmPasswordET.text.toString()
@@ -37,28 +41,32 @@ class UpdatePasswordPage : AppCompatActivity() {
                                 val curr = document.toObject(User::class.java)
 
                                 if (curr != null) {
-                                    curr.email?.let { it1 ->
-                                        firebaseAuth.signInWithEmailAndPassword(
-                                            it1,
-                                            curr.password
-                                        ).addOnSuccessListener {
-                                            firebaseAuth.currentUser?.updatePassword(password)
-                                                ?.addOnSuccessListener {
-                                                    Toast.makeText(
-                                                        this,
-                                                        "Password updated successfully!",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                }
-                                            firebaseAuth.currentUser?.uid?.let { it2 ->
-                                                firebaseFirestore.collection("users").document(
-                                                    it2
-                                                ).update("password", password).addOnSuccessListener {
+                                    if(curr.password != password) {
+                                        curr.email?.let { it1 ->
+                                            firebaseAuth.signInWithEmailAndPassword(
+                                                it1,
+                                                curr.password
+                                            ).addOnSuccessListener {
+                                                firebaseAuth.currentUser?.updatePassword(password)
+                                                    ?.addOnSuccessListener {
+                                                        Toast.makeText(
+                                                            this,
+                                                            "Password updated successfully!",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                    }
+                                                firebaseAuth.currentUser?.uid?.let { it2 ->
+                                                    firebaseFirestore.collection("users").document(
+                                                        it2
+                                                    ).update("password", password).addOnSuccessListener {
 
+                                                    }
                                                 }
+                                                goToLoginPage()
                                             }
-                                            goToLoginPage()
                                         }
+                                    } else {
+                                        Toast.makeText(this, "Password cannot be the same as the last password!", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             }
