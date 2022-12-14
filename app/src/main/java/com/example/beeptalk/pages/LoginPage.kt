@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.AggregateSource
@@ -150,7 +151,6 @@ class LoginPage : AppCompatActivity() {
     private fun goToForgotPasswordPage() {
         val intent = Intent(this, ForgotPasswordPage::class.java)
         startActivity(intent)
-        finish()
     }
 
     private fun googleSignIn() {
@@ -221,7 +221,6 @@ class LoginPage : AppCompatActivity() {
                                             firebaseAuth.currentUser!!.displayName.toString(),
                                             "user$count",
                                             firebaseAuth.currentUser!!.email.toString(),
-                                            "https://firebasestorage.googleapis.com/v0/b/beeptalk-35de8.appspot.com/o/User%2FDefault%20Profile%20Picture%2Fcat_user.jpg?alt=media&token=c3aa7ba4-cd6c-44e5-8a8b-71b3dee98a8b"
                                         )
                                         FirebaseFirestore.getInstance().collection("users")
                                             .document(firebaseAuth.currentUser!!.uid)

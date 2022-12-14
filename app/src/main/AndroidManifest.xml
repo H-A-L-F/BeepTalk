@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeTalk">
         <activity
+            android:name=".pages.UpdatePasswordPage"
+            android:exported="false" />
+        <activity
+            android:name=".pages.VerifyOTPForgotPasswordPage"
+            android:exported="false" />
+        <activity
             android:name=".pages.EditProfilePage"
             android:exported="false" />
         <activity

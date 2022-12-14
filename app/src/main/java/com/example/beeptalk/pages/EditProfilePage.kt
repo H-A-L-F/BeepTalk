@@ -3,10 +3,12 @@ package com.example.beeptalk.pages
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.beeptalk.databinding.ActivityEditProfilePageBinding
+import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 
 class EditProfilePage : AppCompatActivity() {
 
@@ -26,7 +28,19 @@ class EditProfilePage : AppCompatActivity() {
 
         val user = firebaseAuth.currentUser
 
+        firebaseAuth.currentUser?.uid?.let { it ->
+            firebaseFirestore.collection("users").document(it).addSnapshotListener { value, error ->
+                val data = value?.data
+                if (data != null) {
+                    binding.nameET.setText(data["name"] as String)
+                    binding.usernameET.setText("@" + data["username"] as String)
+                    Picasso.get().load(data["profilePicture"] as String)
+                        .into(binding.profilePicture)
+                    binding.bioET.setText(data["bio"] as String)
+                }
+            }
 
+        }
 
         binding.saveBtn.setOnClickListener {
             val name = binding.nameET.text.toString()
@@ -39,14 +53,16 @@ class EditProfilePage : AppCompatActivity() {
             }
         }
 
-//        user?.getIdToken(true)
-//            ?.addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    val idToken = task.result?.token
-//                    val decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken)
+        user?.getIdToken(true)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val idToken = task.result?.token
+//                    val decodedToken = firebaseAuth.verifyPasswordResetCode()
+//                    firebaseAuth.sendPasswordResetEmail("asd", ActionCodeSettings.zzb())
 //                    val currentPasswordHash = decodedToken?.passwordHash
-//
-//                    // Compare the current password hash with the new password
+
+
+                    // Compare the current password hash with the new password
 //                    if (currentPasswordHash == newPasswordHash) {
 //                        // The new password is the same as the old password
 //                    } else {
@@ -60,9 +76,9 @@ class EditProfilePage : AppCompatActivity() {
 //                                }
 //                            }
 //                    }
-//                } else {
-//                    // Error occurred, check task.getException() for details
-//                }
-//            }
+                } else {
+                    // Error occurred, check task.getException() for details
+                }
+            }
     }
 }

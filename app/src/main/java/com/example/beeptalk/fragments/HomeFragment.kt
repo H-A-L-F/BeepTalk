@@ -10,8 +10,9 @@ import com.example.beeptalk.databinding.FragmentHomeBinding
 import com.example.beeptalk.lib.PostVPAdapter
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.models.Post
+import com.google.firebase.auth.ActionCodeSettings
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.*
 
 class HomeFragment : Fragment(), RecyclerViewInterface {
 

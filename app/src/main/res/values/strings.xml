@@ -31,4 +31,11 @@
     <string name="followers">Followers</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="bio">Bio</string>
+    <string name="change_your_old_password">Change your old password?</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="enter_the_otp_code_sent_to">Enter the OTP code sent to</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="update_your_old_password">Update your old password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="update_password">Update Password</string>
 </resources>
