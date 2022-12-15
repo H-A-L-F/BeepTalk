@@ -14,7 +14,7 @@
         android:layout_weight="1">
 
         <VideoView
-            android:id="@+id/videoVv"
+            android:id="@+id/videoV"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/videoDescTv"
-            app:layout_constraintLeft_toLeftOf="@id/videoVv"
+            app:layout_constraintLeft_toLeftOf="@id/videoV"
             android:text="@string/title_of_video"
             android:textSize="18sp"
             android:textFontWeight="900"/>
@@ -37,8 +37,8 @@
             android:id="@+id/videoDescTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/videoVv"
-            app:layout_constraintLeft_toLeftOf="@id/videoVv"
+            app:layout_constraintBottom_toBottomOf="@id/videoV"
+            app:layout_constraintLeft_toLeftOf="@id/videoV"
             android:text="@string/desc_of_video"
             android:textSize="12sp" />
 
