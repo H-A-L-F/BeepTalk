@@ -54,7 +54,10 @@ class MainPage : AppCompatActivity() {
             when(it.itemId) {
                 R.id.nav_home -> replaceFragment(homeFragment)
                 R.id.nav_thread -> replaceFragment(threadFragment)
-                R.id.nav_add -> replaceFragment(addFragment)
+                R.id.nav_add -> {
+                    openGalleryForVideo()
+                    replaceFragment(addFragment)
+                }
                 R.id.nav_notification -> replaceFragment(notificationFragment)
                 R.id.nav_profile -> replaceFragment(profileFragment)
             }
