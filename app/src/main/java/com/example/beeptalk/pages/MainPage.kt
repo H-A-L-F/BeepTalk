@@ -1,5 +1,6 @@
 package com.example.beeptalk.pages
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,6 +23,8 @@ class MainPage : AppCompatActivity() {
     private val addFragment = AddFragment()
     private val notificationFragment = NotificationFragment()
     private val profileFragment = ProfileFragment()
+
+    private val REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +61,33 @@ class MainPage : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun openGalleryForVideo() {
+        val intent = Intent()
+        intent.type = "video/*"
+        intent.action = Intent.ACTION_PICK
+        startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+            if (data?.data != null) {
+                val uriPathHelper = URIPathHelper()
+                val videoFullPath = uriPathHelper.getPath(this, data?.data) // Use this video path according to your logic
+                // if you want to play video just after picking it to check is it working
+                if (videoFullPath != null) {
+                    playVideoInDevicePlayer(videoFullPath);
+                }
+            }
+        }
+    }
+
+    fun playVideoInDevicePlayer(videoPath: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(videoPath))
+        intent.setDataAndType(Uri.parse(videoPath), "video/mp4")
+        startActivity(intent)
     }
 
     private fun replaceFragment(fragment: Fragment) {
