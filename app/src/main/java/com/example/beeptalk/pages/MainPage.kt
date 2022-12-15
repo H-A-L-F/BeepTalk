@@ -2,6 +2,7 @@ package com.example.beeptalk.pages
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityMainPageBinding
 import com.example.beeptalk.fragments.*
+import com.example.beeptalk.helper.URIPathHelper
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -75,7 +77,7 @@ class MainPage : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             if (data?.data != null) {
                 val uriPathHelper = URIPathHelper()
-                val videoFullPath = uriPathHelper.getPath(this, data?.data) // Use this video path according to your logic
+                val videoFullPath = uriPathHelper.getPath(this, data?.data!!) // Use this video path according to your logic
                 // if you want to play video just after picking it to check is it working
                 if (videoFullPath != null) {
                     playVideoInDevicePlayer(videoFullPath);
