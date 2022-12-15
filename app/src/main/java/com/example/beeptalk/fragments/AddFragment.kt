@@ -21,7 +21,7 @@ class AddFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddBinding.inflate(layoutInflater, container, false)
-        
+
         return binding.root
     }
 
