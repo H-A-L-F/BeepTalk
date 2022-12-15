@@ -41,4 +41,10 @@
     <string name="recent_follower">Recent Follower</string>
     <string name="log_out">Log Out</string>
     <string name="change_password">Change Password</string>
+    <string name="follow">Follow</string>
+    <string name="no_recent_followers">No recent followers 😥</string>
+    <string name="comments">Comments</string>
+    <string name="add_a_comment">Add a comment...</string>
+    <string name="send">Send</string>
+    <string name="replying_to">Replying to</string>
 </resources>

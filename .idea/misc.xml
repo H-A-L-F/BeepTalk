@@ -60,25 +60,32 @@
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/drawable/nav_item.xml" value="0.211" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/drawable/notification_icon.xml" value="0.211" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/drawable/person_icon.xml" value="0.121" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/drawable/post_comment_reply_card.xml" value="0.214" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/drawable/profile_icon.xml" value="0.211" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/drawable/thread_icon.xml" value="0.211" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/drawable/wave.xml" value="0.211" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_change_password.xml" value="0.2" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_comment_detail_page.xml" value="0.2" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_edit_profile_page.xml" value="0.2" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_forgot_password_page.xml" value="0.2" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_home_page.xml" value="0.25" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_login_page.xml" value="0.264" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_main.xml" value="0.1933876811594203" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_main_page.xml" value="0.2" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_post_comment_page.xml" value="0.2" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_profile_page.xml" value="0.264" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_recent_followers_page.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_register_page.xml" value="0.264" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_register_username_page.xml" value="0.17239583333333333" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_single_video_page.xml" value="0.13125" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_update_password_page.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_verify_otpforgot_password_page.xml" value="0.2" />
-        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_comment_thread.xml" value="0.13229166666666667" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_comment_thread.xml" value="0.264" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_follow_notification.xml" value="0.13125" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_like_notification.xml" value="0.13125" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_thread.xml" value="0.264" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/component_thread.xml" value="0.25" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/followers_card.xml" value="0.2" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/fragment_add.xml" value="0.1" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/fragment_favorite_videos_tab.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/fragment_home.xml" value="0.176" />
@@ -89,7 +96,10 @@
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/fragment_thread.xml" value="0.2125" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/home_icon.xml" value="0.2125" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/list_posts.xml" value="0.23324275362318841" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/post_comment_card.xml" value="0.264" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/post_comment_reply_card.xml" value="0.22708333333333333" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/profile_toolbar.xml" value="0.23324275362318841" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/section_activity.xml" value="0.13125" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/video_container.xml" value="0.2" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/video_profile_container.xml" value="0.264" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2125" />
