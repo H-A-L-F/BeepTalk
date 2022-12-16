@@ -1,31 +1,35 @@
 package com.example.beeptalk.fragments
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
-import android.widget.Toast
-import android.widget.VideoView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.FragmentAddBinding
+import com.example.beeptalk.models.Video
 import com.example.beeptalk.pages.LoginPage
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 class AddFragment : Fragment() {
 
     private lateinit var binding : FragmentAddBinding
     private lateinit var videoView : VideoView
+    private lateinit var caption : String
 
     // PICK VIDEO
     private val VIDEO_PICK_GALLERY_CODE = 100
@@ -36,6 +40,8 @@ class AddFragment : Fragment() {
     private lateinit var cameraPermissions: Array<String>
     private var videoUri: Uri? = null
 
+//    private lateinit var progressBar: ProgressBar
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +50,28 @@ class AddFragment : Fragment() {
 
         videoView = binding.videoV
 
+        // INIT CAMERA PERMISSION
+        cameraPermissions = arrayOf(android.Manifest.permission.CAMERA,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//        progressBar = ProgressBar(context)
+//        progressBar.
+//        progressBar.setMessage("Uploading video...")
+//        progressBar.setCanceledOnTouchOutside(false)
+
+        binding.apply {
+            postBtn.setOnClickListener {
+                Toast.makeText(context, "Test", Toast.LENGTH_SHORT).show()
+                caption = videoTitleEt.text.toString().trim()
+                if(TextUtils.isEmpty(caption)) Toast.makeText(context, "Please input title", Toast.LENGTH_SHORT).show()
+                else if(videoUri == null) Toast.makeText(context, "Please choose a video    ", Toast.LENGTH_SHORT).show()
+                else uploadVideoToFirebase()
+            }
+
+            chooseBtn.setOnClickListener {
+                videoPickDialog()
+            }
+        }
+
         return binding.root
     }
 
@@ -51,6 +79,38 @@ class AddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+    }
+
+    private fun uploadVideoToFirebase() {
+        Toast.makeText(context, "Start uploading", Toast.LENGTH_SHORT).show()
+//        progressBar.setVisibility(View.VISIBLE);
+
+        val timestamp = "" + System.currentTimeMillis()
+        val filePathAndName = "Videos/video_$timestamp"
+        val storageRef = FirebaseStorage.getInstance().getReference(filePathAndName)
+        storageRef.putFile(videoUri!!)
+            .addOnSuccessListener { taskSnapshot ->
+                val uriTask = taskSnapshot.storage.downloadUrl
+                while (!uriTask.isSuccessful);
+                val downloadUri = uriTask.result
+                if(uriTask.isSuccessful) {
+                    val video = Video(id = "$timestamp", uid = "test", caption, "$timestamp", "$downloadUri")
+
+                    val colRef = FirebaseFirestore.getInstance().collection("videos").add(video)
+                        .addOnSuccessListener {
+//                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(context, "Video uploaded", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener {
+//                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            }
+            .addOnFailureListener {
+//                progressBar.setVisibility(View.GONE);
+                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun setVideoToView() {
