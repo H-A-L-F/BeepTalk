@@ -7,8 +7,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.MediaController
@@ -54,93 +52,33 @@ class MainPage : AppCompatActivity() {
         binding.btmNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> {
-//                    val fragmentManager = supportFragmentManager
-//                    val fragmentTransaction = fragmentManager.beginTransaction()
-//                    fragmentTransaction.remove(addFragment)
-//                    fragmentTransaction.remove(threadFragment)
-//                    fragmentTransaction.remove(notificationFragment)
-//                    fragmentTransaction.remove(profileFragment)
-//                    fragmentTransaction.commit()
                     replaceFragment(homeFragment)
                 }
                 R.id.nav_thread -> {
-//                    val fragmentManager = supportFragmentManager
-//                    val fragmentTransaction = fragmentManager.beginTransaction()
-//                    fragmentTransaction.remove(addFragment)
-//                    fragmentTransaction.remove(threadFragment)
-//                    fragmentTransaction.remove(notificationFragment)
-//                    fragmentTransaction.remove(profileFragment)
-//                    fragmentTransaction.commit()
                     replaceFragment(threadFragment)
                 }
                 R.id.nav_add -> {
-//                    val fragmentManager = supportFragmentManager
-//                    val fragmentTransaction = fragmentManager.beginTransaction()
-//                    fragmentTransaction.remove(addFragment)
-//                    fragmentTransaction.remove(threadFragment)
-//                    fragmentTransaction.remove(notificationFragment)
-//                    fragmentTransaction.remove(profileFragment)
-//                    fragmentTransaction.commit()
                     replaceFragment(addFragment)
                 }
                 R.id.nav_notification -> {
-//                    val fragmentManager = supportFragmentManager
-//                    val fragmentTransaction = fragmentManager.beginTransaction()
-//                    fragmentTransaction.remove(addFragment)
-//                    fragmentTransaction.remove(threadFragment)
-//                    fragmentTransaction.remove(notificationFragment)
-//                    fragmentTransaction.remove(profileFragment)
-//                    fragmentTransaction.commit()
                     replaceFragment(notificationFragment)
                 }
                 R.id.nav_profile -> {
-//                    val fragmentManager = supportFragmentManager
-//                    val fragmentTransaction = fragmentManager.beginTransaction()
-//                    fragmentTransaction.remove(addFragment)
-//                    fragmentTransaction.remove(threadFragment)
-//                    fragmentTransaction.remove(notificationFragment)
-//                    fragmentTransaction.remove(profileFragment)
-//                    fragmentTransaction.commit()
                     replaceFragment(profileFragment)
                 }
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-
-//        val googleSignInClient = GoogleSignIn.getClient(this, gso)
-//        googleSignInClient.signOut().addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                FirebaseAuth.getInstance().signOut() // very important if you are using firebase.
-//                val loginIntent = Intent(applicationContext, LoginPage::class.java)
-//                loginIntent.flags =
-//                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // clear previous task (optional)
-//                startActivity(loginIntent)
-//                finish()
-//            }
-//        }
-
-        // INIT CAMERA PERMISSION
-        cameraPermissions = arrayOf(android.Manifest.permission.CAMERA,
-        android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
-        replaceFragment(homeFragment)
-
-        binding.btmNavigation.setOnItemSelectedListener {
-            when(it.itemId) {
-                R.id.nav_home -> replaceFragment(homeFragment)
-                R.id.nav_thread -> replaceFragment(threadFragment)
-                R.id.nav_add -> {
-//                    openGalleryForVideo()
-//                    replaceFragment(addFragment)
-                    val intent = Intent(this, PostVideoPage::class.java)
-                    startActivity(intent)
-                }
-                R.id.nav_notification -> replaceFragment(notificationFragment)
-                R.id.nav_profile -> replaceFragment(profileFragment)
             }
-
             true
         }
 
-    }
+            // INIT CAMERA PERMISSION
+            cameraPermissions = arrayOf(
+                android.Manifest.permission.CAMERA,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+
+            replaceFragment(homeFragment)
+
+        }
 
 //    private fun setVideoToView() {
 //        val mediaController = MediaController(this)
@@ -267,6 +205,8 @@ class MainPage : AppCompatActivity() {
 //        intent.setDataAndType(Uri.parse(videoPath), "video/mp4")
 //        startActivity(intent)
 //    }
+
+
 
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager

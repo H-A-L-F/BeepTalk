@@ -37,6 +37,8 @@
             android:exported="false" />
         <activity
             android:name=".pages.EditThreadPage"
+            android:exported="false" />
+        <activity
             android:name=".pages.PostVideoPage"
             android:exported="false" />
         <activity
