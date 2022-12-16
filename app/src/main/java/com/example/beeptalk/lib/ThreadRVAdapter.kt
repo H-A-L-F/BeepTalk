@@ -13,11 +13,8 @@ import com.example.beeptalk.models.Notification
 import java.util.*
 import com.example.beeptalk.models.Thread
 import com.example.beeptalk.pages.ThreadDetailPage
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
-import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
 class ThreadRVAdapter(
@@ -46,33 +43,9 @@ class ThreadRVAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val thread : Thread = threads[position]
-
-        val dateFormat = SimpleDateFormat("MMM dd yyyy", Locale.US)
-        val db = FirebaseFirestore.getInstance()
-
-        db.collection("users").document(thread.uid!!).get()
-            .addOnSuccessListener {
-                val data = it.data ?: return@addOnSuccessListener
-                holder.binding.tvUsername.text = data["username"] as String
-                Picasso.get().load(data["profilePicture"] as String)
-                    .into(holder.binding.avUser)
-            }
-
-        db.collection("threads").document(thread.id!!).get()
-            .addOnSuccessListener {
-                val data = it.data
-                val createdDate = (data!!["createdAt"] as Timestamp).toDate()
-                val dateString = dateFormat.format(createdDate)
-                holder.binding.tvCreatedAt.text = dateString
-                holder.binding.tvThreadBody.text = data["body"] as String
-                val up = data["upvote"] as List<*>
-                val down = data["downvote"] as List<*>
-                holder.binding.tvTotalVotes.text = (up.size - down.size).toString()
-            }
-
-//        holder.binding.tvCreatedAt.text = thread.createdAt.toString()
-//        holder.binding.tvThreadBody.text = thread.body
-//        holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
+        holder.binding.tvCreatedAt.text = thread.createdAt.toString()
+        holder.binding.tvThreadBody.text = thread.body
+        holder.binding.tvTotalVotes.text = thread.getTotalVotes().toString()
 
         if(thread.uid == uid) {
             holder.binding.btnEdit.visibility = View.VISIBLE

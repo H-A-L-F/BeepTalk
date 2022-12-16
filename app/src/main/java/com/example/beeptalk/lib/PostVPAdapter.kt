@@ -42,7 +42,6 @@ class PostVPAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post: Post = posts[position]
         val db = FirebaseFirestore.getInstance()
-        val mPrefs = context.getSharedPreferences("current_user", Context.MODE_PRIVATE);
         val userRef = post.userId?.let { db.collection("users").document(it) }
         val postRef = post.id?.let { it1 -> db.collection("posts").document(it1) }
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
@@ -69,7 +68,6 @@ class PostVPAdapter(
         }?.addOnFailureListener {
         }
         holder.binding.captionTV.text = post.caption
-
 
         // set video view
         val uri: Uri = Uri.parse(post.videoUrl)

@@ -39,7 +39,6 @@ class UpdatePasswordPage : AppCompatActivity() {
                         .addOnSuccessListener {
                             for (document in it.documents) {
                                 val curr = document.toObject(User::class.java)
-
                                 if (curr != null) {
                                     if(curr.password != password) {
                                         curr.email?.let { it1 ->
