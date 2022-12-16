@@ -4,12 +4,12 @@ import com.google.firebase.Timestamp
 import java.util.*
 import kotlin.collections.ArrayList
 
-data class PostComment (
+data class PostComment(
     var id: String? = null,
     val postId: String? = null,
     val userId: String? = null,
-    val body : String? = null,
-    var likes : ArrayList<String> = arrayListOf<String>(),
+    val body: String? = null,
+    var likes: ArrayList<String> = arrayListOf<String>(),
     var dislikes: ArrayList<String> = arrayListOf<String>(),
-    val createdAt : Date = Timestamp.now().toDate(),
+    var createdAt: Date = Timestamp.now().toDate(),
 )

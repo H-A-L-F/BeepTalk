@@ -1,6 +1,5 @@
 package com.example.beeptalk.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +10,11 @@ import com.example.beeptalk.databinding.FragmentHomeBinding
 import com.example.beeptalk.lib.PostVPAdapter
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.models.Post
-import com.example.beeptalk.pages.ProfilePage
 import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), RecyclerViewInterface {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var posts: ArrayList<Post>
@@ -61,6 +59,10 @@ class HomeFragment : Fragment() {
                 posts.shuffle();
                 postVPAdapter.notifyDataSetChanged()
             }
+    }
+
+    override fun onItemClick(position: Int) {
+        TODO("Not yet implemented")
     }
 
 }

@@ -13,7 +13,6 @@ import com.example.beeptalk.databinding.FragmentFavoriteVideosTabBinding
 import com.example.beeptalk.lib.PostRVAdapter
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.models.Post
-import com.example.beeptalk.pages.ProfilePage
 import com.example.beeptalk.pages.SingleVideoPage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,7 +29,7 @@ class FavoriteVideosTab(private var userId: String) : Fragment(), RecyclerViewIn
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentFavoriteVideosTabBinding.inflate(layoutInflater, container, false)
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseFirestore = FirebaseFirestore.getInstance()
@@ -72,7 +71,7 @@ class FavoriteVideosTab(private var userId: String) : Fragment(), RecyclerViewIn
     }
 
     private fun goToSingleVideoPage(postId: String) {
-        val intent = Intent(requireContext(), SingleVideoPage::class.java)
+        val intent = Intent(context, SingleVideoPage::class.java)
         intent.putExtra("postId", postId)
         startActivity(intent)
     }

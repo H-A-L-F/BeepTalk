@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.beeptalk.databinding.ActivityRecentFollowersPageBinding
 import com.example.beeptalk.lib.FollowersRVAdapter
 import com.example.beeptalk.lib.RecyclerViewInterface
-import com.example.beeptalk.models.Post
 import com.example.beeptalk.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,7 +28,6 @@ class RecentFollowersPage : AppCompatActivity(), RecyclerViewInterface {
         super.onCreate(savedInstanceState)
         binding = ActivityRecentFollowersPageBinding.inflate(layoutInflater)
         super.setContentView(binding.root)
-
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseStorage = FirebaseStorage.getInstance()
@@ -42,6 +40,7 @@ class RecentFollowersPage : AppCompatActivity(), RecyclerViewInterface {
         binding.recentFollowersRV.setHasFixedSize(true)
 
         getFollowers();
+
 
     }
 
@@ -63,7 +62,7 @@ class RecentFollowersPage : AppCompatActivity(), RecyclerViewInterface {
 
                         followerRVAdapter.notifyDataSetChanged()
 
-                        if(followers.isNotEmpty()) {
+                        if (followers.isNotEmpty()) {
                             binding.noRecentFollowersTV.visibility = View.GONE
                         } else {
                             binding.noRecentFollowersTV.visibility = View.VISIBLE

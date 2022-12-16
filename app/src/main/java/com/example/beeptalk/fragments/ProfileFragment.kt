@@ -15,7 +15,10 @@ import com.example.beeptalk.R
 import com.example.beeptalk.databinding.FragmentProfileBinding
 import com.example.beeptalk.lib.TabVPAdapter
 import com.example.beeptalk.models.Post
-import com.example.beeptalk.pages.*
+import com.example.beeptalk.pages.ChangePasswordPage
+import com.example.beeptalk.pages.EditProfilePage
+import com.example.beeptalk.pages.LoginPage
+import com.example.beeptalk.pages.RecentFollowersPage
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.tabs.TabLayoutMediator
@@ -155,7 +158,11 @@ class ProfileFragment : Fragment() {
                     uploadImage(it.uid, result.data!!.data!!) { imageUrl ->
                         firebaseFirestore.collection("users").document(it.uid)
                             .update("profilePicture", imageUrl).addOnSuccessListener {
-                                Toast.makeText(context, "Profile Picture Updated", Toast.LENGTH_SHORT)
+                                Toast.makeText(
+                                    context,
+                                    "Profile Picture Updated",
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                             }
                     }

@@ -79,7 +79,7 @@
                 android:id="@+id/likeCommentBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_outline_favorite_border_24" />
+                android:src="@drawable/ic_baseline_favorite_border_24" />
 
             <Space
                 android:layout_width="10dp"

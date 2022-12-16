@@ -119,7 +119,8 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                                     firebaseAuth.currentUser!!.uid
                                 )
                             )
-                            firebaseFirestore.collection("users").document(firebaseAuth.currentUser!!.uid).update(
+                            firebaseFirestore.collection("users")
+                                .document(firebaseAuth.currentUser!!.uid).update(
                                 "following", FieldValue.arrayRemove(
                                     userId
                                 )
@@ -131,7 +132,8 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                                     firebaseAuth.currentUser!!.uid
                                 )
                             )
-                            firebaseFirestore.collection("users").document(firebaseAuth.currentUser!!.uid).update(
+                            firebaseFirestore.collection("users")
+                                .document(firebaseAuth.currentUser!!.uid).update(
                                 "following", FieldValue.arrayUnion(
                                     userId
                                 )
@@ -245,9 +247,9 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                     uploadImage(it.uid, result.data!!.data!!) { imageUrl ->
                         firebaseFirestore.collection("users").document(it.uid)
                             .update("profilePicture", imageUrl).addOnSuccessListener {
-                            Toast.makeText(this, "Profile Picture Updated", Toast.LENGTH_SHORT)
-                                .show()
-                        }
+                                Toast.makeText(this, "Profile Picture Updated", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
                     }
                 }
 

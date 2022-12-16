@@ -16,7 +16,6 @@ class FollowersRVAdapter(
     private val followers: ArrayList<String>,
     private val recyclerViewInterface: RecyclerViewInterface,
 ) : RecyclerView.Adapter<FollowersRVAdapter.ViewHolder>() {
-
     class ViewHolder(
         val context: Context,
         val binding: FollowersCardBinding,
@@ -61,44 +60,47 @@ class FollowersRVAdapter(
         }
 
         firebaseAuth.currentUser?.let {
-            firebaseFirestore.collection("users").document(it.uid).addSnapshotListener { it2, error ->
-                val curr = it2?.toObject(User::class.java)
+            firebaseFirestore.collection("users").document(it.uid)
+                .addSnapshotListener { it2, error ->
+                    val curr = it2?.toObject(User::class.java)
 
-                if (curr != null) {
-                    if(curr.following.contains(follower)) {
-                        holder.binding.btn.text = "Following"
-                    } else {
-                        holder.binding.btn.text = "Follow"
+                    if (curr != null) {
+                        if (curr.following.contains(follower)) {
+                            holder.binding.btn.text = "Following"
+                        } else {
+                            holder.binding.btn.text = "Follow"
+                        }
                     }
-                }
 
-            }
+                }
         }
 
 
         holder.binding.btn.setOnClickListener {
-            if(holder.binding.btn.text.toString() == "Following") {
+            if (holder.binding.btn.text.toString() == "Following") {
                 firebaseFirestore.collection("users").document(follower).update(
                     "followers", FieldValue.arrayRemove(
                         firebaseAuth.currentUser!!.uid
                     )
                 )
-                firebaseFirestore.collection("users").document(firebaseAuth.currentUser!!.uid).update(
-                    "following", FieldValue.arrayRemove(
-                        follower
+                firebaseFirestore.collection("users").document(firebaseAuth.currentUser!!.uid)
+                    .update(
+                        "following", FieldValue.arrayRemove(
+                            follower
+                        )
                     )
-                )
-            } else if(holder.binding.btn.text.toString() == "Follow") {
+            } else if (holder.binding.btn.text.toString() == "Follow") {
                 firebaseFirestore.collection("users").document(follower).update(
                     "followers", FieldValue.arrayUnion(
                         firebaseAuth.currentUser!!.uid
                     )
                 )
-                firebaseFirestore.collection("users").document(firebaseAuth.currentUser!!.uid).update(
-                    "following", FieldValue.arrayUnion(
-                        follower
+                firebaseFirestore.collection("users").document(firebaseAuth.currentUser!!.uid)
+                    .update(
+                        "following", FieldValue.arrayUnion(
+                            follower
+                        )
                     )
-                )
             }
         }
 
