@@ -8,6 +8,10 @@ import com.example.beeptalk.models.ThreadComment
 import com.example.beeptalk.models.ThreadCommentReply
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ThreadCommentReplyRVadapter(
     private var comments: ArrayList<ThreadCommentReply>,
@@ -38,11 +42,40 @@ class ThreadCommentReplyRVadapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val comment = comments[position]
-        holder.binding.apply {
-            tvReply.text = comment.replyTo
-            tvTotalVotes.text = comment.getTotalVotes().toString()
-            tvCommentBody.text = comment.body
-        }
+
+        val dateFormat = SimpleDateFormat("MMM dd yyyy", Locale.US)
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("users").document(comment.uid!!).get()
+            .addOnSuccessListener {
+                val data = it.data ?: return@addOnSuccessListener
+                holder.binding.tvUsername.text = data["username"] as String
+                Picasso.get().load(data["profilePicture"] as String)
+                    .into(holder.binding.avUser)
+            }
+
+        db.collection("users").document(comment.replyTo).get()
+            .addOnSuccessListener {
+                val data = it.data ?: return@addOnSuccessListener
+                holder.binding.tvReply.text = "Reply to @" + data["username"] as String
+            }
+
+        db.collection("threads").document(comment.threadId!!)
+            .collection("comments").document(comment.commentId!!)
+            .collection("comments").document(comment.id!!).get()
+            .addOnSuccessListener {
+                val data = it.data ?: return@addOnSuccessListener
+                holder.binding.tvCommentBody.text = data["body"] as String
+                val up = data["upvote"] as List<*>
+                val down = data["downvote"] as List<*>
+                holder.binding.tvTotalVotes.text = (up.size - down.size).toString()
+            }
+
+//        holder.binding.apply {
+//            tvReply.text = comment.replyTo
+//            tvTotalVotes.text = comment.getTotalVotes().toString()
+//            tvCommentBody.text = comment.body
+//        }
 
         holder.binding.btnUpvote.setOnClickListener {
             if(comment.upvote.contains(uid)) return@setOnClickListener
