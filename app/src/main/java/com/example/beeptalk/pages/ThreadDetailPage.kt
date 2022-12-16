@@ -35,17 +35,21 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
         binding = ActivityThreadDetailPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        db = FirebaseFirestore.getInstance()
+        sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
+        uid = sp.getString("uid", "default")!!
+        uname = sp.getString("username", "default")!!
+
         thread = intent.getParcelableExtra("thread")!!
+
+        db.collection("threads").document(thread.id).get()
+            .addOnSuccessListener {
+
+            }
 
         binding.tvCreatedAt.text = thread.createdAt.toString()
         binding.tvThreadBody.text = thread.body
         binding.tvTotalVotes.text = (thread.upvote.size - thread.downvote.size).toString()
-
-        db = FirebaseFirestore.getInstance()
-
-        sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
-        uid = sp.getString("uid", "default")!!
-        uname = sp.getString("username", "default")!!
 
         binding.btnPostComment.setOnClickListener {
             val body = binding.etCommentBody.text.toString()
