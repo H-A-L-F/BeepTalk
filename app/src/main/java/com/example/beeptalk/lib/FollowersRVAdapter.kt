@@ -16,7 +16,6 @@ class FollowersRVAdapter(
     private val followers: ArrayList<String>,
     private val recyclerViewInterface: RecyclerViewInterface,
 ) : RecyclerView.Adapter<FollowersRVAdapter.ViewHolder>() {
-
     class ViewHolder(
         val context: Context,
         val binding: FollowersCardBinding,
