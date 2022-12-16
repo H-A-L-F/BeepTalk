@@ -1,5 +1,6 @@
 package com.example.beeptalk.tab
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import com.example.beeptalk.databinding.FragmentPostedVideosTabBinding
 import com.example.beeptalk.lib.PostRVAdapter
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.models.Post
+import com.example.beeptalk.pages.PostCommentPage
+import com.example.beeptalk.pages.SingleVideoPage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -64,6 +67,12 @@ class PostedVideosTab(private var userId: String) : Fragment(), RecyclerViewInte
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        posts[position].id?.let { goToSingleVideoPage(it) }
+    }
+
+    private fun goToSingleVideoPage(postId: String) {
+        val intent = Intent(context, SingleVideoPage::class.java)
+        intent.putExtra("postId", postId)
+        startActivity(intent)
     }
 }

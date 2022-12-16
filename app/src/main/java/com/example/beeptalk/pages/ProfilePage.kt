@@ -278,8 +278,13 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
     }
 
     override fun onItemClick(position: Int) {
-        // go to video page
+        posts[position].id?.let { goToSingleVideoPage(it) }
+    }
 
+    private fun goToSingleVideoPage(postId: String) {
+        val intent = Intent(this, SingleVideoPage::class.java)
+        intent.putExtra("postId", postId)
+        startActivity(intent)
     }
 
 }

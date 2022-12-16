@@ -15,10 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeTalk">
         <activity
-            android:name=".pages.PostCommentPage"
+            android:name=".pages.SingleVideoPage"
             android:exported="false" />
         <activity
-            android:name=".pages.SingleVideoPage"
+            android:name=".pages.PostCommentPage"
             android:exported="false" />
         <activity
             android:name=".pages.ChangePasswordPage"
@@ -60,13 +60,7 @@
             android:name=".pages.CreateThreadPage"
             android:exported="false" />
         <activity
-            android:name=".pages.RegisterUsernamePage"
-            android:exported="false" />
-        <activity
             android:name=".pages.ThreadPage"
-            android:exported="false" />
-        <activity
-            android:name=".pages.HomePage"
             android:exported="false" />
         <activity
             android:name=".pages.RegisterPage"

@@ -120,7 +120,7 @@ class PostCommentRVAdapter(
                 }
 
             } else {
-                holder.binding.likeCommentBtn.setImageResource(R.drawable.ic_outline_favorite_border_24)
+                holder.binding.likeCommentBtn.setImageResource(R.drawable.ic_baseline_favorite_border_24)
                 postComment.postId?.let { it1 ->
                     postComment.id?.let { it2 ->
                         firebaseFirestore.collection("posts").document(it1).collection("comments")
@@ -156,7 +156,7 @@ class PostCommentRVAdapter(
                                                     "likes",
                                                     FieldValue.arrayRemove(firebaseAuth.currentUser?.uid)
                                                 ).addOnSuccessListener {
-                                                    holder.binding.likeCommentBtn.setImageResource(R.drawable.ic_outline_favorite_border_24)
+                                                    holder.binding.likeCommentBtn.setImageResource(R.drawable.ic_baseline_favorite_border_24)
                                                 }
                                         }
                                     }
