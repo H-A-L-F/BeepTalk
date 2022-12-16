@@ -33,7 +33,8 @@
             android:textSize="18sp"
             android:textFontWeight="900"
             android:inputType="text"
-            android:importantForAutofill="no" />
+            android:importantForAutofill="no"
+            android:textColor="@color/secondaryTextColor"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
