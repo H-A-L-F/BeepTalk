@@ -24,6 +24,7 @@
             android:gravity="center">
 
             <io.getstream.avatarview.AvatarView
+                android:id="@+id/avUser"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/cat_user"
@@ -111,6 +112,7 @@
             android:gravity="center_vertical">
 
             <io.getstream.avatarview.AvatarView
+                android:id="@+id/avCurrUser"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/cat_user"

@@ -17,6 +17,7 @@ import com.example.beeptalk.models.ThreadCommentReply
 import com.example.beeptalk.parcel.ThreadCommentID
 import com.example.beeptalk.parcel.ThreadID
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 import kotlin.concurrent.thread
 
 class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
@@ -53,6 +54,37 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
         sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
         uid = sp.getString("uid", "default")!!
         uname = sp.getString("username", "default")!!
+
+        db.collection("users").document(uid).get()
+            .addOnSuccessListener {
+                val data = it.data ?: return@addOnSuccessListener
+                Picasso.get().load(data["profilePicture"] as String)
+                    .into(binding.avCurrUser)
+            }
+
+        db.collection("users").document(currComm.uid!!).get()
+            .addOnSuccessListener {
+                val data = it.data ?: return@addOnSuccessListener
+                binding.unameTv.text = data["username"] as String
+                Picasso.get().load(data["profilePicture"] as String)
+                    .into(binding.avUser)
+            }
+
+        db.collection("users").document(currComm.replyTo).get()
+            .addOnSuccessListener {
+                val data = it.data ?: return@addOnSuccessListener
+                binding.replyToTv.text = "Reply to @" + data["username"] as String
+            }
+
+        db.collection("threads").document(currComm.threadId!!)
+            .collection("comments").document(currComm.id!!).get()
+            .addOnSuccessListener {
+                val data = it.data ?: return@addOnSuccessListener
+                binding.commentBodyTv.text = data["body"] as String
+                val up = data["upvote"] as List<*>
+                val down = data["downvote"] as List<*>
+                binding.totalVotesTv.text = (up.size - down.size).toString()
+            }
 
         binding.btnPostComment.setOnClickListener {
             val body = binding.commentBodyEt.text.toString()
