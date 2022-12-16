@@ -12,12 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeTalk">
         <activity
-            android:name=".pages.PostCommentPage"
-            android:exported="false" />
-        <activity
-            android:name=".pages.SingleVideoPage"
-            android:exported="false" />
-        <activity
             android:name=".pages.ChangePasswordActivity"
             android:exported="false" />
         <activity

@@ -1,51 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".pages.RecentFollowersPage">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-
-        >
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <TextView
-                android:id="@+id/nameTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/recent_follower"
-                android:textSize="20sp"
-                android:textColor="@color/primaryColor"
-                />
-
-        </androidx.appcompat.widget.Toolbar>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recentFollowersRV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            />
-
-    </LinearLayout>
-
-
-    <TextView
-        android:gravity="center"
-        android:id="@+id/noRecentFollowersTV"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/no_recent_followers"
-        >
-
-    </TextView>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
