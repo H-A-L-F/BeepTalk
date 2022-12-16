@@ -91,7 +91,7 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
             val threadId = currThread.id
             val commId = currComm.id
 
-            val threadCommentReply = ThreadCommentReply(threadId = threadId, commentId = commId, body = body, uid = uid)
+            val threadCommentReply = ThreadCommentReply(threadId = threadId, commentId = commId, body = body, uid = uid, replyTo = currComm.uid)
 
             db.collection("threads").document(threadId)
                 .collection("comments").document(commId)

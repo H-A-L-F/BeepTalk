@@ -80,7 +80,7 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
             val body = binding.etCommentBody.text.toString()
             val threadId = thread.id
 
-            val threadComment = ThreadComment(threadId = threadId, body = body, uid = uid)
+            val threadComment = ThreadComment(threadId = threadId, body = body, uid = uid, replyTo = thread.uid)
 
             db.collection("threads").document(thread.id)
                 .collection("comments")
