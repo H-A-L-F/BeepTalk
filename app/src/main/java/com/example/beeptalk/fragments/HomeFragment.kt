@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
                 if (position == postVPAdapter.itemCount - 1) {
                     posts.reverse();
                     postVPAdapter.notifyDataSetChanged()
-                    binding.homeViewPager.setCurrentItem(0, false)
+                    binding.homeViewPager.setCurrentItem(0, true)
                 }
             }
         })

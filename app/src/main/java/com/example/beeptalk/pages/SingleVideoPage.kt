@@ -89,7 +89,18 @@ class SingleVideoPage : AppCompatActivity() {
 
                         // show like and comment count
                         binding.likeCount.text = post.likes.size.toString()
-                        binding.commentCount.text = post.comments.size.toString()
+                        post.id?.let {
+                            firebaseFirestore.collection("posts").document(it)
+                                .collection("comments")
+                                .addSnapshotListener { snapshot, _ ->
+                                    if (snapshot != null) {
+                                        binding.commentCount.text =
+                                            snapshot.size().toString()
+                                    } else {
+                                        binding.commentCount.text = "0"
+                                    }
+                                }
+                        }
                         binding.favoriteCount.text = post.favorites.size.toString()
 
                         // like listener
@@ -115,8 +126,8 @@ class SingleVideoPage : AppCompatActivity() {
                         }
 
                         //comment listener
-                        binding.commentCount.setOnClickListener {
-
+                        binding.comment.setOnClickListener {
+                            goToPostCommentPage(post.id!!)
                         }
 
                         // favorite listener
@@ -154,6 +165,13 @@ class SingleVideoPage : AppCompatActivity() {
     private fun goToProfilePage(userId: String) {
         val intent = Intent(this, ProfilePage::class.java)
         intent.putExtra("userId", userId)
+        startActivity(intent)
+    }
+
+
+    private fun goToPostCommentPage(postId: String) {
+        val intent = Intent(this, PostCommentPage::class.java)
+        intent.putExtra("postId", postId)
         startActivity(intent)
     }
 }

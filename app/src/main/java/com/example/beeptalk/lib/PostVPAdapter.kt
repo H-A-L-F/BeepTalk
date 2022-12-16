@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.VideoContainerBinding
 import com.example.beeptalk.models.Post
+import com.example.beeptalk.pages.PostCommentPage
 import com.example.beeptalk.pages.ProfilePage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -92,7 +93,16 @@ class PostVPAdapter(
 
         // show like and comment count
         holder.binding.likeCount.text = post.likes.size.toString()
-        holder.binding.commentCount.text = post.comments.size.toString()
+        post.id?.let {
+            db.collection("posts").document(it).collection("comments")
+                .addSnapshotListener { snapshot, _ ->
+                    if (snapshot != null) {
+                        holder.binding.commentCount.text = snapshot.size().toString()
+                    } else {
+                        holder.binding.commentCount.text = "0"
+                    }
+                }
+        }
         holder.binding.favoriteCount.text = post.favorites.size.toString()
 
         // like listener
@@ -118,8 +128,8 @@ class PostVPAdapter(
         }
 
         //comment listener
-        holder.binding.commentCount.setOnClickListener {
-
+        holder.binding.comment.setOnClickListener {
+            post.id?.let { it1 -> goToPostCommentPage(it1) }
         }
 
         // favorite listener
@@ -158,6 +168,12 @@ class PostVPAdapter(
     private fun goToProfilePage(userId: String) {
         val intent = Intent(context, ProfilePage::class.java)
         intent.putExtra("userId", userId)
+        context.startActivity(intent)
+    }
+
+    private fun goToPostCommentPage(postId: String) {
+        val intent = Intent(context, PostCommentPage::class.java)
+        intent.putExtra("postId", postId)
         context.startActivity(intent)
     }
 

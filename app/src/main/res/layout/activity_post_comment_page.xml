@@ -30,7 +30,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recentFollowersRV"
+            android:id="@+id/commentsRV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -42,32 +42,79 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/linearLayout"
+        android:background="@color/white"
         android:orientation="vertical"
         android:padding="10dp"
-        >
+        app:layout_constraintBottom_toBottomOf="@id/linearLayout">
 
-        <LinearLayout
-            android:id="@+id/linearLayoutReplyingTo"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/replyingToLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/replying_to"
-                />
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/linearLayout">
 
-            <TextView
-                android:id="@+id/usernameReplyToTV"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/replying_to" />
+
+                <TextView
+                    android:id="@+id/usernameReplyToTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/cancelReplyBtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_close"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/linearLayout3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/commentAsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/linearLayout">
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Comment as" />
+
+                <TextView
+                    android:id="@+id/currentUserUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="5dp" />
+            android:layout_height="10dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -82,6 +129,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
+                    android:id="@+id/profilePicture"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/cat_user" />
@@ -90,18 +138,18 @@
                     android:layout_width="10dp"
                     android:layout_height="match_parent" />
 
-G                <EditText
+                <EditText
+                    android:id="@+id/commentET"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="null"
-                    android:gravity="center"
+                    android:background="@color/white"
                     android:hint="@string/add_a_comment" />
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/btn"
+                android:id="@+id/commentBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -99,7 +99,7 @@
                 android:id="@+id/reply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reply" />
+                android:text="@string/reply" />
 
         </LinearLayout>
 
@@ -111,11 +111,15 @@
             android:id="@+id/viewAllRepliesBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View all replies" />
+            android:text="@string/view_all_replies" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
 
         <androidx.recyclerview.widget.RecyclerView
 
-            android:id="@+id/commentsRV"
+            android:id="@+id/repliesRV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
