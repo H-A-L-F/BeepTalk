@@ -1,6 +1,7 @@
 package com.example.beeptalk.lib
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.example.beeptalk.databinding.VideoProfileContainerBinding
 import com.example.beeptalk.models.Post
+import com.example.beeptalk.pages.PostCommentPage
 
 
 class PostRVAdapter(

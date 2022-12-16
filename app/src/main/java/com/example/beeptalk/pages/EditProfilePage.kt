@@ -20,6 +20,9 @@ class EditProfilePage : AppCompatActivity() {
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var firebaseStorage: FirebaseStorage
 
+    private var currentUserName = "";
+    private var btnDisabled: Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditProfilePageBinding.inflate(layoutInflater)
@@ -40,6 +43,10 @@ class EditProfilePage : AppCompatActivity() {
                     Picasso.get().load(data["profilePicture"] as String)
                         .into(binding.profilePicture)
                     binding.bioET.setText(data["bio"] as String)
+
+                    currentUserName = data["username"] as String
+
+                    btnDisabled = false
                 }
             }
         }
@@ -49,38 +56,43 @@ class EditProfilePage : AppCompatActivity() {
         }
 
         binding.saveBtn.setOnClickListener {
-            val name = binding.nameET.text.toString()
-            val username = binding.usernameET.text.toString()
-            val bio = binding.bioET.text.toString()
+            if (!btnDisabled) {
+                val name = binding.nameET.text.toString()
+                val username = binding.usernameET.text.toString()
+                val bio = binding.bioET.text.toString()
 
-            val updates = HashMap<String, Any>()
-            updates["name"] = name
-            updates["username"] = username
-            updates["bio"] = bio
+                val updates = HashMap<String, Any>()
+                updates["name"] = name
+                updates["username"] = username
+                updates["bio"] = bio
 
-            if (name.isNotEmpty() && username.isNotEmpty() && bio.isNotEmpty()) {
-                firebaseFirestore.collection("users")
-                    .whereEqualTo("username", username).get().addOnSuccessListener { res ->
-                        if (res.isEmpty) {
-                            user?.uid?.let { it1 ->
-                                firebaseFirestore.collection("users").document(
-                                    it1
-                                ).update(updates).addOnSuccessListener {
-                                    Toast.makeText(
-                                        this,
-                                        "Profile updated!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                if (name.isNotEmpty() && username.isNotEmpty() && bio.isNotEmpty()) {
+                    firebaseFirestore.collection("users")
+                        .whereEqualTo("username", username).get().addOnSuccessListener { res ->
+                            if (res.isEmpty || username == currentUserName) {
+                                user?.uid?.let { it1 ->
+                                    firebaseFirestore.collection("users").document(
+                                        it1
+                                    ).update(updates).addOnSuccessListener {
+                                        Toast.makeText(
+                                            this,
+                                            "Profile updated!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 }
+                            } else {
+                                Toast.makeText(this, "Username taken!", Toast.LENGTH_SHORT).show()
                             }
-                        } else {
-                            Toast.makeText(this, "Username taken!", Toast.LENGTH_SHORT).show()
+
                         }
 
-                    }
-            } else {
-                Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
+                }
             }
+
         }
 
 

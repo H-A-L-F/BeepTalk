@@ -59,7 +59,7 @@
         >
 
         <TextView
-            android:id="@+id/commentBodyTV"
+            android:id="@+id/replyBodyTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/lorem" />
@@ -76,7 +76,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/btnUpvote"
+                android:id="@+id/likeReplyBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_outline_favorite_border_24" />
@@ -86,7 +86,7 @@
                 android:layout_height="match_parent" />
 
             <ImageView
-                android:id="@+id/dislikeCommentBtn"
+                android:id="@+id/dislikeReplyBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_outline_thumb_down_24" />

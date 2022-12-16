@@ -7,7 +7,7 @@ import com.example.beeptalk.databinding.ActivityChangePasswordBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class ChangePasswordActivity : AppCompatActivity() {
+class ChangePasswordPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityChangePasswordBinding
     private lateinit var firebaseAuth: FirebaseAuth
@@ -40,16 +40,27 @@ class ChangePasswordActivity : AppCompatActivity() {
                                                     "Password updated successfully!",
                                                     Toast.LENGTH_SHORT
                                                 ).show()
-                                            }
-                                        firebaseAuth.currentUser?.uid?.let { it2 ->
-                                            firebaseFirestore.collection("users").document(
-                                                it2
-                                            ).update("password", password)
-                                                .addOnSuccessListener {
-                                                }
 
-                                        }
-                                        finish()
+                                                firebaseAuth.currentUser?.uid?.let { it2 ->
+                                                    firebaseFirestore.collection("users").document(
+                                                        it2
+                                                    ).update("password", password)
+                                                        .addOnSuccessListener {
+                                                        }
+
+                                                }
+                                                finish()
+                                            }?.addOnFailureListener {
+                                                Toast.makeText(
+                                                    this,
+                                                    it.message,
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+
+
+
+
                                     } else {
                                         Toast.makeText(this, "Password cannot be the same as the last password!", Toast.LENGTH_SHORT).show()
                                     }

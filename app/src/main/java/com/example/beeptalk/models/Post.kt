@@ -10,7 +10,6 @@ data class Post(
     val userId: String? = null,
     val caption: String? = null,
     val likes: ArrayList<String> = arrayListOf(),
-    val comments: ArrayList<String> = arrayListOf(),
     val favorites: ArrayList<String> = arrayListOf(),
     val createdAt : Date = Timestamp.now().toDate(),
 ) {

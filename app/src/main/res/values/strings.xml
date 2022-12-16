@@ -44,7 +44,9 @@
     <string name="follow">Follow</string>
     <string name="no_recent_followers">No recent followers 😥</string>
     <string name="comments">Comments</string>
-    <string name="add_a_comment">Add a comment...</string>
+    <string name="add_a_comment">Add a comment…</string>
     <string name="send">Send</string>
-    <string name="replying_to">Replying to</string>
+    <string name="replying_to">Replying to </string>
+    <string name="view_all_replies">View all replies</string>
+    <string name="reply">Reply</string>
 </resources>

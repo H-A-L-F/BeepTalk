@@ -280,7 +280,7 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
     }
 
     private fun goToChangePassword() {
-        val intent = Intent(this, ChangePasswordActivity::class.java)
+        val intent = Intent(this, ChangePasswordPage::class.java)
         startActivity(intent)
     }
 
