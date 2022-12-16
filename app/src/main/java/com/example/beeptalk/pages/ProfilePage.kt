@@ -119,11 +119,7 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                                     firebaseAuth.currentUser!!.uid
                                 )
                             )
-                            firebaseFirestore.collection("users").document(firebaseAuth.currentUser!!.uid).update(
-                                "following", FieldValue.arrayRemove(
-                                    userId
-                                )
-                            )
+                            followers.remove(firebaseAuth.currentUser!!.uid)
                         } else {
                             binding.button.text = "Following"
                             firebaseFirestore.collection("users").document(userId).update(
@@ -131,11 +127,8 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                                     firebaseAuth.currentUser!!.uid
                                 )
                             )
-                            firebaseFirestore.collection("users").document(firebaseAuth.currentUser!!.uid).update(
-                                "following", FieldValue.arrayUnion(
-                                    userId
-                                )
-                            )
+                            followers.add(firebaseAuth.currentUser!!.uid)
+
                         }
                     }
                 }
@@ -285,13 +278,8 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
     }
 
     override fun onItemClick(position: Int) {
-        posts[position].id?.let { goToSingleVideoPage(it) }
-    }
+        // go to video page
 
-    private fun goToSingleVideoPage(postId: String) {
-        val intent = Intent(this, SingleVideoPage::class.java)
-        intent.putExtra("postId", postId)
-        startActivity(intent)
     }
 
 }
