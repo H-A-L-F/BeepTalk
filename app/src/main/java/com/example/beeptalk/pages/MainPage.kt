@@ -74,7 +74,9 @@ class MainPage : AppCompatActivity() {
                 R.id.nav_thread -> replaceFragment(threadFragment)
                 R.id.nav_add -> {
 //                    openGalleryForVideo()
-                    replaceFragment(addFragment)
+//                    replaceFragment(addFragment)
+                    val intent = Intent(this, PostVideoPage::class.java)
+                    startActivity(intent)
                 }
                 R.id.nav_notification -> replaceFragment(notificationFragment)
                 R.id.nav_profile -> replaceFragment(profileFragment)
