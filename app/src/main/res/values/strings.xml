@@ -16,6 +16,7 @@
 
 
     <string name="post_btn">Post</string>
+    <string name="choose_btn">Choose</string>
     <string name="title_of_video">Title Video</string>
     <string name="desc_of_video">Description... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt, diam sit amet convallis finibus, augue </string>
 

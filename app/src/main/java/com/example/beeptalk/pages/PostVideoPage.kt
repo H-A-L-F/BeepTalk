@@ -1,33 +1,28 @@
-package com.example.beeptalk.fragments
+package com.example.beeptalk.pages
 
-import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.MediaController
+import android.widget.Toast
+import android.widget.VideoView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.beeptalk.R
-import com.example.beeptalk.databinding.FragmentAddBinding
+import com.example.beeptalk.databinding.ActivityPostVideoPageBinding
 import com.example.beeptalk.models.Video
-import com.example.beeptalk.pages.LoginPage
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
-class AddFragment : Fragment() {
+class PostVideoPage : AppCompatActivity() {
 
-    private lateinit var binding : FragmentAddBinding
+    private lateinit var binding : ActivityPostVideoPageBinding
+    private lateinit var db : FirebaseFirestore
+
     private lateinit var videoView : VideoView
     private lateinit var caption : String
 
@@ -40,49 +35,33 @@ class AddFragment : Fragment() {
     private lateinit var cameraPermissions: Array<String>
     private var videoUri: Uri? = null
 
-//    private lateinit var progressBar: ProgressBar
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityPostVideoPageBinding.inflate(layoutInflater)
+        super.setContentView(binding.root)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentAddBinding.inflate(layoutInflater, container, false)
-
+        db = FirebaseFirestore.getInstance()
         videoView = binding.videoV
 
         // INIT CAMERA PERMISSION
         cameraPermissions = arrayOf(android.Manifest.permission.CAMERA,
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//        progressBar = ProgressBar(context)
-//        progressBar.
-//        progressBar.setMessage("Uploading video...")
-//        progressBar.setCanceledOnTouchOutside(false)
 
-        binding.apply {
-            postBtn.setOnClickListener {
-                Toast.makeText(context, "Test", Toast.LENGTH_SHORT).show()
-                caption = videoTitleEt.text.toString().trim()
-                if(TextUtils.isEmpty(caption)) Toast.makeText(context, "Please input title", Toast.LENGTH_SHORT).show()
-                else if(videoUri == null) Toast.makeText(context, "Please choose a video    ", Toast.LENGTH_SHORT).show()
-                else uploadVideoToFirebase()
-            }
-
-            chooseBtn.setOnClickListener {
-                videoPickDialog()
-            }
+        binding.postBtn.setOnClickListener {
+            Toast.makeText(this, "test", Toast.LENGTH_SHORT).show()
+            caption = binding.videoTitleEt.text.toString().trim()
+            if(TextUtils.isEmpty(caption)) Toast.makeText(this, "Please input title", Toast.LENGTH_SHORT).show()
+            else if(videoUri == null) Toast.makeText(this, "Please choose a video    ", Toast.LENGTH_SHORT).show()
+            else uploadVideoToFirebase()
         }
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
+        binding.chooseBtn.setOnClickListener {
+            videoPickDialog()
+        }
     }
 
     private fun uploadVideoToFirebase() {
-        Toast.makeText(context, "Start uploading", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Start uploading", Toast.LENGTH_SHORT).show()
 //        progressBar.setVisibility(View.VISIBLE);
 
         val timestamp = "" + System.currentTimeMillis()
@@ -99,22 +78,22 @@ class AddFragment : Fragment() {
                     val colRef = FirebaseFirestore.getInstance().collection("videos").add(video)
                         .addOnSuccessListener {
 //                            progressBar.setVisibility(View.GONE);
-                            Toast.makeText(context, "Video uploaded", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Video uploaded", Toast.LENGTH_SHORT).show()
                         }
                         .addOnFailureListener {
 //                            progressBar.setVisibility(View.GONE);
-                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                 }
             }
             .addOnFailureListener {
 //                progressBar.setVisibility(View.GONE);
-                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun setVideoToView() {
-        val mediaController = MediaController(context)
+        val mediaController = MediaController(this)
         mediaController.setAnchorView(videoView)
         videoView.setMediaController(mediaController)
         videoView.setVideoURI(videoUri)
@@ -127,7 +106,7 @@ class AddFragment : Fragment() {
     private fun videoPickDialog() {
         val options = arrayOf("Camera", "Gallery")
 
-        val builder = AlertDialog.Builder(context)
+        val builder = android.app.AlertDialog.Builder(this)
         builder.setTitle("Pick video from")
             .setItems(options) {dialogInterface, i ->
                 if(i == 0) {
@@ -142,7 +121,7 @@ class AddFragment : Fragment() {
 
     private fun requestCameraPermissions() {
         ActivityCompat.requestPermissions(
-            requireActivity(),
+            this,
             cameraPermissions,
             CAMERA_REQUEST_CODE
         )
@@ -150,12 +129,12 @@ class AddFragment : Fragment() {
 
     private fun checkCameraPermissions(): Boolean {
         val result1 = ContextCompat.checkSelfPermission(
-            requireContext(),
+            this,
             android.Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
 
         val result2 = ContextCompat.checkSelfPermission(
-            requireContext(),
+            this,
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
 
@@ -190,7 +169,7 @@ class AddFragment : Fragment() {
                     val storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED
                     if(cameraAccepted && storageAccepted) videoPickCamera()
                 } else {
-                    Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -207,9 +186,8 @@ class AddFragment : Fragment() {
                 setVideoToView()
             }
         } else {
-            Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
-
 }
