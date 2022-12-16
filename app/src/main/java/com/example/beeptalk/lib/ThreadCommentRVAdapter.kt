@@ -56,7 +56,8 @@ class ThreadCommentRVAdapter(
                 holder.binding.tvReply.text = "Reply to @" + data["username"] as String
             }
 
-        db.collection("threads").document(comment.id!!).get()
+        db.collection("threads").document(comment.threadId!!)
+            .collection("comments").document(comment.id!!).get()
             .addOnSuccessListener {
                 val data = it.data ?: return@addOnSuccessListener
                 holder.binding.tvCommentBody.text = data["body"] as String

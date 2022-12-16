@@ -16,7 +16,12 @@ import com.example.beeptalk.models.Thread
 import com.example.beeptalk.models.ThreadComment
 import com.example.beeptalk.parcel.ThreadCommentID
 import com.example.beeptalk.parcel.ThreadID
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
@@ -42,14 +47,34 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
         thread = intent.getParcelableExtra("thread")!!
 
-        db.collection("threads").document(thread.id).get()
+        db.collection("users").document(uid).get()
             .addOnSuccessListener {
-
+                val data = it.data ?: return@addOnSuccessListener
+                Picasso.get().load(data["profilePicture"] as String)
+                    .into(binding.avCurrUser)
             }
 
-        binding.tvCreatedAt.text = thread.createdAt.toString()
-        binding.tvThreadBody.text = thread.body
-        binding.tvTotalVotes.text = (thread.upvote.size - thread.downvote.size).toString()
+        db.collection("users").document(thread.uid!!).get()
+            .addOnSuccessListener {
+                val data = it.data ?: return@addOnSuccessListener
+                binding.tvUsername.text = data["username"] as String
+                Picasso.get().load(data["profilePicture"] as String)
+                    .into(binding.avUser)
+            }
+
+        val dateFormat = SimpleDateFormat("MMM dd yyyy", Locale.US)
+
+        db.collection("threads").document(thread.id).get()
+            .addOnSuccessListener {
+                val data = it.data
+                val createdDate = (data!!["createdAt"] as Timestamp).toDate()
+                val dateString = dateFormat.format(createdDate)
+                binding.tvCreatedAt.text = dateString
+                binding.tvThreadBody.text = data["body"] as String
+                val up = data["upvote"] as List<*>
+                val down = data["downvote"] as List<*>
+                binding.tvTotalVotes.text = (up.size - down.size).toString()
+            }
 
         binding.btnPostComment.setOnClickListener {
             val body = binding.etCommentBody.text.toString()
