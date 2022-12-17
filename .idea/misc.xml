@@ -74,6 +74,7 @@
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_main.xml" value="0.1933876811594203" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_main_page.xml" value="0.2" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_post_comment_page.xml" value="0.24739583333333334" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_post_video_page.xml" value="0.536" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_profile_page.xml" value="0.264" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_recent_followers_page.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_register_page.xml" value="0.264" />
@@ -89,7 +90,12 @@
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_like_notification.xml" value="0.13125" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_thread.xml" value="0.264" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/component_thread.xml" value="0.25" />
+<<<<<<< Updated upstream
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/fragment_add.xml" value="0.1" />
+=======
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/followers_card.xml" value="0.2" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/fragment_add.xml" value="0.264" />
+>>>>>>> Stashed changes
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/fragment_favorite_videos_tab.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/fragment_home.xml" value="0.176" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/fragment_liked_videos_tab.xml" value="0.23324275362318841" />

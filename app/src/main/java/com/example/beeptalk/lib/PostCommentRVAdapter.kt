@@ -57,7 +57,7 @@ class PostCommentRVAdapter(
                     val user = value.toObject(User::class.java)
 
                     if (user != null) {
-                        holder.binding.usernameTV.text = "@" + user.username
+                        holder.binding.usernameTV.text = user.username
                         Picasso.get()
                             .load(user.profilePicture)
                             .into(holder.binding.profilePicture);
