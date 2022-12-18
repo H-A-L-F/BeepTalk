@@ -51,6 +51,7 @@ class HomeFragment : Fragment(), RecyclerViewInterface {
     private fun getPosts() {
         db.collection("posts")
             .get().addOnSuccessListener {
+                posts.clear();
                 for (document in it.documents) {
                     val curr = document.toObject(Post::class.java)
                     curr?.id = document.id.toString()

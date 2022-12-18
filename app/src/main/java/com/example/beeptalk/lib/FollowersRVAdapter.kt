@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.FollowersCardBinding
 import com.example.beeptalk.models.User
 import com.google.firebase.auth.FirebaseAuth
@@ -66,9 +67,9 @@ class FollowersRVAdapter(
 
                     if (curr != null) {
                         if (curr.following.contains(follower)) {
-                            holder.binding.btn.text = "Following"
+                            holder.binding.btn.setText(R.string.following)
                         } else {
-                            holder.binding.btn.text = "Follow"
+                            holder.binding.btn.setText(R.string.followers_follow)
                         }
                     }
 

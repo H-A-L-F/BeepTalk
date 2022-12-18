@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.beeptalk.databinding.ActivityThreadDetailPageBinding
+import com.example.beeptalk.helper.getRelativeString
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.ThreadCommentRVAdapter
 import com.example.beeptalk.lib.ThreadRVAdapter
@@ -62,25 +63,22 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
                     .into(binding.avUser)
             }
 
-        val dateFormat = SimpleDateFormat("MMM dd yyyy", Locale.US)
-
         db.collection("threads").document(thread.id).get()
             .addOnSuccessListener {
                 val data = it.data
                 val createdDate = (data!!["createdAt"] as Timestamp).toDate()
-                val dateString = dateFormat.format(createdDate)
+                val dateString = getRelativeString(createdDate)
                 binding.tvCreatedAt.text = dateString
                 binding.tvThreadBody.text = data["body"] as String
                 val up = data["upvote"] as List<*>
                 val down = data["downvote"] as List<*>
-                binding.tvTotalVotes.text = (up.size - down.size).toString()
             }
 
         binding.btnPostComment.setOnClickListener {
             val body = binding.etCommentBody.text.toString()
             val threadId = thread.id
 
-            val threadComment = ThreadComment(threadId = threadId, body = body, uid = uid)
+            val threadComment = ThreadComment(threadId = threadId, body = body, uid = uid, replyTo = thread.uid)
 
             db.collection("threads").document(thread.id)
                 .collection("comments")

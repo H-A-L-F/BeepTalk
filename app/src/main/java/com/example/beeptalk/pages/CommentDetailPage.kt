@@ -16,6 +16,7 @@ import com.example.beeptalk.models.ThreadComment
 import com.example.beeptalk.models.ThreadCommentReply
 import com.example.beeptalk.parcel.ThreadCommentID
 import com.example.beeptalk.parcel.ThreadID
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlin.concurrent.thread
@@ -44,9 +45,7 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
         currComm = intent.getParcelableExtra("comment")!!
 
        binding.apply {
-            replyToTv.text = currComm.replyTo
             commentBodyTv.text = currComm.body
-            totalVotesTv.text = (currComm.upvote.size - currComm.downvote.size).toString()
        }
 
         db = FirebaseFirestore.getInstance()
@@ -70,12 +69,6 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
                     .into(binding.avUser)
             }
 
-        db.collection("users").document(currComm.replyTo).get()
-            .addOnSuccessListener {
-                val data = it.data ?: return@addOnSuccessListener
-                binding.replyToTv.text = "Reply to @" + data["username"] as String
-            }
-
         db.collection("threads").document(currComm.threadId!!)
             .collection("comments").document(currComm.id!!).get()
             .addOnSuccessListener {
@@ -83,7 +76,6 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
                 binding.commentBodyTv.text = data["body"] as String
                 val up = data["upvote"] as List<*>
                 val down = data["downvote"] as List<*>
-                binding.totalVotesTv.text = (up.size - down.size).toString()
             }
 
         binding.btnPostComment.setOnClickListener {
@@ -91,7 +83,7 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
             val threadId = currThread.id
             val commId = currComm.id
 
-            val threadCommentReply = ThreadCommentReply(threadId = threadId, commentId = commId, body = body, uid = uid)
+            val threadCommentReply = ThreadCommentReply(threadId = threadId, commentId = commId, body = body, uid = uid, replyTo = currComm.uid)
 
             db.collection("threads").document(threadId)
                 .collection("comments").document(commId)
@@ -104,10 +96,12 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
                     Toast.makeText(this, "Comment failed", Toast.LENGTH_SHORT).show()
                 }
 
-            val notification = Notification(uid, uname, "Replied to your comment: $body")
+            val notification = Notification(currComm.uid,
+                FirebaseAuth.getInstance().currentUser?.uid, "replyComment-$body")
 
-            db.collection("notifications").document(uid!!)
-                .collection("activities").add(notification)
+            db.collection("users").document(currComm.uid).collection("notifications")
+                .add(notification)
+
         }
 
         binding.rvThreadCommentReply.layoutManager = LinearLayoutManager(this)

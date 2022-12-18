@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="Edit"
+            android:text="@string/edit"
             android:textAllCaps="false" />
 
         <Space
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="Delete"
+            android:text="@string/delete"
             android:textAllCaps="false" />
 
     </LinearLayout>
@@ -73,7 +73,7 @@
             android:id="@+id/etThreadBody"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="What's happening?"
+            android:hint="@string/what_s_happening"
             android:textAlignment="textStart"
             android:gravity="start" />
 

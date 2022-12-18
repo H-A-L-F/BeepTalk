@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.VideoContainerBinding
+import com.example.beeptalk.models.Notification
 import com.example.beeptalk.models.Post
 import com.example.beeptalk.pages.PostCommentPage
 import com.example.beeptalk.pages.ProfilePage
@@ -124,6 +125,12 @@ class PostVPAdapter(
                     }
                 if (currentUserId != null) {
                     post.likes.add(currentUserId)
+                }
+
+                val notification = Notification(post.userId, currentUserId, "likeVideo")
+                post.userId?.let { it1 ->
+                    db.collection("users").document(it1).collection("notifications")
+                        .add(notification)
                 }
             }
             holder.binding.likeCount.text = post.likes.size.toString()

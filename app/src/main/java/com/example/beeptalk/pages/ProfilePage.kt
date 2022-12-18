@@ -18,6 +18,7 @@ import com.example.beeptalk.databinding.ActivityProfilePageBinding
 import com.example.beeptalk.lib.PostRVAdapter
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.TabVPAdapter
+import com.example.beeptalk.models.Notification
 import com.example.beeptalk.models.Post
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -89,13 +90,13 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                                         it1
                                     )
                                 } == true) {
-                                binding.button.text = "Following"
+                                binding.button.setText(R.string.following)
                             } else if (firebaseAuth.currentUser?.uid?.let { it1 ->
                                     (data["followers"] as ArrayList<String>).contains(
                                         it1
                                     )
                                 } == false) {
-                                binding.button.text = "Follow"
+                                binding.button.setText(R.string.follow)
                             }
                         } else {
                             binding.postRV.visibility = View.GONE
@@ -113,7 +114,7 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                         goToEditProfilePage()
                     } else {
                         if (firebaseAuth.currentUser?.let { it1 -> followers.contains(it1.uid) } == true) {
-                            binding.button.text = "Follow"
+                            binding.button.setText(R.string.follow)
                             firebaseFirestore.collection("users").document(userId).update(
                                 "followers", FieldValue.arrayRemove(
                                     firebaseAuth.currentUser!!.uid
@@ -121,12 +122,12 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                             )
                             firebaseFirestore.collection("users")
                                 .document(firebaseAuth.currentUser!!.uid).update(
-                                "following", FieldValue.arrayRemove(
-                                    userId
+                                    "following", FieldValue.arrayRemove(
+                                        userId
+                                    )
                                 )
-                            )
                         } else {
-                            binding.button.text = "Following"
+                            binding.button.setText(R.string.following)
                             firebaseFirestore.collection("users").document(userId).update(
                                 "followers", FieldValue.arrayUnion(
                                     firebaseAuth.currentUser!!.uid
@@ -134,10 +135,16 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                             )
                             firebaseFirestore.collection("users")
                                 .document(firebaseAuth.currentUser!!.uid).update(
-                                "following", FieldValue.arrayUnion(
-                                    userId
+                                    "following", FieldValue.arrayUnion(
+                                        userId
+                                    )
                                 )
-                            )
+
+                            val notification =
+                                Notification(userId, firebaseAuth.currentUser!!.uid, "followYou")
+                            firebaseFirestore.collection("users").document(userId)
+                                .collection("notifications")
+                                .add(notification)
                         }
                     }
                 }

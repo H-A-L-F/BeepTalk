@@ -1,22 +1,26 @@
 package com.example.beeptalk.pages
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.beeptalk.databinding.ActivityPostCommentPageBinding
 import com.example.beeptalk.lib.PostCommentRVAdapter
-import com.example.beeptalk.lib.RecyclerViewInterface
-import com.example.beeptalk.lib.ThreadCommentRVAdapter
 import com.example.beeptalk.models.PostComment
-import com.example.beeptalk.models.ThreadComment
+import com.example.beeptalk.models.PostCommentReply
 import com.example.beeptalk.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+
 
 class PostCommentPage : AppCompatActivity() {
 
@@ -28,6 +32,9 @@ class PostCommentPage : AppCompatActivity() {
     private lateinit var postCommentRVAdapter: PostCommentRVAdapter
     private lateinit var postComments: ArrayList<PostComment>
 
+    private lateinit var postId: String
+    private lateinit var commentReplyId: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPostCommentPageBinding.inflate(layoutInflater)
@@ -38,7 +45,7 @@ class PostCommentPage : AppCompatActivity() {
         firebaseStorage = FirebaseStorage.getInstance()
 
         postComments = arrayListOf()
-        val postId = intent.getStringExtra("postId")
+        postId = intent.getStringExtra("postId").toString()
 
         firebaseAuth.currentUser?.let {
             firebaseFirestore.collection("users").document(it.uid).addSnapshotListener { value, _ ->
@@ -48,6 +55,8 @@ class PostCommentPage : AppCompatActivity() {
                         Picasso.get()
                             .load(user.profilePicture)
                             .into(binding.profilePicture)
+
+                        binding.currentUserUsername.text = user.username
                     };
                 }
             }
@@ -61,18 +70,22 @@ class PostCommentPage : AppCompatActivity() {
         binding.replyingToLayout.visibility = View.GONE
 
         binding.cancelReplyBtn.setOnClickListener {
-            binding.usernameReplyToTV.text = ""
             binding.replyingToLayout.visibility = View.GONE
+            binding.usernameReplyToTV.text = ""
+            binding.commentAsLayout.visibility = View.VISIBLE
         }
 
         binding.commentBtn.setOnClickListener {
-
+            val usernameReply = binding.usernameReplyToTV.text.toString()
             val body = binding.commentET.text.toString()
+            if (usernameReply.isEmpty()) {
+                if (body.isNotEmpty()) {
+                    val threadComment = PostComment(
+                        postId = postId,
+                        body = body,
+                        userId = firebaseAuth.currentUser?.uid
+                    )
 
-            if(body.isNotEmpty()) {
-                val threadComment = PostComment(postId = postId, body = body, userId = firebaseAuth.currentUser?.uid)
-
-                if (postId != null) {
                     firebaseFirestore.collection("posts").document(postId)
                         .collection("comments")
                         .add(threadComment).addOnSuccessListener {
@@ -80,23 +93,50 @@ class PostCommentPage : AppCompatActivity() {
 
                             Toast.makeText(this, "Comment added", Toast.LENGTH_SHORT).show()
                         }.addOnFailureListener {
-                            Toast.makeText(this, "Comment added failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Comment added failed", Toast.LENGTH_SHORT)
+                                .show()
                         }
+                } else {
+                    Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
+                if (body.isNotEmpty()) {
+                    val threadComment = PostCommentReply(
+                        commentId = commentReplyId,
+                        body = binding.commentET.text.toString(),
+                        userId = firebaseAuth.currentUser?.uid
+                    )
+
+                    firebaseFirestore.collection("posts").document(postId)
+                        .collection("comments").document(commentReplyId).collection("reply")
+                        .add(threadComment).addOnSuccessListener {
+                            binding.commentET.text.clear()
+
+                            Toast.makeText(this, "Reply added", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+                            Toast.makeText(this, "Reply added failed", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                } else {
+                    Toast.makeText(this, "Fields a cannot be empty!", Toast.LENGTH_SHORT).show()
+                }
             }
 
+
         }
 
-        if (postId != null) {
-            getAllComments(postId)
-        }
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            mMessageReceiver,
+            IntentFilter("reply-credentials")
+        );
 
+        getAllComments(postId)
+        postComments.sortedWith(compareBy {it.createdAt})
+        postCommentRVAdapter.notifyDataSetChanged()
     }
 
     private fun getAllComments(postId: String) {
-        firebaseFirestore.collection("posts").document(postId).collection("comments")
+        firebaseFirestore.collection("posts").document(postId).collection("comments").orderBy("createdAt", Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
@@ -113,6 +153,12 @@ class PostCommentPage : AppCompatActivity() {
                     postCommentRVAdapter.notifyDataSetChanged()
                 }
             }
+    }
+
+    private var mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            commentReplyId = intent.getStringExtra("commentId").toString()
+        }
     }
 
 }

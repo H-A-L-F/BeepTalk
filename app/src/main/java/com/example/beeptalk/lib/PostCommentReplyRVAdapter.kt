@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.PostCommentCardBinding
 import com.example.beeptalk.databinding.PostCommentReplyCardBinding
+import com.example.beeptalk.helper.getRelativeString
 import com.example.beeptalk.models.PostCommentReply
 import com.example.beeptalk.models.User
 import com.example.beeptalk.pages.ProfilePage
@@ -50,7 +51,7 @@ class PostCommentReplyRVAdapter(
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val firebaseAuth = FirebaseAuth.getInstance()
 
-        holder.binding.createdDateTV.text = postCommentReply.createdAt.toString()
+        holder.binding.createdDateTV.text = getRelativeString(postCommentReply.createdAt)
         holder.binding.replyBodyTV.text = postCommentReply.body
 
         postCommentReply.userId?.let { firebaseFirestore.collection("users").document(it) }
@@ -59,7 +60,7 @@ class PostCommentReplyRVAdapter(
                     val user = value.toObject(User::class.java)
 
                     if (user != null) {
-                        holder.binding.usernameTV.text = "@" + user.username
+                        holder.binding.usernameTV.text = user.username
                         Picasso.get()
                             .load(user.profilePicture)
                             .into(holder.binding.profilePicture);
@@ -100,10 +101,9 @@ class PostCommentReplyRVAdapter(
                             .addOnSuccessListener {
                                 holder.binding.likeReplyBtn.setImageResource(R.drawable.ic_baseline_like_filled_24)
                                 if (postCommentReply.dislikes.contains(firebaseAuth.currentUser?.uid)) {
-                                    postCommentReply.id?.let { it2 ->
                                         firebaseFirestore.collection("posts").document(postId)
                                             .collection("comments").document(
-                                                it2
+                                                postCommentReply.commentId
                                             ).collection("reply").document(postCommentReply.id!!)
                                             .update(
                                                 "dislikes",
@@ -113,7 +113,6 @@ class PostCommentReplyRVAdapter(
                                                     R.drawable.ic_outline_thumb_down_24
                                                 )
                                             }
-                                    }
                                 }
                             }
                     }
@@ -153,7 +152,7 @@ class PostCommentReplyRVAdapter(
                                 if (postCommentReply.likes.contains(firebaseAuth.currentUser?.uid)) {
                                     postCommentReply.commentId.let { it1 ->
                                         postCommentReply.id?.let { it2 ->
-                                            firebaseFirestore.collection("posts").document(it1)
+                                            firebaseFirestore.collection("posts").document(postId)
                                                 .collection("comments").document(
                                                     it1
                                                 ).collection("reply").document(it2).update(
@@ -174,7 +173,7 @@ class PostCommentReplyRVAdapter(
                 holder.binding.dislikeReplyBtn.setImageResource(R.drawable.ic_outline_thumb_down_24)
                 postCommentReply.commentId?.let { it1 ->
                     postCommentReply.id?.let { it2 ->
-                        firebaseFirestore.collection("posts").document(it1).collection("comments")
+                        firebaseFirestore.collection("posts").document(postId).collection("comments")
                             .document(
                                 it1
                             ).collection("reply").document(it2).update(

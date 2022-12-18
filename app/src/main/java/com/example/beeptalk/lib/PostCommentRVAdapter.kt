@@ -1,25 +1,30 @@
 package com.example.beeptalk.lib
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityPostCommentPageBinding
 import com.example.beeptalk.databinding.PostCommentCardBinding
+import com.example.beeptalk.helper.getRelativeString
 import com.example.beeptalk.models.PostComment
 import com.example.beeptalk.models.PostCommentReply
 import com.example.beeptalk.models.User
+import com.example.beeptalk.pages.EditCommentPage
 import com.example.beeptalk.pages.ProfilePage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
+
 
 class PostCommentRVAdapter(
     private var context: Context,
@@ -47,8 +52,52 @@ class PostCommentRVAdapter(
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val firebaseAuth = FirebaseAuth.getInstance()
 
+        if (postComment.userId == firebaseAuth.currentUser?.uid) {
+            holder.binding.edit.visibility = View.VISIBLE
+            holder.binding.delete.visibility = View.VISIBLE
+
+            holder.binding.edit.setOnClickListener {
+                postComment.id?.let { it1 -> postComment.postId?.let { it2 ->
+                    goToEditCommentPage(
+                        it2, it1)
+                } }
+            }
+
+            holder.binding.delete.setOnClickListener {
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle("Exit")
+                builder.setMessage("Are you sure you want to delete this comment?")
+
+                builder.setPositiveButton("Yes") { _, _ ->
+                    postComment.postId?.let { it1 ->
+                        postComment.id?.let { it2 ->
+                            firebaseFirestore.collection("posts").document(
+                                it1
+                            ).collection("comments").document(it2).delete().addOnSuccessListener {
+                                Toast.makeText(context, "Comment deleted!", Toast.LENGTH_SHORT)
+                                    .show()
+                            }.addOnFailureListener {
+                                Toast.makeText(
+                                    context,
+                                    "Comment failed to be deleted!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+
+                }
+                builder.setNegativeButton("No") { _, _ ->
+
+                }
+                val dialog = builder.create()
+                dialog.show()
+            }
+
+        }
+
         holder.binding.repliesRV.visibility = View.GONE
-        holder.binding.createdDateTV.text = postComment.createdAt.toString()
+        holder.binding.createdDateTV.text = getRelativeString(postComment.createdAt)
         holder.binding.commentBodyTV.text = postComment.body
 
         postComment.userId?.let { firebaseFirestore.collection("users").document(it) }
@@ -65,6 +114,13 @@ class PostCommentRVAdapter(
                         holder.binding.reply.setOnClickListener {
                             parentBinding.usernameReplyToTV.text = user.username
                             parentBinding.replyingToLayout.visibility = View.VISIBLE
+                            parentBinding.commentAsLayout.visibility = View.GONE
+
+                            val intent = Intent("reply-credentials")
+                            intent.putExtra("userId", user.uid)
+                            intent.putExtra("commentId", postComment.id)
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+
                         }
 
                         holder.binding.profilePicture.setOnClickListener {
@@ -89,6 +145,7 @@ class PostCommentRVAdapter(
         }
 
         holder.binding.likeCommentBtn.setOnClickListener {
+            holder.binding.viewAllRepliesBtn.visibility = View.VISIBLE
             if (!postComment.likes.contains(firebaseAuth.currentUser?.uid)) {
                 postComment.postId?.let { it1 ->
                     postComment.id?.let { it2 ->
@@ -133,6 +190,7 @@ class PostCommentRVAdapter(
         }
 
         holder.binding.dislikeCommentBtn.setOnClickListener {
+            holder.binding.viewAllRepliesBtn.visibility = View.VISIBLE
             if (!postComment.dislikes.contains(firebaseAuth.currentUser?.uid)) {
 
                 postComment.postId?.let { it1 ->
@@ -186,23 +244,28 @@ class PostCommentRVAdapter(
             holder.binding.repliesRV.visibility = View.VISIBLE
             holder.binding.viewAllRepliesBtn.visibility = View.GONE
 
-            val postCommentReplies : ArrayList<PostCommentReply> = arrayListOf()
+            val postCommentReplies: ArrayList<PostCommentReply> = arrayListOf()
 
             val postCommentReplyRVAdapter = postComment.postId?.let { it1 ->
-                PostCommentReplyRVAdapter(context, holder.binding,
-                    it1, postCommentReplies)
+                PostCommentReplyRVAdapter(
+                    context, holder.binding,
+                    it1, postCommentReplies
+                )
             }
             holder.binding.repliesRV.layoutManager = LinearLayoutManager(context)
             holder.binding.repliesRV.setHasFixedSize(true)
             holder.binding.repliesRV.adapter = postCommentReplyRVAdapter
 
-            postComment.postId?.let { it1 -> postComment.userId?.let { it2 ->
-                if (postCommentReplyRVAdapter != null) {
-                    getAllReplies(it1,
-                        it2, postCommentReplies, postCommentReplyRVAdapter
-                    )
+            postComment.postId?.let { it1 ->
+                postComment.id?.let { it2 ->
+                    if (postCommentReplyRVAdapter != null) {
+                        getAllReplies(
+                            it1,
+                            it2, postCommentReplies, postCommentReplyRVAdapter, holder.binding
+                        )
+                    }
                 }
-            } }
+            }
         }
 
     }
@@ -217,9 +280,33 @@ class PostCommentRVAdapter(
         context.startActivity(intent)
     }
 
-    private fun getAllReplies(postId: String, commentId: String, postCommentReplies: ArrayList<PostCommentReply>, postCommentReplyRVAdapter: PostCommentReplyRVAdapter) {
+    private fun goToEditCommentPage(postId: String, commentId: String) {
+        val intent = Intent(context, EditCommentPage::class.java)
+        intent.putExtra("commentId", commentId)
+        intent.putExtra("postId", postId)
+        context.startActivity(intent)
+    }
+
+    private fun getAllReplies(
+        postId: String,
+        commentId: String,
+        postCommentReplies: ArrayList<PostCommentReply>,
+        postCommentReplyRVAdapter: PostCommentReplyRVAdapter,
+        binding: PostCommentCardBinding
+    ) {
         FirebaseFirestore.getInstance().collection("posts").document(postId).collection("comments")
-            .document(commentId).collection("reply").addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            .document(commentId).collection("reply")
+            .orderBy("createdAt", Query.Direction.DESCENDING)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+
+                querySnapshot?.let {
+                    if (querySnapshot.documents.isEmpty()) {
+                        binding.viewAllRepliesBtn.visibility = View.GONE
+                    } else {
+                        binding.viewAllRepliesBtn.visibility = View.VISIBLE
+                    }
+                }
+
                 querySnapshot?.let {
                     postCommentReplies.clear()
                     for (document in querySnapshot.documents) {
@@ -229,7 +316,7 @@ class PostCommentRVAdapter(
                     }
                     postCommentReplyRVAdapter.notifyDataSetChanged()
                 }
-        }
+            }
     }
 
 }

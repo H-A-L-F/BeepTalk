@@ -34,8 +34,8 @@ class NotificationFollowersRVAdapter(
         val notification = notifications[position]
 
         holder.binding.apply {
-            unameTv.text = notification.username
-            descTv.text = notification.desc
+//            unameTv.text = notification.username
+//            descTv.text = notification.desc
         }
     }
 

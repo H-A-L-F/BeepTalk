@@ -36,16 +36,6 @@ class AddFragment : Fragment() {
 
         videoView = binding.videoV
 
-        // INIT CAMERA PERMISSION
-//        cameraPermissions = arrayOf(
-//            android.Manifest.permission.CAMERA,
-//            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-//        )
-//        progressBar = ProgressBar(context)
-//        progressBar.
-//        progressBar.setMessage("Uploading video...")
-//        progressBar.setCanceledOnTouchOutside(false)
-
         binding.apply {
             postBtn.setOnClickListener {
                 caption = videoTitleEt.text.toString()
@@ -74,7 +64,6 @@ class AddFragment : Fragment() {
     private fun uploadVideoToFirebase(
     ) {
         Toast.makeText(context, "Start uploading", Toast.LENGTH_SHORT).show()
-//        progressBar.setVisibility(View.VISIBLE);
 
         val timestamp = "" + System.currentTimeMillis()
         val filePathAndName = "videos/video_$timestamp"
@@ -87,9 +76,10 @@ class AddFragment : Fragment() {
                         userId = FirebaseAuth.getInstance().currentUser?.uid,
                         caption = caption
                     )
-                    FirebaseFirestore.getInstance().collection("posts").add(post).addOnSuccessListener {
-                        Toast.makeText(context, "Post created!!", Toast.LENGTH_SHORT).show()
-                    }
+                    FirebaseFirestore.getInstance().collection("posts").add(post)
+                        .addOnSuccessListener {
+                            Toast.makeText(context, "Post created!!", Toast.LENGTH_SHORT).show()
+                        }
                 }
             }
             .addOnFailureListener {

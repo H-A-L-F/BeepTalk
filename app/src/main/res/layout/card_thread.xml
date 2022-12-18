@@ -22,7 +22,7 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
-                <io.getstream.avatarview.AvatarView
+                <ImageView
                     android:id="@+id/avUser"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -98,12 +98,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_downvote"/>
-
-        <ImageButton
-            android:id="@+id/btnComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_comment" />
 
     </LinearLayout>
 

@@ -23,7 +23,7 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <io.getstream.avatarview.AvatarView
+            <ImageView
                 android:id="@+id/avUser"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -51,11 +51,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/username" />
 
-                <TextView
-                    android:id="@+id/replyToTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/created_at"/>
 
             </LinearLayout>
 
@@ -66,38 +61,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/lorem"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <ImageButton
-                android:id="@+id/btnUpvote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_upvote"/>
-
-            <TextView
-                android:id="@+id/totalVotesTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/upvotes" />
-
-            <ImageButton
-                android:id="@+id/btnDownvote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_downvote"/>
-
-            <ImageButton
-                android:id="@+id/btnComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_comment" />
-
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -111,7 +74,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <io.getstream.avatarview.AvatarView
+            <ImageView
                 android:id="@+id/avCurrUser"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

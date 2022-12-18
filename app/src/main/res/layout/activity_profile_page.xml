@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Renaldi Addison"
+                android:text="@string/renaldi_addison"
                 android:textSize="20sp"
                 android:textColor="@color/primaryColor"
                 />
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="renajaaaa"
+            android:text="@string/renajaaaa"
             android:textColor="@color/primaryColor"
             android:textSize="20sp" />
 
@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="173"
+                    android:text="@string/_173"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/primaryColor"
@@ -105,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="173"
+                    android:text="@string/_173"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/primaryColor"
@@ -142,7 +142,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="your private serotonin booster"
+            android:text="@string/your_private_serotonin_booster"
             android:textSize="15sp"
             android:textColor="@color/primaryColor"
             />

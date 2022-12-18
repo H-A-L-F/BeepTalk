@@ -35,7 +35,7 @@ class NotificationFragment : Fragment(), RecyclerViewInterface {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentNotificationBinding.inflate(layoutInflater, container, false)
 
         db = FirebaseFirestore.getInstance()

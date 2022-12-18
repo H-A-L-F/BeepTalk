@@ -39,8 +39,8 @@ class NotificationActivitiesRVAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val notification : Notification = notifications[position]
         holder.binding.apply {
-            unameTv.text = notification.username
-            descTv.text = notification.desc
+//            unameTv.text = notification.username
+//            descTv.text = notification.desc
         }
     }
 

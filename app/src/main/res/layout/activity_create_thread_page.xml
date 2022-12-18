@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="Post"
+            android:text="@string/post"
             android:textAllCaps="false" />
 
     </RelativeLayout>
@@ -55,7 +55,7 @@
             android:id="@+id/etThreadBody"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="What's happening?"
+            android:hint="@string/what_s_happening"
             android:textAlignment="textStart"
             android:gravity="start" />
 

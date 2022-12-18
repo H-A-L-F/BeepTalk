@@ -17,7 +17,7 @@
 
     <string name="post_btn">Post</string>
     <string name="choose_btn">Choose</string>
-    <string name="desc_of_video">Description... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt, diam sit amet convallis finibus, augue </string>
+    <string name="desc_of_video">Description… Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt, diam sit amet convallis finibus, augue </string>
 
     <string name="activities_title">Activities</string>
     <string name="activities_activity_like">Liked your video</string>
@@ -46,8 +46,36 @@
     <string name="comments">Comments</string>
     <string name="add_a_comment">Add a comment…</string>
     <string name="send">Send</string>
-    <string name="replying_to">Replying to </string>
     <string name="view_all_replies">View all replies</string>
     <string name="reply">Reply</string>
     <string name="input_video_caption">Input video caption</string>
+    <string name="replying_to">Replying to</string>
+    <string name="comment_as">Comment as</string>
+
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="edit_comment">Edit Comment</string>
+    <string name="what_s_happening">What\'s happening?</string>
+    <string name="post">Post</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="or">Or</string>
+    <string name="continue_with_google">Continue with google</string>
+    <string name="renaldi_addison">Renaldi Addison</string>
+    <string name="renajaaaa">renajaaaa</string>
+    <string name="_173">173</string>
+    <string name="your_private_serotonin_booster">your private serotonin booster</string>
+    <string name="comment">Comment</string>
+    <string name="otp_verification">OTP Verification</string>
+    <string name="input_the_otp_to_proceed">Input the OTP to Proceed</string>
+    <string name="_17_5k">17.5K</string>
+    <string name="title">Title</string>
+    <string name="this_is_notification_text">This is notification text</string>
+    <string name="_2022_12_03">2022–12–03</string>
+
+    <string name="followingYou">started following you</string>
+    <string name="likeVid">liked your video</string>
+    <string name="upvoteThread">upvote your thread</string>
+    <string name="likeComment">liked your comment</string>
+    <string name="likeReply">liked your reply</string>
+    <string name="replyComment">replied to your comment</string>
 </resources>

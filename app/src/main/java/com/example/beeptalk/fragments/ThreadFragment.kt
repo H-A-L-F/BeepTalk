@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.beeptalk.R
-import com.example.beeptalk.databinding.ActivityThreadPageBinding
 import com.example.beeptalk.databinding.FragmentThreadBinding
 import com.example.beeptalk.lib.RecyclerViewEditInterface
 import com.example.beeptalk.lib.RecyclerViewInterface
@@ -21,20 +19,21 @@ import com.example.beeptalk.pages.EditThreadPage
 import com.example.beeptalk.pages.ThreadDetailPage
 import com.example.beeptalk.parcel.ThreadID
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class ThreadFragment : Fragment(), RecyclerViewInterface, RecyclerViewEditInterface {
 
-    private lateinit var binding : FragmentThreadBinding
-    private lateinit var threads : ArrayList<Thread>
+    private lateinit var binding: FragmentThreadBinding
+    private lateinit var threads: ArrayList<Thread>
     private lateinit var threadRVAdapter: ThreadRVAdapter
-    private lateinit var db : FirebaseFirestore
+    private lateinit var db: FirebaseFirestore
 
-    private lateinit var sp : SharedPreferences
+    private lateinit var sp: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentThreadBinding.inflate(layoutInflater, container, false)
 
         db = FirebaseFirestore.getInstance()
@@ -47,18 +46,19 @@ class ThreadFragment : Fragment(), RecyclerViewInterface, RecyclerViewEditInterf
         sp = requireActivity().getSharedPreferences("current_user", Context.MODE_PRIVATE)
         val uid = sp.getString("uid", "default")
         val uname = sp.getString("username", "default")
-        threadRVAdapter = uname?.let { uid?.let { it1 -> ThreadRVAdapter(threads, this, this, it, it1) } }!!
+        threadRVAdapter =
+            uname?.let { uid?.let { it1 -> ThreadRVAdapter(threads, this, this, it, it1) } }!!
 
         binding.rvThread.adapter = threadRVAdapter
 
-//        subscribeThreads()
-        getThreads()
+        subscribeThreads()
+//        getThreads()
 
         return binding.root
     }
 
     private fun subscribeThreads() {
-        db.collection("threads")
+        db.collection("threads").orderBy("createdAt", Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
                     Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
@@ -66,8 +66,9 @@ class ThreadFragment : Fragment(), RecyclerViewInterface, RecyclerViewEditInterf
                 }
 
                 querySnapshot?.let {
+                    threads.clear()
                     for (document in querySnapshot.documents) {
-                        var curr = document.toObject(Thread::class.java)
+                        val curr = document.toObject(Thread::class.java)
                         curr?.id = document.id.toString()
                         curr?.let { it1 -> threads.add(it1) }
                     }
@@ -94,13 +95,14 @@ class ThreadFragment : Fragment(), RecyclerViewInterface, RecyclerViewEditInterf
         val curr = threads[position]
         val id = curr.id
         val uid = curr.uid
-        val body =  curr.body
+        val body = curr.body
         val stitch = curr.stitch
         val upvote = curr.upvote
         val downvote = curr.downvote
         val createdAt = curr.createdAt
 
-        val threadItem: ThreadID = ThreadID(id!!, uid!!, body!!, stitch, upvote, downvote, createdAt)
+        val threadItem: ThreadID =
+            ThreadID(id!!, uid!!, body!!, stitch, upvote, downvote, createdAt)
 
         val intent = Intent(context, ThreadDetailPage::class.java)
         intent.putExtra("thread", threadItem)
@@ -111,13 +113,14 @@ class ThreadFragment : Fragment(), RecyclerViewInterface, RecyclerViewEditInterf
         val curr = threads[position]
         val id = curr.id
         val uid = curr.uid
-        val body =  curr.body
+        val body = curr.body
         val stitch = curr.stitch
         val upvote = curr.upvote
         val downvote = curr.downvote
         val createdAt = curr.createdAt
 
-        val threadItem: ThreadID = ThreadID(id!!, uid!!, body!!, stitch, upvote, downvote, createdAt)
+        val threadItem: ThreadID =
+            ThreadID(id!!, uid!!, body!!, stitch, upvote, downvote, createdAt)
 
         val intent = Intent(context, EditThreadPage::class.java)
         intent.putExtra("thread", threadItem)
