@@ -1,8 +1,6 @@
 package com.example.beeptalk.fragments
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +13,7 @@ import com.example.beeptalk.lib.RecyclerViewEditInterface
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.ThreadRVAdapter
 import com.example.beeptalk.models.Thread
+import com.example.beeptalk.pages.CreateThreadPage
 import com.example.beeptalk.pages.EditThreadPage
 import com.example.beeptalk.pages.ThreadDetailPage
 import com.example.beeptalk.parcel.ThreadID
@@ -27,8 +26,6 @@ class ThreadFragment : Fragment(), RecyclerViewInterface, RecyclerViewEditInterf
     private lateinit var threads: ArrayList<Thread>
     private lateinit var threadRVAdapter: ThreadRVAdapter
     private lateinit var db: FirebaseFirestore
-
-    private lateinit var sp: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,16 +40,16 @@ class ThreadFragment : Fragment(), RecyclerViewInterface, RecyclerViewEditInterf
 
         threads = arrayListOf()
 
-        sp = requireActivity().getSharedPreferences("current_user", Context.MODE_PRIVATE)
-        val uid = sp.getString("uid", "default")
-        val uname = sp.getString("username", "default")
         threadRVAdapter =
-            uname?.let { uid?.let { it1 -> ThreadRVAdapter(threads, this, this, it, it1) } }!!
-
+            context?.let { ThreadRVAdapter(it, threads, this, this) }!!
         binding.rvThread.adapter = threadRVAdapter
 
         subscribeThreads()
 //        getThreads()
+
+        binding.FABCreate.setOnClickListener {
+            goToCreateThreadPage()
+        }
 
         return binding.root
     }
@@ -126,4 +123,10 @@ class ThreadFragment : Fragment(), RecyclerViewInterface, RecyclerViewEditInterf
         intent.putExtra("thread", threadItem)
         startActivity(intent)
     }
+
+    private fun goToCreateThreadPage() {
+        val intent = Intent(context, CreateThreadPage::class.java)
+        startActivity(intent)
+    }
+
 }

@@ -89,9 +89,10 @@
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_update_password_page.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_verify_otpforgot_password_page.xml" value="0.2" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_comment_thread.xml" value="0.264" />
-        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_follow_notification.xml" value="0.13125" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_follow_notification.xml" value="0.4" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_like_notification.xml" value="0.13125" />
-        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_thread.xml" value="0.536" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_notification.xml" value="0.2" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_thread.xml" value="0.152" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/component_thread.xml" value="0.25" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/followers_card.xml" value="0.2" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/fragment_add.xml" value="0.264" />

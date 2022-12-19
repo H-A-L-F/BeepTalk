@@ -11,6 +11,7 @@ import com.example.beeptalk.R
 import com.example.beeptalk.databinding.VideoContainerBinding
 import com.example.beeptalk.models.Notification
 import com.example.beeptalk.models.Post
+import com.example.beeptalk.pages.CreateThreadPage
 import com.example.beeptalk.pages.PostCommentPage
 import com.example.beeptalk.pages.ProfilePage
 import com.google.firebase.auth.FirebaseAuth
@@ -126,11 +127,12 @@ class PostVPAdapter(
                 if (currentUserId != null) {
                     post.likes.add(currentUserId)
                 }
-
-                val notification = Notification(post.userId, currentUserId, "likeVideo")
-                post.userId?.let { it1 ->
-                    db.collection("users").document(it1).collection("notifications")
-                        .add(notification)
+                if (post.userId != FirebaseAuth.getInstance().currentUser?.uid) {
+                    val notification = Notification(post.userId, currentUserId, "likeVideo")
+                    post.userId?.let { it1 ->
+                        db.collection("users").document(it1).collection("notifications")
+                            .add(notification)
+                    }
                 }
             }
             holder.binding.likeCount.text = post.likes.size.toString()
@@ -168,6 +170,11 @@ class PostVPAdapter(
             post.userId?.let { it1 -> goToProfilePage(it1) }
         }
 
+        // stitch listener
+        holder.binding.stitch.setOnClickListener {
+            post.id?.let { it1 -> goToCreateThreadPage(it1) }
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -182,6 +189,12 @@ class PostVPAdapter(
 
     private fun goToPostCommentPage(postId: String) {
         val intent = Intent(context, PostCommentPage::class.java)
+        intent.putExtra("postId", postId)
+        context.startActivity(intent)
+    }
+
+    private fun goToCreateThreadPage(postId: String) {
+        val intent = Intent(context, CreateThreadPage::class.java)
         intent.putExtra("postId", postId)
         context.startActivity(intent)
     }

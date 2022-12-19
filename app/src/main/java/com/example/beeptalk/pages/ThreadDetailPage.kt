@@ -18,6 +18,7 @@ import com.example.beeptalk.models.ThreadComment
 import com.example.beeptalk.parcel.ThreadCommentID
 import com.example.beeptalk.parcel.ThreadID
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
@@ -30,11 +31,8 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
     private lateinit var comments : ArrayList<ThreadComment>
     private lateinit var threadCommentRVAdapter: ThreadCommentRVAdapter
     private lateinit var db : FirebaseFirestore
-    private lateinit var sp: SharedPreferences
 
     private lateinit var thread: ThreadID
-    private var uid: String = "default"
-    private var uname: String = "default"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,18 +40,17 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
         setContentView(binding.root)
 
         db = FirebaseFirestore.getInstance()
-        sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
-        uid = sp.getString("uid", "default")!!
-        uname = sp.getString("username", "default")!!
 
         thread = intent.getParcelableExtra("thread")!!
 
-        db.collection("users").document(uid).get()
-            .addOnSuccessListener {
-                val data = it.data ?: return@addOnSuccessListener
-                Picasso.get().load(data["profilePicture"] as String)
-                    .into(binding.avCurrUser)
-            }
+        FirebaseAuth.getInstance().currentUser?.let {
+            db.collection("users").document(it.uid).get()
+                .addOnSuccessListener {
+                    val data = it.data ?: return@addOnSuccessListener
+                    Picasso.get().load(data["profilePicture"] as String)
+                        .into(binding.avCurrUser)
+                }
+        }
 
         db.collection("users").document(thread.uid!!).get()
             .addOnSuccessListener {
@@ -78,7 +75,7 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
             val body = binding.etCommentBody.text.toString()
             val threadId = thread.id
 
-            val threadComment = ThreadComment(threadId = threadId, body = body, uid = uid, replyTo = thread.uid)
+            val threadComment = ThreadComment(threadId = threadId, body = body, uid = FirebaseAuth.getInstance().currentUser?.uid, replyTo = thread.uid)
 
             db.collection("threads").document(thread.id)
                 .collection("comments")
@@ -90,10 +87,11 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
                     Toast.makeText(this, "Comment failed", Toast.LENGTH_SHORT).show()
                 }
 
-            val notification = Notification(uid, uname, "Replied to your thread: $body", )
-
-            db.collection("notifications").document(uid!!)
-                .collection("activities").add(notification)
+            if(thread.uid != FirebaseAuth.getInstance().currentUser?.uid) {
+                val notification = Notification(thread.uid, FirebaseAuth.getInstance().currentUser?.uid, "commentThread-$body" )
+                db.collection("users").document(thread.uid)
+                    .collection("notifications").add(notification)
+            }
         }
 
         binding.rvThreadComment.layoutManager = LinearLayoutManager(this)
@@ -101,7 +99,7 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
         comments = arrayListOf()
 
-        threadCommentRVAdapter = ThreadCommentRVAdapter(comments, this, uname, uid)
+        threadCommentRVAdapter = ThreadCommentRVAdapter(comments, this)
 
         binding.rvThreadComment.adapter = threadCommentRVAdapter
 

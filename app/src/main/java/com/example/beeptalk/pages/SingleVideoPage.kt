@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivitySingleVideoPageBinding
+import com.example.beeptalk.models.Notification
 import com.example.beeptalk.models.Post
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -121,6 +122,15 @@ class SingleVideoPage : AppCompatActivity() {
                                 if (currentUserId != null) {
                                     post.likes.add(currentUserId)
                                 }
+                                if (post.userId != FirebaseAuth.getInstance().currentUser?.uid) {
+                                    val notification =
+                                        Notification(post.userId, currentUserId, "likeVideo")
+                                    post.userId?.let { it1 ->
+                                        firebaseFirestore.collection("users").document(it1)
+                                            .collection("notifications")
+                                            .add(notification)
+                                    }
+                                }
                             }
                             binding.likeCount.text = post.likes.size.toString()
                         }
@@ -156,6 +166,11 @@ class SingleVideoPage : AppCompatActivity() {
                         binding.profilePicture.setOnClickListener {
                             post.userId?.let { it1 -> goToProfilePage(it1) }
                         }
+
+                        // stitch listener
+                        binding.stitch.setOnClickListener {
+                            post.id?.let { it1 -> goToCreateThreadPage(it1) }
+                        }
                     }
                 }
         }
@@ -168,6 +183,11 @@ class SingleVideoPage : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun goToCreateThreadPage(postId: String) {
+        val intent = Intent(this, CreateThreadPage::class.java)
+        intent.putExtra("postId", postId)
+        startActivity(intent)
+    }
 
     private fun goToPostCommentPage(postId: String) {
         val intent = Intent(this, PostCommentPage::class.java)

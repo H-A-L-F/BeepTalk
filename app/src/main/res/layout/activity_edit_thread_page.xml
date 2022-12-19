@@ -16,12 +16,6 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_close" />
-
         <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -54,7 +48,8 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <io.getstream.avatarview.AvatarView
+        <ImageView
+            android:id="@+id/profilePicture"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/cat_user"

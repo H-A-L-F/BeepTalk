@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.beeptalk.databinding.ActivityEditThreadPageBinding
+import com.example.beeptalk.models.User
 import com.example.beeptalk.parcel.ThreadID
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 
 class EditThreadPage : AppCompatActivity() {
 
@@ -27,6 +30,18 @@ class EditThreadPage : AppCompatActivity() {
         }
 
         db = FirebaseFirestore.getInstance()
+
+
+        FirebaseAuth.getInstance().currentUser?.let { db.collection("users").document(it.uid) }?.addSnapshotListener {
+            snapshot, _ ->
+            val curr = snapshot?.toObject(User::class.java)
+
+            if(curr != null) {
+                Picasso.get()
+                    .load(curr.profilePicture)
+                    .into(binding.profilePicture)
+            }
+        }
 
         binding.btnPost.setOnClickListener {
             val body = binding.etThreadBody.text.toString()

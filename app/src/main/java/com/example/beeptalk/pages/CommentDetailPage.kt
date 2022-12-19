@@ -1,33 +1,26 @@
 package com.example.beeptalk.pages
 
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.beeptalk.databinding.ActivityCommentDetailPageBinding
-import com.example.beeptalk.databinding.ActivityThreadDetailPageBinding
 import com.example.beeptalk.lib.RecyclerViewInterface
-import com.example.beeptalk.lib.ThreadCommentRVAdapter
 import com.example.beeptalk.lib.ThreadCommentReplyRVadapter
 import com.example.beeptalk.models.Notification
-import com.example.beeptalk.models.ThreadComment
 import com.example.beeptalk.models.ThreadCommentReply
 import com.example.beeptalk.parcel.ThreadCommentID
 import com.example.beeptalk.parcel.ThreadID
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
-import kotlin.concurrent.thread
 
 class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
-    private lateinit var binding : ActivityCommentDetailPageBinding
-    private lateinit var db : FirebaseFirestore
-    private lateinit var sp: SharedPreferences
+    private lateinit var binding: ActivityCommentDetailPageBinding
+    private lateinit var db: FirebaseFirestore
 
-    private lateinit var comments : ArrayList<ThreadCommentReply>
+    private lateinit var comments: ArrayList<ThreadCommentReply>
     private lateinit var threadCommentReplyRVAdapter: ThreadCommentReplyRVadapter
 
     private lateinit var currThread: ThreadID
@@ -44,15 +37,11 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
         currThread = intent.getParcelableExtra("thread")!!
         currComm = intent.getParcelableExtra("comment")!!
 
-       binding.apply {
+        binding.apply {
             commentBodyTv.text = currComm.body
-       }
+        }
 
         db = FirebaseFirestore.getInstance()
-
-        sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
-        uid = sp.getString("uid", "default")!!
-        uname = sp.getString("username", "default")!!
 
         db.collection("users").document(uid).get()
             .addOnSuccessListener {
@@ -83,7 +72,13 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
             val threadId = currThread.id
             val commId = currComm.id
 
-            val threadCommentReply = ThreadCommentReply(threadId = threadId, commentId = commId, body = body, uid = uid, replyTo = currComm.uid)
+            val threadCommentReply = ThreadCommentReply(
+                threadId = threadId,
+                commentId = commId,
+                body = body,
+                uid = uid,
+                replyTo = currComm.uid
+            )
 
             db.collection("threads").document(threadId)
                 .collection("comments").document(commId)
@@ -96,12 +91,15 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
                     Toast.makeText(this, "Comment failed", Toast.LENGTH_SHORT).show()
                 }
 
-            val notification = Notification(currComm.uid,
-                FirebaseAuth.getInstance().currentUser?.uid, "replyComment-$body")
+            if (currComm.uid != FirebaseAuth.getInstance().currentUser?.uid) {
+                val notification = Notification(
+                    currComm.uid,
+                    FirebaseAuth.getInstance().currentUser?.uid, "replyComment-$body"
+                )
 
-            db.collection("users").document(currComm.uid).collection("notifications")
-                .add(notification)
-
+                db.collection("users").document(currComm.uid).collection("notifications")
+                    .add(notification)
+            }
         }
 
         binding.rvThreadCommentReply.layoutManager = LinearLayoutManager(this)
@@ -109,14 +107,14 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
         comments = arrayListOf()
 
-        threadCommentReplyRVAdapter = ThreadCommentReplyRVadapter(comments, this, uname, uid)
+        threadCommentReplyRVAdapter = ThreadCommentReplyRVadapter(comments, this)
 
         binding.rvThreadCommentReply.adapter = threadCommentReplyRVAdapter
 
         subscribeThreadCommentReplies(currThread.id, currComm.id)
     }
 
-    private fun subscribeThreadCommentReplies(threadId : String, commentId: String) {
+    private fun subscribeThreadCommentReplies(threadId: String, commentId: String) {
         db.collection("threads").document(threadId)
             .collection("comments").document(commentId)
             .collection("comments")
@@ -140,8 +138,9 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
             }
     }
 
-    private fun getThreadComments(threadId : String, commentId: String) {
-        db.collection("threads").document(threadId).collection("comments").document(commentId).collection("comments")
+    private fun getThreadComments(threadId: String, commentId: String) {
+        db.collection("threads").document(threadId).collection("comments").document(commentId)
+            .collection("comments")
             .get().addOnSuccessListener {
                 for (document in it.documents) {
                     var curr = document.toObject(ThreadCommentReply::class.java)

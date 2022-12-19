@@ -3,34 +3,26 @@ package com.example.beeptalk.fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.beeptalk.R
 import com.example.beeptalk.databinding.FragmentNotificationBinding
-import com.example.beeptalk.lib.NotificationActivitiesRVAdapter
-import com.example.beeptalk.lib.NotificationFollowersRVAdapter
-import com.example.beeptalk.lib.RecyclerViewInterface
+import com.example.beeptalk.lib.NotificationRVAdapter
 import com.example.beeptalk.models.Notification
-import com.example.beeptalk.models.Thread
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
-class NotificationFragment : Fragment(), RecyclerViewInterface {
+class NotificationFragment : Fragment() {
 
     private lateinit var binding: FragmentNotificationBinding
     private lateinit var db: FirebaseFirestore
-    private lateinit var sp: SharedPreferences
 
-    private lateinit var notif_activities: ArrayList<Notification>
-    private lateinit var notif_followers: ArrayList<Notification>
+    private lateinit var notifications: ArrayList<Notification>
 
-    private lateinit var notificationActivitiesRVAdapter: NotificationActivitiesRVAdapter
-    private lateinit var notificationFollowersRVAdapter: NotificationFollowersRVAdapter
-
-    private lateinit var uid: String
+    private lateinit var notificationRVAdapter: NotificationRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,57 +31,46 @@ class NotificationFragment : Fragment(), RecyclerViewInterface {
         binding = FragmentNotificationBinding.inflate(layoutInflater, container, false)
 
         db = FirebaseFirestore.getInstance()
-        sp = requireActivity().getSharedPreferences("current_user", Context.MODE_PRIVATE)
 
-        binding.rvNotificationActivities.layoutManager = LinearLayoutManager(context)
-        binding.rvNotificationFollowers.layoutManager = LinearLayoutManager(context)
-        binding.rvNotificationActivities.setHasFixedSize(true)
-        binding.rvNotificationFollowers.setHasFixedSize(true)
+        binding.notificationRV.layoutManager = LinearLayoutManager(context)
+        binding.notificationRV.setHasFixedSize(true)
 
-        notif_activities = arrayListOf()
-        notif_followers = arrayListOf()
+        notifications = arrayListOf()
 
-        notificationActivitiesRVAdapter = NotificationActivitiesRVAdapter(notif_activities, this)
-        notificationFollowersRVAdapter = NotificationFollowersRVAdapter(notif_followers, this)
+        notificationRVAdapter = context?.let { NotificationRVAdapter(it, notifications) }!!
 
-        binding.rvNotificationActivities.adapter = notificationActivitiesRVAdapter
-        binding.rvNotificationFollowers.adapter = notificationFollowersRVAdapter
+        binding.notificationRV.adapter = notificationRVAdapter
 
-        uid = sp.getString("uid", "default")!!
-
-        getNotificationActivities(uid)
+        FirebaseAuth.getInstance().currentUser?.let { getNotifications(it.uid) }
 
         return binding.root
     }
 
-    private fun getNotificationActivities(uid: String) {
-        db.collection("notifications").document(uid).collection("activities")
-            .orderBy("date", Query.Direction.DESCENDING).get().addOnSuccessListener {
-                for (document in it.documents) {
-                    val curr = document.toObject(Notification::class.java)
-                    curr?.id = document.id.toString()
-                    curr?.let { it1 -> notif_activities.add(it1) }
+    private fun getNotifications(uid: String) {
+        db.collection("users").document(uid).collection("notifications")
+            .orderBy("date", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, _ ->
+                if (snapshot != null) {
+                    notifications.clear()
+                    for (document in snapshot.documents) {
+                        val curr = document.toObject(Notification::class.java)
+                        if (curr != null) {
+                            if(curr.userId != uid) {
+                                curr.let { it1 -> notifications.add(it1) }
+                            }
+                        }
+
+
+                    }
                 }
+                notificationRVAdapter.notifyDataSetChanged()
 
-                notificationActivitiesRVAdapter.notifyDataSetChanged()
-            }
-    }
-
-    private fun getNotificationFollowers() {
-        db.collection("notifications").document(uid).collection("followers")
-            .get().addOnSuccessListener {
-                for (document in it.documents) {
-                    val curr = document.toObject(Notification::class.java)
-                    curr?.id = document.id.toString()
-                    curr?.let { it1 -> notif_followers.add(it1) }
+                if (notifications.isEmpty()) {
+                    binding.noRecentNotificationTV.visibility = View.VISIBLE
+                } else {
+                    binding.noRecentNotificationTV.visibility = View.GONE
                 }
-
-                notificationFollowersRVAdapter.notifyDataSetChanged()
             }
-    }
-
-    override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
     }
 
 }

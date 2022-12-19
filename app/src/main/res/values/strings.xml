@@ -78,4 +78,7 @@
     <string name="likeComment">liked your comment</string>
     <string name="likeReply">liked your reply</string>
     <string name="replyComment">replied to your comment</string>
+    <string name="commentThread">commented to your thread</string>
+    <string name="no_recent_notification">No recent notification 😥</string>
+    <string name="notifications">Notifications</string>
 </resources>

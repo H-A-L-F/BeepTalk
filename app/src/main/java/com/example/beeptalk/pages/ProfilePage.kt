@@ -37,7 +37,6 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
     private lateinit var firebaseStorage: FirebaseStorage
     private lateinit var posts: ArrayList<Post>
     private lateinit var postRVAdapter: PostRVAdapter
-    private lateinit var sp: SharedPreferences
     private var isThisUser: Boolean = true
 
     private var followers: ArrayList<String> = arrayListOf()
@@ -51,7 +50,6 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseStorage = FirebaseStorage.getInstance()
-        sp = getSharedPreferences("current_user", Context.MODE_PRIVATE)
         posts = arrayListOf()
 
 

@@ -7,6 +7,7 @@ import com.example.beeptalk.R
 import com.example.beeptalk.databinding.CardCommentThreadBinding
 import com.example.beeptalk.models.Notification
 import com.example.beeptalk.models.ThreadComment
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
@@ -14,8 +15,6 @@ import com.squareup.picasso.Picasso
 class ThreadCommentRVAdapter(
     private var comments: ArrayList<ThreadComment>,
     private val recyclerViewInterface: RecyclerViewInterface,
-    private val uname: String,
-    private val uid: String
 ) : RecyclerView.Adapter<ThreadCommentRVAdapter.ViewHolder>() {
 
     class ViewHolder(
@@ -46,13 +45,15 @@ class ThreadCommentRVAdapter(
 
         val db = FirebaseFirestore.getInstance()
 
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+
         holder.binding.btnDownvote.setImageResource(R.drawable.ic_downvote)
         holder.binding.btnUpvote.setImageResource(R.drawable.ic_upvote)
 
-        if (comment.upvote.contains(uid)) {
+        if (comment.upvote.contains(currentUserId)) {
             holder.binding.btnUpvote.setImageResource(R.drawable.ic_baseline_keyboard_double_arrow_up_24)
         }
-        if (comment.downvote.contains(uid)) {
+        if (comment.downvote.contains(currentUserId)) {
             holder.binding.btnDownvote.setImageResource(R.drawable.ic_baseline_keyboard_double_arrow_down_24)
         }
 
@@ -82,31 +83,32 @@ class ThreadCommentRVAdapter(
             }
 
         holder.binding.btnUpvote.setOnClickListener {
-            if (comment.upvote.contains(uid)) return@setOnClickListener
+            if (comment.upvote.contains(currentUserId)) return@setOnClickListener
             holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
             db.collection("threads").document(comment.threadId)
                 .collection("comments").document(comment.id!!)
-                .update("upvote", FieldValue.arrayUnion(uid))
+                .update("upvote", FieldValue.arrayUnion(currentUserId))
             db.collection("threads").document(comment.threadId)
                 .collection("comments").document(comment.id!!)
-                .update("downvote", FieldValue.arrayRemove(uid))
+                .update("downvote", FieldValue.arrayRemove(currentUserId))
 
-            val notification = Notification(comment.uid, uid, "likeComment")
-            db.collection("users").document(comment.uid).collection("notifications")
-                .add(notification)
-
+            if (comment.uid != FirebaseAuth.getInstance().currentUser?.uid) {
+                val notification = Notification(comment.uid, currentUserId, "likeComment")
+                db.collection("users").document(comment.uid).collection("notifications")
+                    .add(notification)
+            }
             holder.binding.btnDownvote.setImageResource(R.drawable.ic_downvote)
         }
 
         holder.binding.btnDownvote.setOnClickListener {
-            if (comment.downvote.contains(uid)) return@setOnClickListener
+            if (comment.downvote.contains(currentUserId)) return@setOnClickListener
             holder.binding.tvTotalVotes.text = comment.getTotalVotes().toString()
             db.collection("threads").document(comment.threadId)
                 .collection("comments").document(comment.id!!)
-                .update("downvote", FieldValue.arrayUnion(uid))
+                .update("downvote", FieldValue.arrayUnion(currentUserId))
             db.collection("threads").document(comment.threadId)
                 .collection("comments").document(comment.id!!)
-                .update("upvote", FieldValue.arrayRemove(uid))
+                .update("upvote", FieldValue.arrayRemove(currentUserId))
 
             holder.binding.btnUpvote.setImageResource(R.drawable.ic_upvote)
         }

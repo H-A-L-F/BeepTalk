@@ -14,7 +14,7 @@ import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class HomeFragment : Fragment(), RecyclerViewInterface {
+class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var posts: ArrayList<Post>
@@ -60,10 +60,6 @@ class HomeFragment : Fragment(), RecyclerViewInterface {
                 posts.shuffle();
                 postVPAdapter.notifyDataSetChanged()
             }
-    }
-
-    override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
     }
 
 }
