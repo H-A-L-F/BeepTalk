@@ -78,7 +78,7 @@ class FollowersRVAdapter(
 
 
         holder.binding.btn.setOnClickListener {
-            if (holder.binding.btn.text.toString() == "Following") {
+            if (holder.binding.btn.text.toString() == context.getString(R.string.following)) {
                 firebaseFirestore.collection("users").document(follower).update(
                     "followers", FieldValue.arrayRemove(
                         firebaseAuth.currentUser!!.uid
@@ -90,7 +90,7 @@ class FollowersRVAdapter(
                             follower
                         )
                     )
-            } else if (holder.binding.btn.text.toString() == "Follow") {
+            } else if (holder.binding.btn.text.toString() == context.getString(R.string.followers_follow)) {
                 firebaseFirestore.collection("users").document(follower).update(
                     "followers", FieldValue.arrayUnion(
                         firebaseAuth.currentUser!!.uid

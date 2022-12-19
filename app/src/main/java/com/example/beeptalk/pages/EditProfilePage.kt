@@ -79,15 +79,17 @@ class EditProfilePage : AppCompatActivity() {
                                             "Profile updated!",
                                             Toast.LENGTH_SHORT
                                         ).show()
+                                        finish()
                                     }
                                 }
+
                             } else {
                                 Toast.makeText(this, "Username taken!", Toast.LENGTH_SHORT).show()
                             }
 
                         }
 
-                    finish()
+
                 } else {
                     Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
                 }

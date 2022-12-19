@@ -30,16 +30,15 @@ class HomeFragment : Fragment() {
         posts = arrayListOf()
 
         postVPAdapter = context?.let { PostVPAdapter(it, posts) }!!
-
         binding.homeViewPager.adapter = postVPAdapter
 
         binding.homeViewPager.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 if (position == postVPAdapter.itemCount - 1) {
-                    posts.reverse();
+                    posts.addAll(posts);
                     postVPAdapter.notifyDataSetChanged()
-                    binding.homeViewPager.setCurrentItem(0, true)
+//                    binding.homeViewPager.setCurrentItem(0, true)
                 }
             }
         })

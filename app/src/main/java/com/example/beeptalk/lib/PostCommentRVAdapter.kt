@@ -135,7 +135,8 @@ class PostCommentRVAdapter(
                 }
 
             }
-
+        holder.binding.likeCommentBtn.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+        holder.binding.dislikeCommentBtn.setImageResource(R.drawable.ic_outline_thumb_down_24)
         if (postComment.likes.contains(firebaseAuth.currentUser?.uid)) {
             holder.binding.likeCommentBtn.setImageResource(R.drawable.ic_baseline_like_filled_24)
         }

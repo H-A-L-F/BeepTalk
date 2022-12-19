@@ -16,6 +16,8 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -36,6 +38,10 @@
                 app:avatarViewIndicatorSizeCriteria="9"
                 app:avatarViewInitialsTextStyle="bold"
                 app:avatarViewShape="circle" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -66,7 +72,13 @@
 
         </LinearLayout>
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
         <TextView
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:id="@+id/tvThreadBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,20 +86,29 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/thumbnailPostLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <ImageView
+            android:id="@+id/thumbnailPost"
+            android:layout_width="139dp"
+            android:layout_height="227dp"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+
+
+    </LinearLayout>
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
 
-    <ImageView
-        android:id="@+id/thumbnailPost"
-        android:layout_width="139dp"
-        android:layout_height="227dp"
-        tools:layout_editor_absoluteY="1dp"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

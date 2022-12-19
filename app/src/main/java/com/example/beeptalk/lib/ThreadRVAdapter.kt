@@ -58,10 +58,12 @@ class ThreadRVAdapter(
 
         val currentUser = FirebaseAuth.getInstance().currentUser?.uid
         val db = FirebaseFirestore.getInstance()
+
+        holder.binding.thumbnailPostLinearLayout.visibility = View.GONE
         if (thread.stitch == null) {
-            holder.binding.thumbnailPost.visibility = View.GONE
+            holder.binding.thumbnailPostLinearLayout.visibility = View.GONE
         } else {
-            holder.binding.thumbnailPost.visibility = View.VISIBLE
+            holder.binding.thumbnailPostLinearLayout.visibility = View.VISIBLE
             holder.binding.thumbnailPost.setOnClickListener {
                 goToSingleVideoPage(thread.stitch)
             }

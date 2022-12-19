@@ -81,6 +81,14 @@ class PostVPAdapter(
         holder.binding.homeVideoView.setOnPreparedListener {
             holder.binding.progressBar.visibility = View.GONE
         }
+
+        holder.binding.homeVideoView.setOnFocusChangeListener { view, b ->
+            if(b) {
+                holder.binding.homeVideoView.start()
+            } else {
+                holder.binding.homeVideoView.start()
+            }
+        }
         holder.binding.homeVideoView.setOnCompletionListener {
             holder.binding.homeVideoView.start()
         }

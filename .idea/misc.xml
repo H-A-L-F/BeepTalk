@@ -67,7 +67,7 @@
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/drawable/thread_icon.xml" value="0.211" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/drawable/wave.xml" value="0.211" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_change_password.xml" value="0.2" />
-        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_comment_detail_page.xml" value="0.2" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_comment_detail_page.xml" value="0.4" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_create_thread_page.xml" value="0.17708333333333334" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_edit_comment_page.xml" value="0.264" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/activity_edit_profile_page.xml" value="0.2" />
@@ -92,7 +92,7 @@
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_follow_notification.xml" value="0.4" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_like_notification.xml" value="0.13125" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_notification.xml" value="0.2" />
-        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_thread.xml" value="0.152" />
+        <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/card_thread.xml" value="0.264" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/component_thread.xml" value="0.25" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/followers_card.xml" value="0.2" />
         <entry key="..\:/Users/Ren/Documents/GitHub/BeepTalk/app/src/main/res/layout/fragment_add.xml" value="0.264" />
