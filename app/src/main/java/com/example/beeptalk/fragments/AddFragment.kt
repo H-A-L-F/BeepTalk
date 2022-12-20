@@ -12,6 +12,7 @@ import android.widget.Toast
 import android.widget.VideoView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.FragmentAddBinding
 import com.example.beeptalk.models.Post
 import com.google.firebase.auth.FirebaseAuth
@@ -26,8 +27,6 @@ class AddFragment : Fragment() {
 
     private var videoUri: Uri? = null
 
-//    private lateinit var progressBar: ProgressBar
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,12 +40,12 @@ class AddFragment : Fragment() {
                 caption = videoTitleEt.text.toString()
                 if (caption.isEmpty()) Toast.makeText(
                     context,
-                    "Please input title",
+                    getText(R.string.please_input_title),
                     Toast.LENGTH_SHORT
                 ).show()
                 else if (videoUri == null) Toast.makeText(
                     context,
-                    "Please choose a video",
+                    getText(R.string.please_choose_video),
                     Toast.LENGTH_SHORT
                 ).show()
                 else uploadVideoToFirebase()
@@ -63,7 +62,7 @@ class AddFragment : Fragment() {
 
     private fun uploadVideoToFirebase(
     ) {
-        Toast.makeText(context, "Start uploading", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, getText(R.string.start_uploading), Toast.LENGTH_SHORT).show()
 
         val timestamp = "" + System.currentTimeMillis()
         val filePathAndName = "videos/video_$timestamp"
@@ -78,13 +77,12 @@ class AddFragment : Fragment() {
                     )
                     FirebaseFirestore.getInstance().collection("posts").add(post)
                         .addOnSuccessListener {
-                            Toast.makeText(context, "Post created!!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, getText(R.string.post_created), Toast.LENGTH_SHORT).show()
                         }
                 }
             }
             .addOnFailureListener {
-//                progressBar.setVisibility(View.GONE);
-                Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getText(R.string.post_failed), Toast.LENGTH_SHORT).show()
             }
     }
 

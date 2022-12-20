@@ -57,10 +57,6 @@ class ThreadFragment : Fragment(), RecyclerViewInterface, RecyclerViewEditInterf
     private fun subscribeThreads() {
         db.collection("threads").orderBy("createdAt", Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                firebaseFirestoreException?.let {
-                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-                    return@addSnapshotListener
-                }
 
                 querySnapshot?.let {
                     threads.clear()

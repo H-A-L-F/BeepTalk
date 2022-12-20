@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityEditCommentPageBinding
 import com.example.beeptalk.helper.getRelativeString
 import com.example.beeptalk.models.PostComment
@@ -41,16 +42,29 @@ class EditCommentPage : AppCompatActivity() {
                     val updates = HashMap<String, Any>()
                     updates["body"] = body
 
-                    if(body.isNotEmpty()) {
-                        firebaseFirestore.collection("posts").document(postId).collection("comments")
+                    if (body.isNotEmpty()) {
+                        firebaseFirestore.collection("posts").document(postId)
+                            .collection("comments")
                             .document(commentId).update(updates).addOnSuccessListener {
-                                Toast.makeText(this, "Comment updated!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this,
+                                    getText(R.string.comment_updated),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 finish()
                             }.addOnFailureListener {
-                                Toast.makeText(this, "Comment update failed!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this,
+                                    getText(R.string.comment_update_failed),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                     } else {
-                        Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            getText(R.string.fields_cannot_empty),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
 

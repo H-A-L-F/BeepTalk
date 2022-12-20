@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityThreadPageBinding
 import com.example.beeptalk.lib.RecyclerViewEditInterface
 import com.example.beeptalk.lib.RecyclerViewInterface
@@ -44,7 +45,7 @@ class ThreadPage : AppCompatActivity(), RecyclerViewInterface, RecyclerViewEditI
         db.collection("threads")
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getText(R.string.error_occured), Toast.LENGTH_LONG).show()
                     return@addSnapshotListener
                 }
 

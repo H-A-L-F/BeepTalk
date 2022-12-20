@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityUpdatePasswordPageBinding
 import com.example.beeptalk.models.User
 import com.google.firebase.auth.FirebaseAuth
@@ -51,7 +52,7 @@ class UpdatePasswordPage : AppCompatActivity() {
                                                     ?.addOnSuccessListener {
                                                         Toast.makeText(
                                                             this,
-                                                            "Password updated successfully!",
+                                                            getText(R.string.password_update_success),
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     }
@@ -66,17 +67,17 @@ class UpdatePasswordPage : AppCompatActivity() {
                                             }
                                         }
                                     } else {
-                                        Toast.makeText(this, "Password cannot be the same as the last password!", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this, getText(R.string.password_cannot_same), Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             }
                         }.addOnFailureListener {
                         }
                 } else {
-                    Toast.makeText(this, "Password doesn't match!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.password_not_match), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getText(R.string.fields_cannot_empty), Toast.LENGTH_SHORT).show()
             }
         }
 

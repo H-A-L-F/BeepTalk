@@ -123,7 +123,7 @@ class ProfileFragment : Fragment() {
                                 if (task.isSuccessful) {
                                     Toast.makeText(
                                         context,
-                                        "Successfully Log Out",
+                                        getText(R.string.log_out_success),
                                         Toast.LENGTH_SHORT
                                     )
                                         .show()
@@ -160,7 +160,7 @@ class ProfileFragment : Fragment() {
                             .update("profilePicture", imageUrl).addOnSuccessListener {
                                 Toast.makeText(
                                     context,
-                                    "Profile Picture Updated",
+                                    getText(R.string.profile_picture_updated),
                                     Toast.LENGTH_SHORT
                                 )
                                     .show()

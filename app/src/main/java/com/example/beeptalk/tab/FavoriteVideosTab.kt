@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.FragmentFavoriteVideosTabBinding
 import com.example.beeptalk.lib.PostRVAdapter
 import com.example.beeptalk.lib.RecyclerViewInterface
@@ -29,7 +30,7 @@ class FavoriteVideosTab(private var userId: String) : Fragment(), RecyclerViewIn
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFavoriteVideosTabBinding.inflate(layoutInflater, container, false)
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseFirestore = FirebaseFirestore.getInstance()
@@ -49,7 +50,7 @@ class FavoriteVideosTab(private var userId: String) : Fragment(), RecyclerViewIn
         firebaseFirestore.collection("posts").whereArrayContains("favorites", userId)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
-                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getText(R.string.error_occured), Toast.LENGTH_LONG).show()
                     return@addSnapshotListener
                 }
 

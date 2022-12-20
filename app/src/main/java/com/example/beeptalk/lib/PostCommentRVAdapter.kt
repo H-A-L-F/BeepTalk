@@ -94,21 +94,21 @@ class PostCommentRVAdapter(
 
             holder.binding.delete.setOnClickListener {
                 val builder = AlertDialog.Builder(context)
-                builder.setTitle("Exit")
-                builder.setMessage("Are you sure you want to delete this comment?")
+                builder.setTitle(context.getString(R.string.delete_comment))
+                builder.setMessage(context.getString(R.string.are_your_sure_delete_comment))
 
-                builder.setPositiveButton("Yes") { _, _ ->
+                builder.setPositiveButton(context.getText(R.string.yes)) { _, _ ->
                     postComment.postId?.let { it1 ->
                         postComment.id?.let { it2 ->
                             firebaseFirestore.collection("posts").document(
                                 it1
                             ).collection("comments").document(it2).delete().addOnSuccessListener {
-                                Toast.makeText(context, "Comment deleted!", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, context.getText(R.string.comment_deleted), Toast.LENGTH_SHORT)
                                     .show()
                             }.addOnFailureListener {
                                 Toast.makeText(
                                     context,
-                                    "Comment failed to be deleted!",
+                                    context.getText(R.string.comment_failed_deleted),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -116,7 +116,7 @@ class PostCommentRVAdapter(
                     }
 
                 }
-                builder.setNegativeButton("No") { _, _ ->
+                builder.setNegativeButton(context.getText(R.string.no)) { _, _ ->
 
                 }
                 val dialog = builder.create()

@@ -1,19 +1,16 @@
 package com.example.beeptalk.pages
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityThreadDetailPageBinding
 import com.example.beeptalk.helper.getRelativeString
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.ThreadCommentRVAdapter
-import com.example.beeptalk.lib.ThreadRVAdapter
 import com.example.beeptalk.models.Notification
-import com.example.beeptalk.models.Thread
 import com.example.beeptalk.models.ThreadComment
 import com.example.beeptalk.parcel.ThreadCommentID
 import com.example.beeptalk.parcel.ThreadID
@@ -21,16 +18,13 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
     private lateinit var binding: ActivityThreadDetailPageBinding
-    private lateinit var comments : ArrayList<ThreadComment>
+    private lateinit var comments: ArrayList<ThreadComment>
     private lateinit var threadCommentRVAdapter: ThreadCommentRVAdapter
-    private lateinit var db : FirebaseFirestore
+    private lateinit var db: FirebaseFirestore
 
     private lateinit var thread: ThreadID
 
@@ -75,20 +69,31 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
             val body = binding.etCommentBody.text.toString()
             val threadId = thread.id
 
-            val threadComment = ThreadComment(threadId = threadId, body = body, uid = FirebaseAuth.getInstance().currentUser?.uid, replyTo = thread.uid)
+            val threadComment = ThreadComment(
+                threadId = threadId,
+                body = body,
+                uid = FirebaseAuth.getInstance().currentUser?.uid,
+                replyTo = thread.uid
+            )
 
             db.collection("threads").document(thread.id)
                 .collection("comments")
                 .add(threadComment).addOnSuccessListener {
                     binding.etCommentBody.text.clear()
 
-                    Toast.makeText(this, "Posted comment", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.comment_posted), Toast.LENGTH_SHORT)
+                        .show()
                 }.addOnFailureListener {
-                    Toast.makeText(this, "Comment failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.comment_add_failed), Toast.LENGTH_SHORT)
+                        .show()
                 }
 
-            if(thread.uid != FirebaseAuth.getInstance().currentUser?.uid) {
-                val notification = Notification(thread.uid, FirebaseAuth.getInstance().currentUser?.uid, "commentThread-$body" )
+            if (thread.uid != FirebaseAuth.getInstance().currentUser?.uid) {
+                val notification = Notification(
+                    thread.uid,
+                    FirebaseAuth.getInstance().currentUser?.uid,
+                    "commentThread-$body"
+                )
                 db.collection("users").document(thread.uid)
                     .collection("notifications").add(notification)
             }
@@ -107,11 +112,11 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
 //        getThreadComments(thread.id)
     }
 
-    private fun subscribeThreadComments(threadId : String) {
+    private fun subscribeThreadComments(threadId: String) {
         db.collection("threads").document(threadId).collection("comments")
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getText(R.string.error_occured), Toast.LENGTH_LONG).show()
                     return@addSnapshotListener
                 }
 
@@ -129,7 +134,7 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
             }
     }
 
-    private fun getThreadComments(threadId : String) {
+    private fun getThreadComments(threadId: String) {
         db.collection("threads").document(threadId).collection("comments")
             .get().addOnSuccessListener {
                 for (document in it.documents) {
@@ -148,12 +153,13 @@ class ThreadDetailPage : AppCompatActivity(), RecyclerViewInterface {
         val id = curr.id
         val threadId = thread.id
         val commUid = curr.uid
-        val body =  curr.body
+        val body = curr.body
         val upvote = curr.upvote
         val downvote = curr.downvote
         val replyTo = curr.replyTo
 
-        val commentItem: ThreadCommentID = ThreadCommentID(id!!, threadId, commUid!!, body!!, replyTo, upvote, downvote)
+        val commentItem: ThreadCommentID =
+            ThreadCommentID(id!!, threadId, commUid!!, body!!, replyTo, upvote, downvote)
 
         intent = Intent(this, CommentDetailPage::class.java)
         intent.putExtra("thread", thread)

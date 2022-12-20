@@ -6,6 +6,7 @@ import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityForgotPasswordPageBinding
 import com.example.beeptalk.helper.generateOTP
 import com.google.firebase.auth.FirebaseAuth
@@ -42,13 +43,13 @@ class ForgotPasswordPage : AppCompatActivity() {
                                     if (signInMethods.isEmpty()) {
                                         Toast.makeText(
                                             this,
-                                            "Email doesn't exists!",
+                                            getText(R.string.email_not_exists),
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     } else if (signInMethods.size == 1 && signInMethods.contains("google.com")) {
                                         Toast.makeText(
                                             this,
-                                            "You only logged in with google sign in, cannot change password!",
+                                            getText(R.string.only_logged_with_google),
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     } else {
@@ -66,23 +67,25 @@ class ForgotPasswordPage : AppCompatActivity() {
                                 } else {
                                     Toast.makeText(
                                         this,
-                                        "Email doesn't exists!",
+                                        getText(R.string.email_not_exists),
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
                             } else {
                                 Toast.makeText(
                                     this,
-                                    "Error occurred when checking the email",
+                                    getText(R.string.error_check_email),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
                 } else {
-                    Toast.makeText(this, "Please input valid email!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.input_valid_email), Toast.LENGTH_SHORT)
+                        .show()
                 }
             } else {
-                Toast.makeText(this, "Empty field are not allowed!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getText(R.string.fields_cannot_empty), Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

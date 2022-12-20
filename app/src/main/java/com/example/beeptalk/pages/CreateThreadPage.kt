@@ -8,11 +8,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityCreateThreadPageBinding
 import com.example.beeptalk.models.Post
 import com.example.beeptalk.models.Thread
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 
 class CreateThreadPage : AppCompatActivity() {
     private lateinit var binding: ActivityCreateThreadPageBinding
@@ -26,15 +28,23 @@ class CreateThreadPage : AppCompatActivity() {
         val postId = intent.getStringExtra("postId")
         db = FirebaseFirestore.getInstance()
 
+        FirebaseAuth.getInstance().currentUser?.let {
+            db.collection("users").document(it.uid).get()
+                .addOnSuccessListener {
+                    val data = it.data ?: return@addOnSuccessListener
+                    Picasso.get().load(data["profilePicture"] as String)
+                        .into(binding.avCurrUser)
+                }
+        }
+
         if (postId == null) {
             binding.postView.visibility = View.GONE
         } else {
             binding.postView.visibility = View.VISIBLE
-            db.collection("posts").document(postId).addSnapshotListener {
-                snapshot, _ ->
+            db.collection("posts").document(postId).addSnapshotListener { snapshot, _ ->
                 val curr = snapshot?.toObject(Post::class.java)
 
-                if(curr != null) {
+                if (curr != null) {
                     val videoUrl = curr.videoUrl
                     Glide.with(this)
                         .asBitmap()
@@ -69,13 +79,15 @@ class CreateThreadPage : AppCompatActivity() {
 
                 db.collection("threads").add(thread).addOnSuccessListener {
                     binding.etThreadBody.text.clear()
-                    Toast.makeText(this, "Posted thread", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.thread_posted), Toast.LENGTH_SHORT).show()
                     finish()
                 }.addOnFailureListener {
-                    Toast.makeText(this, "Post failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.thread_post_failed), Toast.LENGTH_SHORT)
+                        .show()
                 }
             } else {
-                Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getText(R.string.fields_cannot_empty), Toast.LENGTH_SHORT)
+                    .show()
             }
 
 

@@ -16,7 +16,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.AggregateSource
@@ -88,19 +87,29 @@ class LoginPage : AppCompatActivity() {
                                         }
                                     }
                             } else {
-                                Toast.makeText(this, "Error occurred!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this,
+                                    getText(R.string.error_occured),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
 
                             goToMainPage()
                         } else {
-                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                getText(R.string.credentials_false),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 } else {
-                    Toast.makeText(this, "Please input valid email!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.input_valid_email), Toast.LENGTH_SHORT)
+                        .show()
                 }
             } else {
-                Toast.makeText(this, "Empty field are not allowed!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getText(R.string.fields_cannot_empty), Toast.LENGTH_SHORT)
+                    .show()
             }
 
         }
@@ -173,7 +182,7 @@ class LoginPage : AppCompatActivity() {
                 updateUi(account);
             }
         } else {
-            Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getText(R.string.error_occured), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -207,7 +216,11 @@ class LoginPage : AppCompatActivity() {
                                         }
                                     }
                             } else {
-                                Toast.makeText(this, "Error occurred!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this,
+                                    getText(R.string.error_occured),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                             return@addSnapshotListener
                         }
@@ -228,13 +241,15 @@ class LoginPage : AppCompatActivity() {
                                             .addOnSuccessListener {
                                                 Toast.makeText(
                                                     this,
-                                                    "Account registered successfully!",
+                                                    getText(
+                                                        R.string.account_registere_success
+                                                    ),
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }.addOnFailureListener {
                                                 Toast.makeText(
                                                     this,
-                                                    it.localizedMessage,
+                                                    getText(R.string.error_occured),
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
@@ -244,7 +259,7 @@ class LoginPage : AppCompatActivity() {
                     }
                 goToMainPage()
             } else {
-                Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getText(R.string.error_occured), Toast.LENGTH_LONG).show();
             }
         }
     }

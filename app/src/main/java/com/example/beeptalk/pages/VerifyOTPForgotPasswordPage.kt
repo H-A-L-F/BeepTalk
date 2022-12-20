@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityVerifyOtpforgotPasswordPageBinding
 
 class VerifyOTPForgotPasswordPage : AppCompatActivity() {
@@ -32,23 +32,16 @@ class VerifyOTPForgotPasswordPage : AppCompatActivity() {
                 binding.inputCode5.text.toString().trim().isEmpty() ||
                 binding.inputCode6.text.toString().trim().isEmpty()
             ) {
-                Toast.makeText(this, "Code cannot be empty!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getText(R.string.code_cannot_empty), Toast.LENGTH_SHORT).show()
             } else {
                 val code: String =
                     binding.inputCode1.text.toString() + binding.inputCode2.text.toString() + binding.inputCode3.text.toString() + binding.inputCode4.text.toString() + binding.inputCode5.text.toString() + binding.inputCode6.text.toString()
-                Log.d("Codenya nih", code)
-                if (OTP != null) {
-                    Log.d("otpnya nih", OTP)
-                } else {
-                    Log.d("otpnya", "null an")
-                }
-
-                if(code == OTP) {
+                if (code == OTP) {
                     if (emailSentTo != null) {
                         goToUpdatePasswordPage(emailSentTo)
                     }
                 } else {
-                    Toast.makeText(this, "Please enter a valid code!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.enter_a_valid_code), Toast.LENGTH_SHORT).show()
                 }
             }
         }

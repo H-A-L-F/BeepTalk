@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityCommentDetailPageBinding
 import com.example.beeptalk.lib.RecyclerViewInterface
 import com.example.beeptalk.lib.ThreadCommentReplyRVadapter
@@ -43,12 +44,14 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
 
         db = FirebaseFirestore.getInstance()
 
-        db.collection("users").document(uid).get()
-            .addOnSuccessListener {
-                val data = it.data ?: return@addOnSuccessListener
-                Picasso.get().load(data["profilePicture"] as String)
-                    .into(binding.avCurrUser)
-            }
+        FirebaseAuth.getInstance().currentUser?.let {
+            db.collection("users").document(it.uid).get()
+                .addOnSuccessListener {
+                    val data = it.data ?: return@addOnSuccessListener
+                    Picasso.get().load(data["profilePicture"] as String)
+                        .into(binding.avCurrUser)
+                }
+        }
 
         db.collection("users").document(currComm.uid!!).get()
             .addOnSuccessListener {
@@ -86,9 +89,9 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
                 .add(threadCommentReply).addOnSuccessListener {
                     binding.commentBodyEt.text.clear()
 
-                    Toast.makeText(this, "Posted comment", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.comment_posted), Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener {
-                    Toast.makeText(this, "Comment failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.comment_post_failed), Toast.LENGTH_SHORT).show()
                 }
 
             if (currComm.uid != FirebaseAuth.getInstance().currentUser?.uid) {
@@ -119,10 +122,6 @@ class CommentDetailPage : AppCompatActivity(), RecyclerViewInterface {
             .collection("comments").document(commentId)
             .collection("comments")
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                firebaseFirestoreException?.let {
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-                    return@addSnapshotListener
-                }
 
                 querySnapshot?.let {
                     comments = arrayListOf()

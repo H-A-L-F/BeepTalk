@@ -199,7 +199,7 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                         val googleSignInClient = GoogleSignIn.getClient(this, gso)
                         googleSignInClient.signOut().addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                Toast.makeText(this, "Successfully Log Out", Toast.LENGTH_SHORT)
+                                Toast.makeText(this, getText(R.string.log_out_success), Toast.LENGTH_SHORT)
                                     .show()
                             }
                         }
@@ -219,10 +219,6 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
     private fun getPosts(userId: String) {
         firebaseFirestore.collection("posts").whereEqualTo("userId", userId)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                firebaseFirestoreException?.let {
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-                    return@addSnapshotListener
-                }
 
                 querySnapshot?.let {
                     posts.clear()
@@ -252,7 +248,7 @@ class ProfilePage : AppCompatActivity(), RecyclerViewInterface {
                     uploadImage(it.uid, result.data!!.data!!) { imageUrl ->
                         firebaseFirestore.collection("users").document(it.uid)
                             .update("profilePicture", imageUrl).addOnSuccessListener {
-                                Toast.makeText(this, "Profile Picture Updated", Toast.LENGTH_SHORT)
+                                Toast.makeText(this, getText(R.string.profile_picture_updated), Toast.LENGTH_SHORT)
                                     .show()
                             }
                     }

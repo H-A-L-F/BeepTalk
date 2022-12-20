@@ -112,7 +112,7 @@
                 android:layout_weight="@integer/material_motion_duration_long_1"
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
-                android:hint="What's happening?"
+                android:hint="@string/what_s_happening"
                 android:maxHeight="80dp"
                 android:paddingHorizontal="10dp" />
 
@@ -120,8 +120,7 @@
                 android:id="@+id/btnPostComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Comment"
+                android:text="@string/comment"
                 android:textAllCaps="false" />
         </LinearLayout>
 

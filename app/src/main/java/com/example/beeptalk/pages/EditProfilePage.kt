@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityEditProfilePageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -76,7 +77,7 @@ class EditProfilePage : AppCompatActivity() {
                                     ).update(updates).addOnSuccessListener {
                                         Toast.makeText(
                                             this,
-                                            "Profile updated!",
+                                            getText(R.string.profile_updated),
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         finish()
@@ -84,14 +85,19 @@ class EditProfilePage : AppCompatActivity() {
                                 }
 
                             } else {
-                                Toast.makeText(this, "Username taken!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this,
+                                    getText(R.string.username_taken),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
 
                         }
 
 
                 } else {
-                    Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.fields_cannot_empty), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
 
@@ -115,7 +121,11 @@ class EditProfilePage : AppCompatActivity() {
                     uploadImage(it.uid, result.data!!.data!!) { imageUrl ->
                         firebaseFirestore.collection("users").document(it.uid)
                             .update("profilePicture", imageUrl).addOnSuccessListener {
-                                Toast.makeText(this, "Profile Picture Updated", Toast.LENGTH_SHORT)
+                                Toast.makeText(
+                                    this,
+                                    getText(R.string.profile_picture_updated),
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                             }
                     }

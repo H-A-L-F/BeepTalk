@@ -85,13 +85,13 @@ class RegisterPage : AppCompatActivity() {
                                                 .addOnSuccessListener {
                                                     Toast.makeText(
                                                         this,
-                                                        "Account registered successfully!",
+                                                        getText(R.string.account_registere_success),
                                                         Toast.LENGTH_SHORT
                                                     ).show()
                                                 }.addOnFailureListener {
                                                     Toast.makeText(
                                                         this,
-                                                        it.localizedMessage,
+                                                        getText(R.string.error_occured),
                                                         Toast.LENGTH_SHORT
                                                     ).show()
                                                 }
@@ -112,20 +112,20 @@ class RegisterPage : AppCompatActivity() {
                                         } else {
                                             Toast.makeText(
                                                 this,
-                                                task.exception.toString(),
+                                                getText(R.string.error_occured),
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         }
                                     }
                             } else {
-                                Toast.makeText(this, "Username taken!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, getText(R.string.username_taken), Toast.LENGTH_SHORT).show()
                             }
                         }
                 } else {
-                    Toast.makeText(this, "Please input valid email!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.input_valid_email), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(this, "Empty field are not allowed!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getText(R.string.fields_cannot_empty), Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -162,7 +162,7 @@ class RegisterPage : AppCompatActivity() {
                 updateUi(account);
             }
         } else {
-            Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getText(R.string.error_occured), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -196,7 +196,7 @@ class RegisterPage : AppCompatActivity() {
                                         }
                                     }
                             } else {
-                                Toast.makeText(this, "Error occurred!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, getText(R.string.error_occured), Toast.LENGTH_SHORT).show()
                             }
                             return@addSnapshotListener
                         }
@@ -217,13 +217,13 @@ class RegisterPage : AppCompatActivity() {
                                             .addOnSuccessListener {
                                                 Toast.makeText(
                                                     this,
-                                                    "Account registered successfully!",
+                                                    getText(R.string.account_registere_success),
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }.addOnFailureListener {
                                                 Toast.makeText(
                                                     this,
-                                                    it.localizedMessage,
+                                                    getText(R.string.error_occured),
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
@@ -233,7 +233,7 @@ class RegisterPage : AppCompatActivity() {
                     }
                 goToMainPage()
             } else {
-                Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getText(R.string.error_occured), Toast.LENGTH_LONG).show();
             }
         }
     }

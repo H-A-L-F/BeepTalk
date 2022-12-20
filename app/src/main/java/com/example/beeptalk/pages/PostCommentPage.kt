@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityPostCommentPageBinding
 import com.example.beeptalk.lib.PostCommentRVAdapter
 import com.example.beeptalk.models.PostComment
@@ -91,13 +92,22 @@ class PostCommentPage : AppCompatActivity() {
                         .add(threadComment).addOnSuccessListener {
                             binding.commentET.text.clear()
 
-                            Toast.makeText(this, "Comment added", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                getText(R.string.comment_added),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }.addOnFailureListener {
-                            Toast.makeText(this, "Comment added failed", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                this,
+                                getText(R.string.comment_add_failed),
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                         }
                 } else {
-                    Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.fields_cannot_empty), Toast.LENGTH_SHORT)
+                        .show()
                 }
             } else {
                 if (body.isNotEmpty()) {
@@ -112,13 +122,13 @@ class PostCommentPage : AppCompatActivity() {
                         .add(threadComment).addOnSuccessListener {
                             binding.commentET.text.clear()
 
-                            Toast.makeText(this, "Reply added", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getText(R.string.reply_added), Toast.LENGTH_SHORT).show()
                         }.addOnFailureListener {
-                            Toast.makeText(this, "Reply added failed", Toast.LENGTH_SHORT)
+                            Toast.makeText(this, getText(R.string.reply_add_failed), Toast.LENGTH_SHORT)
                                 .show()
                         }
                 } else {
-                    Toast.makeText(this, "Fields a cannot be empty!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.fields_cannot_empty), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -131,17 +141,14 @@ class PostCommentPage : AppCompatActivity() {
         );
 
         getAllComments(postId)
-        postComments.sortedWith(compareBy {it.createdAt})
+        postComments.sortedWith(compareBy { it.createdAt })
         postCommentRVAdapter.notifyDataSetChanged()
     }
 
     private fun getAllComments(postId: String) {
-        firebaseFirestore.collection("posts").document(postId).collection("comments").orderBy("createdAt", Query.Direction.DESCENDING)
+        firebaseFirestore.collection("posts").document(postId).collection("comments")
+            .orderBy("createdAt", Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                firebaseFirestoreException?.let {
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-                    return@addSnapshotListener
-                }
 
                 querySnapshot?.let {
                     postComments.clear()

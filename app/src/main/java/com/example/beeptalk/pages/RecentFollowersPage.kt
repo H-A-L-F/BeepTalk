@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityRecentFollowersPageBinding
 import com.example.beeptalk.lib.FollowersRVAdapter
 import com.example.beeptalk.lib.RecyclerViewInterface
@@ -49,7 +50,7 @@ class RecentFollowersPage : AppCompatActivity(), RecyclerViewInterface {
             firebaseFirestore.collection("users").document(user.uid)
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     firebaseFirestoreException?.let {
-                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, getText(R.string.error_occured), Toast.LENGTH_LONG).show()
                         return@addSnapshotListener
                     }
 

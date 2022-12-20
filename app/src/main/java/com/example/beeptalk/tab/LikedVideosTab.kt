@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.FragmentLikedVideosTabBinding
 import com.example.beeptalk.lib.PostRVAdapter
 import com.example.beeptalk.lib.RecyclerViewInterface
@@ -48,7 +49,7 @@ class LikedVideosTab(private var userId: String) : Fragment(), RecyclerViewInter
         firebaseFirestore.collection("posts").whereArrayContains("likes", userId)
         .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             firebaseFirestoreException?.let {
-                Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getText(R.string.error_occured), Toast.LENGTH_LONG).show()
                 return@addSnapshotListener
             }
 

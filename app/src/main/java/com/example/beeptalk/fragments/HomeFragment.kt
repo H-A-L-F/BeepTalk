@@ -38,7 +38,6 @@ class HomeFragment : Fragment() {
                 if (position == postVPAdapter.itemCount - 1) {
                     posts.addAll(posts);
                     postVPAdapter.notifyDataSetChanged()
-//                    binding.homeViewPager.setCurrentItem(0, true)
                 }
             }
         })

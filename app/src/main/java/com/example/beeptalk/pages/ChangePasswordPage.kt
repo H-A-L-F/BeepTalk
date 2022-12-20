@@ -3,6 +3,7 @@ package com.example.beeptalk.pages
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityChangePasswordBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,14 +31,14 @@ class ChangePasswordPage : AppCompatActivity() {
                     firebaseAuth.currentUser?.let { it1 ->
                         firebaseFirestore.collection("users").document(it1.uid)
                             .get().addOnCompleteListener { it ->
-                                if(it.isSuccessful) {
+                                if (it.isSuccessful) {
                                     val document = it.result
-                                    if(password != document["password"] as String) {
+                                    if (password != document["password"] as String) {
                                         firebaseAuth.currentUser?.updatePassword(password)
                                             ?.addOnSuccessListener {
                                                 Toast.makeText(
                                                     this,
-                                                    "Password updated successfully!",
+                                                    getText(R.string.password_update_success),
                                                     Toast.LENGTH_SHORT
                                                 ).show()
 
@@ -53,16 +54,18 @@ class ChangePasswordPage : AppCompatActivity() {
                                             }?.addOnFailureListener {
                                                 Toast.makeText(
                                                     this,
-                                                    it.message,
+                                                    getText(R.string.password_update_failed),
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
 
 
-
-
                                     } else {
-                                        Toast.makeText(this, "Password cannot be the same as the last password!", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            this,
+                                            getText(R.string.password_cannot_same),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                 }
                             }

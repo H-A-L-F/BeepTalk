@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.example.beeptalk.R
 import com.example.beeptalk.databinding.ActivityEditThreadPageBinding
 import com.example.beeptalk.models.User
 import com.example.beeptalk.parcel.ThreadID
@@ -50,7 +51,7 @@ class EditThreadPage : AppCompatActivity() {
                 .update("body", body).addOnSuccessListener {
                     binding.etThreadBody.text.clear()
 
-                    Toast.makeText(this, "Edited thread", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.thread_updated), Toast.LENGTH_SHORT).show()
                     intent = Intent(this, MainPage::class.java)
                     startActivity(intent)
                 }
@@ -59,7 +60,7 @@ class EditThreadPage : AppCompatActivity() {
         binding.btnDelete.setOnClickListener {
             db.collection("threads").document(currThread.id)
                 .delete().addOnSuccessListener {
-                    Toast.makeText(this, "Deleted thread", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getText(R.string.thread_deleted), Toast.LENGTH_SHORT).show()
                     intent = Intent(this, MainPage::class.java)
                     startActivity(intent)
                 }
