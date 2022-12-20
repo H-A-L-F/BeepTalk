@@ -52,6 +52,35 @@ class PostCommentRVAdapter(
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val firebaseAuth = FirebaseAuth.getInstance()
 
+        holder.binding.viewAllRepliesBtn.visibility = View.GONE
+        holder.binding.likeCommentBtn.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+        holder.binding.dislikeCommentBtn.setImageResource(R.drawable.ic_outline_thumb_down_24)
+        holder.binding.edit.visibility = View.GONE
+        holder.binding.delete.visibility = View.GONE
+
+        val postCommentReplies: ArrayList<PostCommentReply> = arrayListOf()
+
+        val postCommentReplyRVAdapter = postComment.postId?.let { it1 ->
+            PostCommentReplyRVAdapter(
+                context, holder.binding,
+                it1, postCommentReplies
+            )
+        }
+        holder.binding.repliesRV.layoutManager = LinearLayoutManager(context)
+        holder.binding.repliesRV.setHasFixedSize(true)
+        holder.binding.repliesRV.adapter = postCommentReplyRVAdapter
+
+        postComment.postId?.let { it1 ->
+            postComment.id?.let { it2 ->
+                if (postCommentReplyRVAdapter != null) {
+                    getAllReplies(
+                        it1,
+                        it2, postCommentReplies, postCommentReplyRVAdapter, holder.binding
+                    )
+                }
+            }
+        }
+
         if (postComment.userId == firebaseAuth.currentUser?.uid) {
             holder.binding.edit.visibility = View.VISIBLE
             holder.binding.delete.visibility = View.VISIBLE
@@ -135,8 +164,6 @@ class PostCommentRVAdapter(
                 }
 
             }
-        holder.binding.likeCommentBtn.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-        holder.binding.dislikeCommentBtn.setImageResource(R.drawable.ic_outline_thumb_down_24)
         if (postComment.likes.contains(firebaseAuth.currentUser?.uid)) {
             holder.binding.likeCommentBtn.setImageResource(R.drawable.ic_baseline_like_filled_24)
         }
@@ -146,7 +173,16 @@ class PostCommentRVAdapter(
         }
 
         holder.binding.likeCommentBtn.setOnClickListener {
-            holder.binding.viewAllRepliesBtn.visibility = View.VISIBLE
+            postComment.postId?.let { it1 ->
+                postComment.id?.let { it2 ->
+                    if (postCommentReplyRVAdapter != null) {
+                        getAllReplies(
+                            it1,
+                            it2, postCommentReplies, postCommentReplyRVAdapter, holder.binding
+                        )
+                    }
+                }
+            }
             if (!postComment.likes.contains(firebaseAuth.currentUser?.uid)) {
                 postComment.postId?.let { it1 ->
                     postComment.id?.let { it2 ->
@@ -244,29 +280,6 @@ class PostCommentRVAdapter(
         holder.binding.viewAllRepliesBtn.setOnClickListener {
             holder.binding.repliesRV.visibility = View.VISIBLE
             holder.binding.viewAllRepliesBtn.visibility = View.GONE
-
-            val postCommentReplies: ArrayList<PostCommentReply> = arrayListOf()
-
-            val postCommentReplyRVAdapter = postComment.postId?.let { it1 ->
-                PostCommentReplyRVAdapter(
-                    context, holder.binding,
-                    it1, postCommentReplies
-                )
-            }
-            holder.binding.repliesRV.layoutManager = LinearLayoutManager(context)
-            holder.binding.repliesRV.setHasFixedSize(true)
-            holder.binding.repliesRV.adapter = postCommentReplyRVAdapter
-
-            postComment.postId?.let { it1 ->
-                postComment.id?.let { it2 ->
-                    if (postCommentReplyRVAdapter != null) {
-                        getAllReplies(
-                            it1,
-                            it2, postCommentReplies, postCommentReplyRVAdapter, holder.binding
-                        )
-                    }
-                }
-            }
         }
 
     }

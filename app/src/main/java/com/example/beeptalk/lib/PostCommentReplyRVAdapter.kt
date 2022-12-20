@@ -3,6 +3,7 @@ package com.example.beeptalk.lib
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.beeptalk.R
@@ -51,6 +52,9 @@ class PostCommentReplyRVAdapter(
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val firebaseAuth = FirebaseAuth.getInstance()
 
+        parentBinding.viewAllRepliesBtn.visibility = View.GONE
+        holder.binding.likeReplyBtn.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+        holder.binding.dislikeReplyBtn.setImageResource(R.drawable.ic_outline_thumb_down_24)
         holder.binding.createdDateTV.text = getRelativeString(postCommentReply.createdAt)
         holder.binding.replyBodyTV.text = postCommentReply.body
 
