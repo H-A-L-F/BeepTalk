@@ -108,8 +108,8 @@ class ForgotPasswordPage : AppCompatActivity() {
             val message = MimeMessage(session)
             message.setFrom(InternetAddress("addisonrenaldi@gmail.com"))
             message.setRecipients(Message.RecipientType.TO, to)
-            message.subject = "BeepTalk Forgot Password"
-            message.setText("This is your BeepTalk forgot password OTP: $otp")
+            message.subject = getString(R.string.beep_talk_forgot_password)
+            message.setText(getString(R.string.forgot_password_otp, otp))
 
             Transport.send(message)
         } catch (e: MessagingException) {

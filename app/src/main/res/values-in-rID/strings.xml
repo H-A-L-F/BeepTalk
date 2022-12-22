@@ -117,6 +117,10 @@
     <string name="password_not_match">Sandi tidak cocok!</string>
     <string name="code_cannot_empty">Kode tidak boleh kosong!</string>
     <string name="enter_a_valid_code">Mohon masukkan kode yang valid!</string>
+
+    <string name="beep_talk_forgot_password">Lupa Sandi BeepTalk</string>
+    <string name="forgot_password_otp">BeepTalk lupa sandi OTP: %1$s</string>
+
     <string name="home">Beranda</string>
     <string name="thread">Thread</string>
     <string name="add">Tambah</string>
